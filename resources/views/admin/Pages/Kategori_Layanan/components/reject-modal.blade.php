@@ -2,14 +2,29 @@
 
     <div class="reject-box">
 
-        <h3>
-            Alasan Penolakan
-        </h3>
+        <div class="modal-header">
 
-        <p>
-            Berikan alasan kenapa pengajuan
-            penyedia layanan ditolak.
-        </p>
+            <div>
+
+                <h3>
+                    Alasan Penolakan
+                </h3>
+
+                <p>
+                    Berikan alasan mengapa pengajuan kategori layanan ditolak.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeRejectModal()"
+            >
+                <i class='bx bx-x'></i>
+            </button>
+
+        </div>
 
         <form id="rejectForm">
 
@@ -55,16 +70,16 @@
 
     inset:0;
 
-    background:rgba(15,23,42,0.45);
+    background:rgba(15,23,42,.45);
 
     display:none;
 
     justify-content:center;
     align-items:center;
 
-    z-index:9999;
-
     padding:20px;
+
+    z-index:1000;
 
 }
 
@@ -75,57 +90,109 @@
 .reject-box{
 
     width:100%;
-    max-width:500px;
+    max-width:520px;
 
     background:white;
 
-    border-radius:28px;
+    border:1px solid var(--border);
 
-    padding:30px;
+    border-radius:20px;
 
-    box-shadow:
-    0 20px 50px rgba(0,0,0,0.15);
+    padding:24px;
 
-    animation:modalFade 0.25s ease;
+    box-shadow:var(--shadow-md);
+
+    animation:modalFade .25s ease;
 
 }
 
 @keyframes modalFade{
 
     from{
-        transform:translateY(20px);
         opacity:0;
+        transform:translateY(15px);
     }
 
     to{
-        transform:translateY(0);
         opacity:1;
+        transform:translateY(0);
     }
 
 }
 
 /* =========================
-    TEXT
+    HEADER
 ========================= */
 
-.reject-box h3{
+.modal-header{
 
-    font-size:28px;
-    font-weight:800;
+    display:flex;
 
-    color:#111827;
+    justify-content:space-between;
 
-    margin-bottom:10px;
+    align-items:flex-start;
+
+    gap:16px;
+
+    margin-bottom:20px;
 
 }
 
-.reject-box p{
+.modal-header h3{
 
-    color:#6b7280;
+    font-size:20px;
 
-    line-height:1.7;
+    font-weight:600;
 
-    margin-bottom:22px;
+    color:var(--text-dark);
+
+    margin-bottom:6px;
+
+}
+
+.modal-header p{
+
+    font-size:14px;
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
+
+}
+
+/* =========================
+    CLOSE BUTTON
+========================= */
+
+.close-btn{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#F8FAFC;
+
+    color:var(--text-secondary);
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
+
+}
+
+.close-btn:hover{
+
+    background:#EEF2F7;
 
 }
 
@@ -137,29 +204,29 @@
 
     width:100%;
 
-    height:140px;
+    min-height:140px;
 
-    border:1px solid #e5e7eb;
+    padding:14px;
 
-    border-radius:18px;
+    border:1px solid var(--border);
 
-    padding:16px;
+    border-radius:12px;
 
     resize:none;
 
-    font-size:14px;
-
     outline:none;
 
-    transition:0.25s ease;
+    font-size:14px;
 
-    margin-bottom:22px;
+    transition:.3s;
+
+    margin-bottom:20px;
 
 }
 
 .reject-box textarea:focus{
 
-    border-color:#ff9a3d;
+    border-color:var(--primary);
 
 }
 
@@ -173,62 +240,102 @@
 
     justify-content:flex-end;
 
-    gap:14px;
+    gap:12px;
 
     flex-wrap:wrap;
 
 }
 
-/* CANCEL */
+/* =========================
+    CANCEL
+========================= */
 
 .cancel-btn{
 
-    padding:14px 24px;
-
     border:none;
 
-    border-radius:14px;
+    padding:12px 18px;
 
-    background:#f3f4f6;
+    border-radius:12px;
 
-    color:#475569;
+    background:#F3F4F6;
 
-    font-weight:700;
+    color:var(--text-dark);
+
+    font-size:14px;
+
+    font-weight:600;
 
     cursor:pointer;
 
+    transition:.3s;
+
 }
 
-/* SUBMIT */
+.cancel-btn:hover{
+
+    background:#E5E7EB;
+
+}
+
+/* =========================
+    SUBMIT
+========================= */
 
 .submit-reject-btn{
 
-    padding:14px 24px;
-
     border:none;
 
-    border-radius:14px;
+    padding:12px 18px;
 
-    background:linear-gradient(
-        135deg,
-        #ef4444,
-        #dc2626
-    );
+    border-radius:12px;
+
+    background:#EF4444;
 
     color:white;
 
-    font-weight:700;
+    font-size:14px;
+
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
+    transition:.3s;
 
 }
 
-.submit-reject-btn:hover,
-.cancel-btn:hover{
+.submit-reject-btn:hover{
+
+    background:#DC2626;
 
     transform:translateY(-2px);
+
+}
+
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .reject-box{
+
+        padding:20px;
+
+    }
+
+    .reject-actions{
+
+        flex-direction:column;
+
+    }
+
+    .cancel-btn,
+    .submit-reject-btn{
+
+        width:100%;
+
+    }
 
 }
 
@@ -252,10 +359,10 @@ function closeRejectModal()
 
 window.onclick = function(e)
 {
-    let modal =
+    const modal =
         document.getElementById('rejectModal');
 
-    if(e.target == modal)
+    if(e.target === modal)
     {
         closeRejectModal();
     }

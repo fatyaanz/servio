@@ -52,6 +52,64 @@
 
 </div>
 
+<div class="promo-section">
+
+    <div class="section-header">
+
+    <h2>
+        Promo Spesial
+    </h2>
+
+</div>
+
+    <div class="promo-container">
+
+        <div class="promo-ticket">
+
+            <div class="promo-side">
+                <span>DISKON</span>
+            </div>
+
+            <div class="promo-content">
+
+                <div class="promo-info">
+                    <h3>Diskon 20%</h3>
+                    <p>Untuk layanan AC dan Mesin Cuci</p>
+                </div>
+
+                <button class="claim-btn">
+                    Ambil Voucher
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="promo-ticket">
+
+            <div class="promo-side">
+                <span>BONUS</span>
+            </div>
+
+            <div class="promo-content">
+
+                <div class="promo-info">
+                    <h3>Gratis Biaya Survey</h3>
+                    <p>Khusus pengguna baru Servio</p>
+                </div>
+
+                <button class="claim-btn">
+                    Ambil Voucher
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <style>
 
 /* =========================

@@ -4,9 +4,10 @@
 
     <a
         href="?tab=active"
-        class="category-tab 
-        {{ request('tab') != 'pending' ? 'active' : '' }}"
+        class="category-tab {{ request('tab') != 'pending' ? 'active' : '' }}"
     >
+
+        <i class='bx bx-category'></i>
 
         Kategori Aktif
 
@@ -20,9 +21,10 @@
 
     <a
         href="?tab=pending"
-        class="category-tab
-        {{ request('tab') == 'pending' ? 'active' : '' }}"
+        class="category-tab {{ request('tab') == 'pending' ? 'active' : '' }}"
     >
+
+        <i class='bx bx-time-five'></i>
 
         Pengajuan Kategori
 
@@ -37,7 +39,7 @@
 <style>
 
 /* =========================
-   TABS WRAPPER
+    TAB WRAPPER
 ========================= */
 
 .category-tabs{
@@ -46,46 +48,51 @@
 
     align-items:center;
 
-    gap:14px;
+    gap:16px;
 
-    margin-bottom:24px;
+    margin-top:20px;
+    margin-bottom:28px;
 
     flex-wrap:wrap;
 
 }
 
 /* =========================
-   TAB
+    TAB BUTTON
 ========================= */
 
 .category-tab{
-
-    text-decoration:none;
-
-    padding:14px 20px;
-
-    border-radius:18px;
-
-    background:white;
-
-    color:#6b7280;
-
-    font-size:14px;
-
-    font-weight:600;
 
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    gap:10px;
 
-    transition:.25s ease;
+    padding:14px 20px;
 
-    border:1px solid #edf2f7;
+    border-radius:14px;
 
-    box-shadow:
-    0 4px 18px rgba(15,23,42,0.04);
+    background:white;
+
+    border:1px solid var(--border);
+
+    text-decoration:none;
+
+    color:var(--text-secondary);
+
+    font-size:14px;
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+/* ICON */
+
+.category-tab i{
+
+    font-size:18px;
 
 }
 
@@ -95,50 +102,46 @@
 
     background:linear-gradient(
         135deg,
-        #ffb066,
-        #ff7a00
+        var(--primary),
+        #ffb347
     );
 
     color:white;
 
     border-color:transparent;
 
-    box-shadow:
-    0 10px 24px rgba(255,122,0,0.18);
-
 }
 
 /* BADGE */
 
-.category-tab span{
-
-    width:30px;
-    height:30px;
-
-    border-radius:999px;
-
-    background:#f3f4f6;
+.tab-badge{
 
     display:flex;
 
     align-items:center;
     justify-content:center;
 
+    min-width:28px;
+    height:28px;
+
+    padding:0 8px;
+
+    border-radius:999px;
+
+    background:#FFF4E6;
+
+    color:var(--primary);
+
     font-size:12px;
-
-    font-weight:700;
-
-    color:#111827;
-
-    flex-shrink:0;
+    font-weight:600;
 
 }
 
 /* ACTIVE BADGE */
 
-.category-tab.active span{
+.category-tab.active .tab-badge{
 
-    background:rgba(255,255,255,0.18);
+    background:rgba(255,255,255,.2);
 
     color:white;
 
@@ -150,10 +153,12 @@
 
     transform:translateY(-2px);
 
+    border-color:var(--primary);
+
 }
 
 /* =========================
-   RESPONSIVE
+    RESPONSIVE
 ========================= */
 
 @media(max-width:768px){
@@ -171,19 +176,6 @@
     .category-tab{
 
         min-width:max-content;
-
-        padding:12px 18px;
-
-        font-size:13px;
-
-    }
-
-    .category-tab span{
-
-        width:28px;
-        height:28px;
-
-        font-size:11px;
 
     }
 

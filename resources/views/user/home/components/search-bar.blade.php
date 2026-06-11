@@ -2,9 +2,7 @@
 
     <div class="search-box">
 
-        <span class="search-icon">
-            🔍
-        </span>
+        <i class='bx bx-search search-icon'></i>
 
         <input
             type="text"
@@ -18,15 +16,13 @@
 <style>
 
 /* =========================
-   SEARCH CONTAINER
+   SEARCH
 ========================= */
 
 .search-container{
-    max-width:1400px;
 
-    margin:25px auto 0;
+    margin-bottom:24px;
 
-    padding:0 30px;
 }
 
 /* =========================
@@ -34,41 +30,33 @@
 ========================= */
 
 .search-box{
+
     display:flex;
+
     align-items:center;
 
-    height:68px;
+    gap:12px;
 
-    padding:0 24px;
+    height:56px;
 
-    border-radius:999px;
+    padding:0 18px;
 
-    background:rgba(255,255,255,0.85);
+    background:white;
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--border);
 
-    border:1px solid rgba(255,255,255,0.4);
+    border-radius:16px;
 
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.06);
+    box-shadow:var(--shadow-sm);
 
-    transition:.3s ease;
-}
+    transition:.3s;
 
-.search-box:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.08);
 }
 
 .search-box:focus-within{
-    border:1px solid rgba(240,138,40,0.4);
 
-    box-shadow:
-        0 0 0 4px rgba(240,138,40,0.12),
-        0 15px 35px rgba(0,0,0,0.08);
+    border-color:var(--primary);
+
 }
 
 /* =========================
@@ -76,11 +64,13 @@
 ========================= */
 
 .search-icon{
+
     font-size:20px;
 
-    margin-right:14px;
+    color:var(--text-secondary);
 
-    opacity:.7;
+    flex-shrink:0;
+
 }
 
 /* =========================
@@ -88,32 +78,24 @@
 ========================= */
 
 .search-box input{
-    width:100%;
+
+    flex:1;
 
     border:none;
+
     outline:none;
 
     background:transparent;
 
-    font-size:16px;
-    font-weight:500;
+    font-size:14px;
 
-    color:#333;
+    color:var(--text-dark);
+
 }
 
 .search-box input::placeholder{
-    color:#9A9A9A;
-}
 
-/* =========================
-   TABLET
-========================= */
-
-@media(max-width:1024px){
-
-    .search-container{
-        padding:0 20px;
-    }
+    color:var(--text-secondary);
 
 }
 
@@ -123,39 +105,12 @@
 
 @media(max-width:768px){
 
-    .search-container{
-        padding:0 15px;
-    }
-
     .search-box{
-        height:60px;
-        padding:0 18px;
-    }
 
-    .search-box input{
-        font-size:14px;
-    }
+        height:52px;
 
-    .search-icon{
-        font-size:18px;
-        margin-right:10px;
-    }
-
-}
-
-/* =========================
-   MOBILE KECIL
-========================= */
-
-@media(max-width:480px){
-
-    .search-box{
-        height:55px;
         padding:0 16px;
-    }
 
-    .search-box input{
-        font-size:13px;
     }
 
 }

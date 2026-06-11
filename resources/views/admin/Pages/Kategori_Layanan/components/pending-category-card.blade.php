@@ -18,7 +18,7 @@
 
                 <p>
                     Mengajukan kategori layanan
-                    {{ $request->category->name }}
+                    <strong>{{ $request->category->name }}</strong>
                 </p>
 
             </div>
@@ -34,11 +34,14 @@
     </div>
 
     <!-- CERTIFICATE -->
+
     <div class="certificate-box">
 
         <div class="certificate-title">
 
-            📄 Sertifikat Keahlian
+            <i class='bx bx-file'></i>
+
+            Sertifikat Keahlian
 
         </div>
 
@@ -56,6 +59,7 @@
     </div>
 
     <!-- DATE -->
+
     <div class="request-date">
 
         Diajukan
@@ -64,6 +68,7 @@
     </div>
 
     <!-- ACTION -->
+
     <div class="action-buttons">
 
         <form
@@ -82,6 +87,7 @@
             </button>
 
         </form>
+
         <form
             action="{{ route('categories.reject', $request->id) }}"
             method="POST"
@@ -119,16 +125,15 @@
 
     background:white;
 
-    border-radius:28px;
+    border:1px solid var(--border);
 
-    padding:28px;
+    border-radius:20px;
 
-    border:1px solid #eef2f7;
+    padding:20px;
 
-    box-shadow:
-    0 10px 28px rgba(15,23,42,0.05);
+    box-shadow:var(--shadow-sm);
 
-    transition:0.25s ease;
+    transition:.3s;
 
 }
 
@@ -147,19 +152,14 @@
     display:flex;
 
     justify-content:space-between;
+
     align-items:flex-start;
 
-    gap:20px;
+    gap:16px;
 
-    margin-bottom:24px;
-
-    flex-wrap:wrap;
+    margin-bottom:18px;
 
 }
-
-/* =========================
-    PROVIDER
-========================= */
 
 .provider-info{
 
@@ -167,23 +167,25 @@
 
     align-items:center;
 
-    gap:18px;
+    gap:14px;
 
 }
 
-/* AVATAR */
+/* =========================
+    AVATAR
+========================= */
 
 .provider-avatar{
 
-    width:74px;
-    height:74px;
+    width:48px;
+    height:48px;
 
-    border-radius:22px;
+    border-radius:14px;
 
     background:linear-gradient(
         135deg,
-        #ffb066,
-        #ff7a00
+        var(--primary),
+        #ffb347
     );
 
     display:flex;
@@ -193,7 +195,7 @@
 
     color:white;
 
-    font-size:24px;
+    font-size:16px;
 
     font-weight:700;
 
@@ -201,27 +203,29 @@
 
 }
 
-/* TEXT */
+/* =========================
+    TEXT
+========================= */
 
 .provider-info h3{
 
-    font-size:24px;
+    font-size:16px;
 
-    font-weight:800;
+    font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
-    margin-bottom:8px;
+    margin-bottom:4px;
 
 }
 
 .provider-info p{
 
-    color:#6b7280;
+    font-size:13px;
 
-    font-size:15px;
+    color:var(--text-secondary);
 
-    line-height:1.7;
+    line-height:1.5;
 
 }
 
@@ -231,17 +235,17 @@
 
 .pending-badge{
 
-    padding:12px 20px;
+    padding:6px 12px;
 
     border-radius:999px;
 
-    background:#fff7ed;
+    background:#FFF4E6;
 
-    color:#ff7a00;
+    color:var(--primary);
 
-    font-size:14px;
+    font-size:12px;
 
-    font-weight:700;
+    font-weight:600;
 
 }
 
@@ -251,47 +255,57 @@
 
 .certificate-box{
 
-    background:#fafafa;
+    background:#FAFAFA;
 
-    border:1px solid #eef2f7;
+    border:1px solid #F3F4F6;
 
-    border-radius:20px;
+    border-radius:16px;
 
-    padding:20px;
+    padding:16px;
 
-    margin-bottom:20px;
+    margin-bottom:16px;
 
 }
-
-/* TITLE */
 
 .certificate-title{
 
-    font-size:15px;
+    display:flex;
 
-    font-weight:700;
+    align-items:center;
 
-    color:#111827;
+    gap:8px;
 
-    margin-bottom:14px;
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--text-dark);
+
+    margin-bottom:12px;
 
 }
-
-/* FILE */
 
 .certificate-file{
 
     background:white;
 
-    border:1px solid #f1f5f9;
+    border:1px solid #F3F4F6;
 
-    padding:14px 16px;
+    border-radius:12px;
 
-    border-radius:14px;
+    padding:12px;
 
-    font-size:14px;
+    font-size:13px;
 
-    color:#475569;
+}
+
+.certificate-file a{
+
+    color:var(--primary);
+
+    text-decoration:none;
+
+    font-weight:600;
 
 }
 
@@ -301,11 +315,11 @@
 
 .request-date{
 
-    font-size:14px;
+    font-size:12px;
 
-    color:#94a3b8;
+    color:var(--text-secondary);
 
-    margin-bottom:24px;
+    margin-bottom:18px;
 
 }
 
@@ -317,75 +331,79 @@
 
     display:flex;
 
-    align-items:center;
-
-    gap:14px;
-
-    flex-wrap:wrap;
+    gap:12px;
 
 }
 
-/* APPROVE */
+.action-buttons form{
+
+    flex:1;
+
+}
+
+/* =========================
+    APPROVE
+========================= */
 
 .approve-btn{
 
+    width:100%;
+
+    padding:12px;
+
     border:none;
 
-    padding:14px 22px;
-
-    border-radius:16px;
+    border-radius:12px;
 
     background:linear-gradient(
         135deg,
-        #ffb066,
-        #ff7a00
+        #22c55e,
+        #16a34a
     );
 
     color:white;
 
     font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
-
-    box-shadow:
-    0 10px 20px rgba(255,122,0,0.18);
-
 }
 
-/* REJECT */
+/* =========================
+    REJECT
+========================= */
 
 .reject-btn{
 
-    border:none;
+    width:100%;
 
-    padding:14px 22px;
+    padding:12px;
 
-    border-radius:16px;
+    border-radius:12px;
 
-    background:#fff1f2;
+    border:1px solid #fecaca;
+
+    background:white;
 
     color:#ef4444;
 
     font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
+    transition:.3s;
 
 }
 
-/* HOVER */
-
-.approve-btn:hover,
 .reject-btn:hover{
 
-    transform:translateY(-2px);
+    background:#ef4444;
+
+    color:white;
 
 }
 
@@ -395,9 +413,15 @@
 
 @media(max-width:768px){
 
-    .provider-info h3{
+    .pending-top{
 
-        font-size:20px;
+        flex-direction:column;
+
+    }
+
+    .action-buttons{
+
+        flex-direction:column;
 
     }
 

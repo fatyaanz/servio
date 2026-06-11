@@ -1,13 +1,10 @@
 <div class="pagination-wrapper">
 
-    <!-- PREVIOUS -->
     <button class="pagination-btn">
 
-        ←
+        <i class='bx bx-chevron-left'></i>
 
     </button>
-
-    <!-- NUMBER -->
 
     <button class="pagination-number active">
 
@@ -33,11 +30,9 @@
 
     </button>
 
-    <!-- NEXT -->
-
     <button class="pagination-btn">
 
-        →
+        <i class='bx bx-chevron-right'></i>
 
     </button>
 
@@ -56,9 +51,9 @@
     justify-content:center;
     align-items:center;
 
-    gap:12px;
+    gap:10px;
 
-    margin-top:34px;
+    margin-top:28px;
 
     flex-wrap:wrap;
 
@@ -71,54 +66,64 @@
 .pagination-btn,
 .pagination-number{
 
-    width:50px;
-    height:50px;
+    width:42px;
+    height:42px;
 
-    border:none;
+    display:flex;
 
-    border-radius:16px;
+    align-items:center;
+    justify-content:center;
 
-    background:#f8fafc;
+    border:1px solid var(--border);
 
-    color:#64748b;
+    border-radius:12px;
 
-    font-size:15px;
+    background:white;
 
-    font-weight:700;
+    color:var(--text-secondary);
+
+    font-size:14px;
+
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
-
-    border:1px solid #eef2f7;
+    transition:.3s;
 
 }
 
-/* ACTIVE */
+/* =========================
+    ACTIVE
+========================= */
 
 .pagination-number.active{
 
-    background:linear-gradient(
-        135deg,
-        #ffb066,
-        #ff7a00
-    );
+    background:var(--primary);
 
     color:white;
 
-    border-color:transparent;
-
-    box-shadow:
-    0 10px 20px rgba(255,122,0,0.18);
+    border-color:var(--primary);
 
 }
 
-/* HOVER */
+/* =========================
+    HOVER
+========================= */
 
 .pagination-btn:hover,
 .pagination-number:hover{
 
+    border-color:var(--primary);
+
+    color:var(--primary);
+
     transform:translateY(-2px);
+
+}
+
+.pagination-number.active:hover{
+
+    color:white;
 
 }
 
@@ -130,17 +135,17 @@
 
     .pagination-wrapper{
 
-        gap:10px;
+        gap:8px;
 
     }
 
     .pagination-btn,
     .pagination-number{
 
-        width:44px;
-        height:44px;
+        width:38px;
+        height:38px;
 
-        font-size:14px;
+        font-size:13px;
 
     }
 

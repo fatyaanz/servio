@@ -1,47 +1,76 @@
 <div class="provider-section">
 
+    <div class="section-header">
+
+        <h2>
+            Penyedia Terdekat
+        </h2>
+
+        <a href="#">
+            Lihat Semua
+        </a>
+
+    </div>
+
     <div class="provider-grid">
 
         <!-- CARD 1 -->
         <div class="provider-card">
 
-            <div class="badge badge-red">
-                Tepat Waktu
-            </div>
+            <div class="provider-cover">
 
-            <div class="provider-image">
-                <img src="{{ asset('assets/images/provider-logo.png') }}" alt="Provider">
+                <img
+                    src="{{ asset('assets/images/provider-logo.png') }}"
+                    alt="Provider"
+                >
+
+                <span class="provider-badge top-rated">
+                    Top Rated
+                </span>
+
             </div>
 
             <div class="provider-content">
 
-                <div class="provider-meta">
-                    0.5 km • 10 min
+                <div class="provider-header">
+
+                    <h3>
+                        Service AC Berkah
+                    </h3>
+
+                    <span class="provider-rating">
+                        ⭐ 4.9
+                    </span>
+
                 </div>
 
-                <h3>Service AC Berkah</h3>
-
-                <div class="provider-rating">
-                    ⭐ 4.9
+                <div class="provider-address">
+                    📌 Jl. Sukabirus No. 12, Dayeuhkolot, Kabupaten Bandung, Jawa Barat
                 </div>
 
                 <div class="provider-price">
 
-                    <span class="price-label">
-                        Estimasi
-                    </span>
+                    Mulai dari
 
-                    <span class="price-value">
-                        💰 100k-200k
-                    </span>
+                    <strong>
+                        Rp100.000
+                    </strong>
 
                 </div>
 
-                <hr>
+                <div class="provider-features">
 
-                <div class="provider-guarantee">
-                    ✅ Garansi 1 Bulan
+                    <span>✅ Garansi</span>
+
+                    <span>⚡ Cepat</span>
+
+                    <span>🔧 Profesional</span>
+
                 </div>
+
+                <a href="#" class="provider-btn">
+                    Lihat Detail
+                </a>
 
             </div>
 
@@ -50,43 +79,58 @@
         <!-- CARD 2 -->
         <div class="provider-card">
 
-            <div class="badge badge-purple">
-                Top Rated
-            </div>
+            <div class="provider-cover">
 
-            <div class="provider-image">
-                <img src="{{ asset('assets/images/provider-logo.png') }}" alt="Provider">
+                <img
+                    src="{{ asset('assets/images/provider-logo.png') }}"
+                    alt="Provider"
+                >
+
+                <span class="provider-badge">
+                    Tepat Waktu
+                </span>
+
             </div>
 
             <div class="provider-content">
 
-                <div class="provider-meta">
-                    0.5 km • 10 min
+                <div class="provider-header">
+
+                    <h3>
+                        Service Mesin Cuci Jaya
+                    </h3>
+
+                    <span class="provider-rating">
+                        ⭐ 4.8
+                    </span>
+
                 </div>
 
-                <h3>Service AC Berkah</h3>
-
-                <div class="provider-rating">
-                    ⭐ 4.9
+                <div class="provider-address">
+                    📌 Jl. Telekomunikasi No. 1, Bojongsoang, Bandung
                 </div>
 
                 <div class="provider-price">
 
-                    <span class="price-label">
-                        Estimasi
-                    </span>
+                    Mulai dari
 
-                    <span class="price-value">
-                        💰 100k-200k
-                    </span>
+                    <strong>
+                        Rp80.000
+                    </strong>
 
                 </div>
 
-                <hr>
+                <div class="provider-features">
 
-                <div class="provider-guarantee">
-                    ✅ Garansi 1 Bulan
+                    <span>✅ Garansi</span>
+
+                    <span>⚡ Cepat</span>
+
                 </div>
+
+                <a href="#" class="provider-btn">
+                    Lihat Detail
+                </a>
 
             </div>
 
@@ -95,43 +139,58 @@
         <!-- CARD 3 -->
         <div class="provider-card">
 
-            <div class="badge badge-red">
-                Tepat Waktu
-            </div>
+            <div class="provider-cover">
 
-            <div class="provider-image">
-                <img src="{{ asset('assets/images/provider-logo.png') }}" alt="Provider">
+                <img
+                    src="{{ asset('assets/images/provider-logo.png') }}"
+                    alt="Provider"
+                >
+
+                <span class="provider-badge">
+                    Recommended
+                </span>
+
             </div>
 
             <div class="provider-content">
 
-                <div class="provider-meta">
-                    0.5 km • 10 min
+                <div class="provider-header">
+
+                    <h3>
+                        Tukang Listrik Amanah
+                    </h3>
+
+                    <span class="provider-rating">
+                        ⭐ 4.7
+                    </span>
+
                 </div>
 
-                <h3>Service AC Berkah</h3>
-
-                <div class="provider-rating">
-                    ⭐ 4.9
+                <div class="provider-address">
+                    📌 Jl. Soekarno Hatta No. 100, Bandung
                 </div>
 
                 <div class="provider-price">
 
-                    <span class="price-label">
-                        Estimasi
-                    </span>
+                    Mulai dari
 
-                    <span class="price-value">
-                        💰 100k-200k
-                    </span>
+                    <strong>
+                        Rp120.000
+                    </strong>
 
                 </div>
 
-                <hr>
+                <div class="provider-features">
 
-                <div class="provider-guarantee">
-                    ✅ Garansi 1 Bulan
+                    <span>⚡ Cepat</span>
+
+                    <span>🔧 Profesional</span>
+
                 </div>
+
+                <a href="#" class="provider-btn">
+                    Lihat Detail
+                </a>
 
             </div>
 
@@ -140,43 +199,60 @@
         <!-- CARD 4 -->
         <div class="provider-card">
 
-            <div class="badge badge-purple">
-                Top Rated
-            </div>
+            <div class="provider-cover">
 
-            <div class="provider-image">
-                <img src="{{ asset('assets/images/provider-logo.png') }}" alt="Provider">
+                <img
+                    src="{{ asset('assets/images/provider-logo.png') }}"
+                    alt="Provider"
+                >
+
+                <span class="provider-badge">
+                    Top Rated
+                </span>
+
             </div>
 
             <div class="provider-content">
 
-                <div class="provider-meta">
-                    0.5 km • 10 min
+                <div class="provider-header">
+
+                    <h3>
+                        Cleaning Service Bersih
+                    </h3>
+
+                    <span class="provider-rating">
+                        ⭐ 5.0
+                    </span>
+
                 </div>
 
-                <h3>Service AC Berkah</h3>
-
-                <div class="provider-rating">
-                    ⭐ 4.9
+                <div class="provider-address">
+                    📌 Jl. Asia Afrika No. 88, Bandung, Jawa Barat
                 </div>
 
                 <div class="provider-price">
 
-                    <span class="price-label">
-                        Estimasi
-                    </span>
+                    Mulai dari
 
-                    <span class="price-value">
-                        💰 100k-200k
-                    </span>
+                    <strong>
+                        Rp150.000
+                    </strong>
 
                 </div>
 
-                <hr>
+                <div class="provider-features">
 
-                <div class="provider-guarantee">
-                    ✅ Garansi 1 Bulan
+                    <span>✅ Garansi</span>
+
+                    <span>⚡ Cepat</span>
+
+                    <span>🔧 Profesional</span>
+
                 </div>
+
+                <a href="#" class="provider-btn">
+                    Lihat Detail
+                </a>
 
             </div>
 
@@ -186,171 +262,285 @@
 
 </div>
 <style>
+    /* =========================
+   PROVIDER SECTION
+========================= */
 
 .provider-section{
-    max-width:1400px;
-    margin:30px auto;
-    padding:0 30px 120px;
+
+    margin-bottom:30px;
+
 }
 
 .provider-grid{
+
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(280px,1fr));
+
     gap:20px;
+
 }
 
+/* =========================
+   CARD
+========================= */
+
 .provider-card{
-    position:relative;
 
-    background:rgba(255,255,255,.85);
+    background:white;
 
-    backdrop-filter:blur(15px);
-
-    border-radius:24px;
+    border-radius:20px;
 
     overflow:hidden;
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.06);
+    border:1px solid var(--border);
 
-    transition:.3s ease;
+    box-shadow:var(--shadow-sm);
+
+    transition:.3s;
+
 }
 
 .provider-card:hover{
-    transform:translateY(-6px);
 
-    box-shadow:
-        0 15px 30px rgba(240,138,40,.15);
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-md);
+
 }
 
-.provider-image{
-    height:140px;
+/* =========================
+   COVER
+========================= */
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.provider-cover{
 
-    background:#F9F9F9;
+    position:relative;
+
+    height:180px;
+
+    background:#fafafa;
+
 }
 
-.provider-image img{
-    width:100px;
-    height:auto;
+.provider-cover img{
+
+    width:100%;
+    height:100%;
+
     object-fit:contain;
+
+    padding:20px;
+
 }
+
+/* =========================
+   BADGE
+========================= */
+
+.provider-badge{
+
+    position:absolute;
+
+    top:14px;
+    right:14px;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.top-rated{
+
+    background:#FFF4E6;
+
+    color:var(--primary);
+
+}
+
+/* =========================
+   CONTENT
+========================= */
 
 .provider-content{
-    padding:16px;
+
+    padding:18px;
+
 }
 
-.provider-meta{
-    color:#A0A0A0;
-    font-size:13px;
+/* HEADER */
+
+.provider-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:10px;
+
     margin-bottom:8px;
+
 }
 
-.provider-content h3{
-    margin:0;
+.provider-header h3{
 
     font-size:16px;
+
     font-weight:700;
 
-    color:#2F2534;
+    color:var(--text-dark);
 
     line-height:1.4;
+
 }
 
 .provider-rating{
-    margin-top:10px;
 
-    text-align:right;
+    font-size:13px;
 
-    font-size:14px;
-    font-weight:700;
+    font-weight:600;
+
+    white-space:nowrap;
+
 }
+
+/* LOCATION */
+
+.provider-location{
+
+    font-size:13px;
+
+    color:var(--text-secondary);
+
+    margin-bottom:14px;
+
+}
+.provider-address{
+
+    font-size:13px;
+
+    color:var(--text-secondary);
+
+    margin-bottom:14px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+/* PRICE */
 
 .provider-price{
+
+    font-size:13px;
+
+    color:var(--text-secondary);
+
+    margin-bottom:16px;
+
+}
+
+.provider-price strong{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--primary);
+
+    font-size:18px;
+
+}
+
+/* FEATURES */
+
+.provider-features{
+
     display:flex;
-    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-bottom:18px;
+
+}
+
+.provider-features span{
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    background:#fafafa;
+
+    border:1px solid var(--border);
+
+    font-size:11px;
+
+    color:var(--text-dark);
+
+}
+
+/* BUTTON */
+
+.provider-btn{
+
+    width:100%;
+
+    display:flex;
+
     align-items:center;
 
-    margin-top:12px;
-}
+    justify-content:center;
 
-.price-label{
-    color:#34736A;
+    text-decoration:none;
 
-    font-size:13px;
-    font-weight:700;
-}
+    padding:12px;
 
-.price-value{
-    font-size:14px;
-    font-weight:700;
-}
+    border-radius:12px;
 
-.provider-content hr{
-    margin:12px 0;
-
-    border:none;
-    border-top:1px solid #ECECEC;
-}
-
-.provider-guarantee{
-    color:#92C44C;
-
-    font-size:13px;
-    font-weight:700;
-}
-
-.badge{
-    position:absolute;
-
-    top:12px;
-    left:0;
+    background:var(--primary);
 
     color:white;
 
-    padding:8px 14px;
+    font-size:14px;
 
-    font-size:11px;
-    font-weight:700;
+    font-weight:600;
 
-    border-radius:0 10px 10px 0;
-
-    z-index:10;
-}
-
-.badge-red{
-    background:#E53935;
-}
-
-.badge-purple{
-    background:#7E57C2;
-}
-
-/* TABLET */
-
-@media(max-width:1024px){
-
-    .provider-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+    transition:.3s;
 
 }
 
-/* MOBILE */
+.provider-btn:hover{
+
+    opacity:.9;
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:768px){
 
-    .provider-section{
-        padding:0 15px 100px;
-    }
-
     .provider-grid{
+
         grid-template-columns:1fr;
+
     }
 
 }
-
 </style>

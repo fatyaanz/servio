@@ -2,6 +2,17 @@
 
     <div class="filters">
 
+         <div class="search-box">
+
+        <i class='bx bx-search'></i>
+
+        <input
+            type="text"
+            placeholder="Cari penyedia layanan..."
+        >
+
+    </div>
+
         <!-- STATUS -->
 
         <select class="filter-select">
@@ -40,30 +51,37 @@
 
         </select>
 
+        <button class="btn btn-primary export-btn">
+        <i class='bx bx-export'></i>
+        Export
+    </button>
+
     </div>
 
     <!-- EXPORT -->
 
-    <button class="export-btn">
-        Export
-    </button>
+    
 
-</div>
+    </div>
 
 <style>
-    .filter-section{
+    .filter-select{
 
-    display:flex;
+    height:44px;
 
-    justify-content:space-between;
-    align-items:center;
+    padding:0 14px;
 
-    gap:18px;
+    border:1px solid var(--border);
 
-    margin-bottom:24px;
+    border-radius:12px;
 
-    flex-wrap:wrap;
+    background:white;
 
+    font-size:14px;
+
+    color:var(--text-dark);
+
+    transition:.3s;
 }
 
 .filters{
@@ -98,43 +116,49 @@
 .filter-select:hover,
 .filter-select:focus{
 
-    border-color:#ffb066;
+    border-color:var(--primary);
 
     background:white;
 
 }
 
 .export-btn{
-
-    padding:13px 24px;
-
-    border:none;
-
-    border-radius:14px;
-
-    background:linear-gradient(
-        135deg,
-        #ff9a3d,
-        #ff7a00
-    );
-
-    color:white;
-
-    font-size:14px;
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:0.3s ease;
-
-    box-shadow:
-    0 8px 18px rgba(255,122,0,0.18);
-
+    min-width:120px;
 }
 
 .export-btn:hover{
 
     transform:translateY(-2px);
 
+}
+
+.search-box{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    height:44px;
+
+    padding:0 14px;
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:12px;
+
+    min-width:280px;
+}
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    width:100%;
+
+    background:transparent;
 }
 </style>

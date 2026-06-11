@@ -1,30 +1,28 @@
 <div class="empty-state">
 
-    <!-- ICON -->
     <div class="empty-icon">
 
-        📂
+        <i class='bx bx-category'></i>
 
     </div>
 
-    <!-- TEXT -->
     <h2>
-        Belum Ada Data
+        Belum Ada Kategori
     </h2>
 
     <p>
-        Data kategori layanan belum tersedia
-        saat ini. Tambahkan kategori baru
-        untuk mulai mengelola layanan Servio.
+        Data kategori layanan belum tersedia.
+        Tambahkan kategori baru untuk mulai mengelola layanan Servio.
     </p>
 
-    <!-- BUTTON -->
     <button
         class="empty-btn"
         onclick="openAddCategoryModal()"
     >
 
-        + Tambah Kategori
+        <i class='bx bx-plus'></i>
+
+        Tambah Kategori
 
     </button>
 
@@ -40,16 +38,15 @@
 
     background:white;
 
-    border-radius:30px;
+    border:1px solid var(--border);
 
-    padding:70px 30px;
+    border-radius:20px;
+
+    padding:60px 24px;
 
     text-align:center;
 
-    border:1px solid #eef2f7;
-
-    box-shadow:
-    0 10px 28px rgba(15,23,42,0.05);
+    box-shadow:var(--shadow-sm);
 
 }
 
@@ -59,21 +56,23 @@
 
 .empty-icon{
 
-    width:120px;
-    height:120px;
+    width:90px;
+    height:90px;
 
-    margin:0 auto 28px;
+    margin:0 auto 20px;
 
-    border-radius:30px;
+    border-radius:20px;
 
-    background:#fff7ed;
+    background:#FFF4E6;
 
     display:flex;
 
     align-items:center;
     justify-content:center;
 
-    font-size:54px;
+    color:var(--primary);
+
+    font-size:42px;
 
 }
 
@@ -83,13 +82,13 @@
 
 .empty-state h2{
 
-    font-size:34px;
+    font-size:24px;
 
-    font-weight:800;
+    font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
-    margin-bottom:16px;
+    margin-bottom:10px;
 
 }
 
@@ -99,15 +98,15 @@
 
 .empty-state p{
 
-    max-width:520px;
+    max-width:420px;
 
-    margin:0 auto 28px;
+    margin:0 auto 24px;
 
-    color:#6b7280;
+    color:var(--text-secondary);
 
-    font-size:16px;
+    font-size:14px;
 
-    line-height:1.9;
+    line-height:1.7;
 
 }
 
@@ -117,34 +116,35 @@
 
 .empty-btn{
 
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
     border:none;
 
-    padding:16px 24px;
+    padding:12px 20px;
 
-    border-radius:18px;
+    border-radius:12px;
 
-    background:linear-gradient(
-        135deg,
-        #ffb066,
-        #ff7a00
-    );
+    background:var(--primary);
 
     color:white;
 
-    font-size:15px;
+    font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
-
-    box-shadow:
-    0 10px 24px rgba(255,122,0,0.18);
+    transition:.3s;
 
 }
 
 .empty-btn:hover{
+
+    opacity:.95;
 
     transform:translateY(-2px);
 
@@ -158,19 +158,13 @@
 
     .empty-state{
 
-        padding:50px 24px;
+        padding:50px 20px;
 
     }
 
     .empty-state h2{
 
-        font-size:28px;
-
-    }
-
-    .empty-state p{
-
-        font-size:15px;
+        font-size:22px;
 
     }
 

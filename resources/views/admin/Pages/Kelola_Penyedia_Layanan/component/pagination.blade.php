@@ -4,8 +4,8 @@
         Menampilkan 1 - 6 dari 128 penyedia
     </div>
 
-    <div class="pages">
-
+    <button class="page-btn">
+            <i class='bx bx-chevron-left'></i>
         <button class="page-btn">
             ‹
         </button>
@@ -39,16 +39,15 @@
     justify-content:space-between;
     align-items:center;
 
-    margin-top:28px;
+    margin-top:24px;
 
     gap:16px;
 
     flex-wrap:wrap;
 
-    color:#6b7280;
+    color:var(--text-secondary);
 
     font-size:14px;
-
 }
 
 .pages{
@@ -67,54 +66,49 @@
 
 .page-btn{
 
-    width:42px;
-    height:42px;
+    width:40px;
+    height:40px;
 
-    border:none;
+    border:1px solid var(--border);
 
-    border-radius:14px;
+    border-radius:12px;
 
-    background:#f3f4f6;
+    background:white;
 
-    color:#475569;
+    color:var(--text-dark);
 
     font-size:14px;
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
+    transition:.3s;
 
     display:flex;
-
-    justify-content:center;
     align-items:center;
-
+    justify-content:center;
 }
 
 /* ACTIVE */
 
 .page-btn.active{
 
-    background:linear-gradient(
-        135deg,
-        #ff9a3d,
-        #ff7a00
-    );
+    background:var(--primary);
 
     color:white;
 
-    box-shadow:
-    0 8px 18px rgba(255,122,0,0.18);
-
+    border-color:var(--primary);
 }
 
 /* HOVER */
 
 .page-btn:hover{
 
-    transform:translateY(-2px);
+    background:#FFF4E6;
 
+    border-color:var(--primary);
+
+    color:var(--primary);
 }
 
 /* =========================

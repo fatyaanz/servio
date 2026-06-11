@@ -3,7 +3,7 @@
     <div class="stat-card">
 
         <div class="stat-icon orange">
-            👥
+            <i class='bx bx-group'></i>
         </div>
 
         <div class="stat-info">
@@ -17,7 +17,7 @@
     <div class="stat-card">
 
         <div class="stat-icon yellow">
-            ⏱
+            <i class='bx bx-time-five'></i>
         </div>
 
         <div class="stat-info">
@@ -31,7 +31,7 @@
     <div class="stat-card">
 
         <div class="stat-icon green">
-            ✓
+            <i class='bx bx-check-circle'></i>
         </div>
 
         <div class="stat-info">
@@ -49,84 +49,94 @@
 
 
 .stats-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
-    margin-top: 20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin:24px 0;
 }
 
 .stat-card{
-    display: flex;
-    align-items: center;
-    gap: 14px;
 
-    background: #fff;
-    border-radius: 14px;
-    padding: 18px;
+    position:relative;
 
-    border: 1px solid #f1f1f1;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    display:flex;
+    align-items:center;
+    gap:16px;
 
-    transition: 0.2s ease;
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:.3s;
 }
 
 .stat-card:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transform:translateY(-3px);
 }
 
 .stat-icon{
-    width: 52px;
-    height: 52px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width:56px;
+    height:56px;
 
-    border-radius: 12px;
-    font-size: 22px;
-    flex-shrink: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    font-size:24px;
+
+    flex-shrink:0;
+
+    color:var(--primary);
+
+    background:#FFF4E6;
 }
 
-.orange{
-    background: #fff3e8;
-}
-
-.yellow{
-    background: #fff8db;
-}
-
-.green{
-    background: #eafaf0;
-}
-
-.red{
-    background: #ffecec;
-}
-
-.stat-info{
-    display: flex;
-    flex-direction: column;
+.stat-content{
+    flex:1;
 }
 
 .stat-title{
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 4px;
+    display:block;
+
+    font-size:13px;
+
+    color:var(--text-secondary);
+
+    margin-bottom:4px;
 }
 
-.stat-info h2{
-    font-size: 28px;
-    font-weight: 700;
-    color: #111;
-    margin: 0;
-    line-height: 1.1;
+.stat-content h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:var(--text-dark);
+
+    margin:0;
 }
 
-.stat-info small{
-    font-size: 12px;
-    color: #888;
-    margin-top: 4px;
+.stat-content small{
+
+    color:var(--text-secondary);
+
+    font-size:12px;
+}
+
+@media(max-width:992px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
 }
 </style>

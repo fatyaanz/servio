@@ -2,23 +2,27 @@
 
     <!-- TOTAL KATEGORI -->
 
-    <div class="stats-card">
+    <div class="stat-card">
 
-        <div class="stats-icon orange">
-            📂
+        <div class="stat-icon">
+
+            <i class='bx bx-category'></i>
+
         </div>
 
-        <div class="stats-content">
+        <div class="stat-content">
 
-            <span class="stats-label">
+            <span class="stat-title">
                 Total Kategori
             </span>
 
-            <h1>{{ $totalCategories }}</h1>
+            <h2>
+                {{ $totalCategories }}
+            </h2>
 
-            <p>
+            <small>
                 Semua kategori layanan
-            </p>
+            </small>
 
         </div>
 
@@ -26,23 +30,27 @@
 
     <!-- KATEGORI AKTIF -->
 
-    <div class="stats-card">
+    <div class="stat-card">
 
-        <div class="stats-icon green">
-            ✔
+        <div class="stat-icon">
+
+            <i class='bx bx-check-circle'></i>
+
         </div>
 
-        <div class="stats-content">
+        <div class="stat-content">
 
-            <span class="stats-label">
+            <span class="stat-title">
                 Kategori Aktif
             </span>
 
-            <h1>{{ $activeCategories }}</h1>
+            <h2>
+                {{ $activeCategories }}
+            </h2>
 
-            <p>
+            <small>
                 Kategori aktif saat ini
-            </p>
+            </small>
 
         </div>
 
@@ -50,23 +58,27 @@
 
     <!-- TOTAL PROVIDER -->
 
-    <div class="stats-card">
+    <div class="stat-card">
 
-        <div class="stats-icon blue">
-            👨‍🔧
+        <div class="stat-icon">
+
+            <i class='bx bx-group'></i>
+
         </div>
 
-        <div class="stats-content">
+        <div class="stat-content">
 
-            <span class="stats-label">
+            <span class="stat-title">
                 Total Penyedia
             </span>
 
-            <h1>{{ $totalProviders }}</h1>
+            <h2>
+                {{ $totalProviders }}
+            </h2>
 
-            <p>
+            <small>
                 Provider terdaftar
-            </p>
+            </small>
 
         </div>
 
@@ -77,37 +89,26 @@
 <style>
 
 /* =========================
-   STATS GRID
+    STATS GRID
 ========================= */
-
-
 
 .stats-grid{
 
     display:grid;
 
-    grid-template-columns:
-    repeat(3, 1fr);
+    grid-template-columns:repeat(3,1fr);
 
-    gap:18px;
+    gap:20px;
 
-    margin-bottom:28px;
+    margin:24px 0;
 
 }
 
 /* =========================
-   CARD
+    CARD
 ========================= */
 
-.stats-card{
-
-    background:#ffffff;
-
-    border:1px solid #edf2f7;
-
-    border-radius:22px;
-
-    padding:20px;
+.stat-card{
 
     display:flex;
 
@@ -115,156 +116,106 @@
 
     gap:16px;
 
-    box-shadow:
-    0 4px 18px rgba(15,23,42,0.05);
+    background:white;
 
-    transition:.25s ease;
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:.3s;
 
 }
 
-.stats-card:hover{
+.stat-card:hover{
 
     transform:translateY(-3px);
-
-    box-shadow:
-    0 10px 24px rgba(15,23,42,0.08);
 
 }
 
 /* =========================
-   ICON
+    ICON
 ========================= */
 
-.stats-icon{
+.stat-icon{
 
-    width:64px;
-    height:64px;
-
-    border-radius:18px;
+    width:56px;
+    height:56px;
 
     display:flex;
 
     align-items:center;
     justify-content:center;
 
-    font-size:28px;
+    border-radius:16px;
+
+    background:#FFF4E6;
+
+    color:var(--primary);
+
+    font-size:24px;
 
     flex-shrink:0;
 
 }
 
-/* COLORS */
-
-.orange{
-
-    background:#fff4e8;
-
-    color:#ff7a00;
-
-}
-
-.green{
-
-    background:#ecfdf3;
-
-    color:#16a34a;
-
-}
-
-.blue{
-
-    background:#eff6ff;
-
-    color:#2563eb;
-
-}
-
-.pink{
-
-    background:#fff1f2;
-
-    color:#e11d48;
-
-}
-
 /* =========================
-   CONTENT
+    CONTENT
 ========================= */
 
-.stats-content{
-
-    display:flex;
-
-    flex-direction:column;
-
+.stat-content{
+    flex:1;
 }
 
-.stats-label{
+.stat-title{
+
+    display:block;
 
     font-size:13px;
 
-    font-weight:600;
+    color:var(--text-secondary);
 
-    color:#6b7280;
-
-    margin-bottom:6px;
+    margin-bottom:4px;
 
 }
 
-.stats-content h1{
+.stat-content h2{
 
-    font-size:30px;
+    font-size:28px;
 
-    font-weight:800;
+    font-weight:700;
 
-    color:#111827;
-
-    line-height:1.1;
-
-    margin:0 0 6px;
-
-}
-
-.stats-content p{
-
-    font-size:12px;
-
-    color:#9ca3af;
-
-    line-height:1.5;
+    color:var(--text-dark);
 
     margin:0;
 
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.stat-content small{
 
-/* =========================
-   RESPONSIVE
-========================= */
+    display:block;
 
-@media(max-width:1100px){
+    margin-top:4px;
 
-    .stats-grid{
+    color:var(--text-secondary);
 
-        grid-template-columns:
-        repeat(2,1fr);
-
-    }
+    font-size:12px;
 
 }
 
-@media(max-width:768px){
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:992px){
 
     .stats-grid{
-
         grid-template-columns:1fr;
-
     }
 
 }
-
 
 </style>

@@ -6,11 +6,9 @@
 
     <!-- SIDEBAR -->
 
-    @include('provider.pages.chat.components.chat-sidebar')
+    @include('admin.Pages.chat.components.chat-sidebar')
 
-    <!-- ROOM -->
-
-    @include('provider.pages.chat.components.chat-room')
+@include('admin.Pages.chat.components.chat-room')
 
 </div>
 
@@ -22,17 +20,13 @@
 
 .chat-page{
 
-    display:flex;
+    display:grid;
+
+    grid-template-columns:320px 1fr;
 
     gap:20px;
 
-    padding:20px;
-
-    height:100vh;
-
-    align-items:stretch;
-
-    overflow:hidden;
+    height:calc(100vh - 40px);
 
 }
 
@@ -42,9 +36,15 @@
 
 .chat-sidebar{
 
-    height:100%;
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
 
     overflow:hidden;
+
+    box-shadow:var(--shadow-sm);
 
 }
 
@@ -54,15 +54,19 @@
 
 .chat-room{
 
-    flex:1;
+    background:white;
 
-    height:100%;
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    overflow:hidden;
 
     display:flex;
 
     flex-direction:column;
 
-    overflow:hidden;
+    box-shadow:var(--shadow-sm);
 
 }
 
@@ -80,8 +84,6 @@
 
 }
 
-/* SCROLLBAR */
-
 .chat-body::-webkit-scrollbar{
 
     width:6px;
@@ -90,9 +92,9 @@
 
 .chat-body::-webkit-scrollbar-thumb{
 
-    background:#d1d5db;
+    background:#D1D5DB;
 
-    border-radius:20px;
+    border-radius:999px;
 
 }
 
@@ -104,17 +106,21 @@
 
     .chat-page{
 
-        flex-direction:column;
+        grid-template-columns:1fr;
 
         height:auto;
 
-        overflow:visible;
+    }
+
+    .chat-sidebar{
+
+        min-height:350px;
 
     }
 
     .chat-room{
 
-        height:80vh;
+        min-height:600px;
 
     }
 

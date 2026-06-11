@@ -1,6 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <div class="sidebar">
 
     <!-- LOGO -->
@@ -8,7 +6,7 @@
     <div class="logo-section">
 
         <div class="logo-circle">
-            <img src="{{ asset('assets/images/logoservio.png') }}" alt="Logo">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo">
         </div>
 
         <div class="logo-text">
@@ -72,8 +70,9 @@
 
         <a href="/admin/dashboard"
             class="menu-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-
-            <i class='bx bx-grid-alt'></i>
+            <div class="menu-icon">
+                <i class='bx bx-grid-alt'></i>
+            </div>
 
             <span>
                 Dashboard
@@ -83,8 +82,10 @@
 
         <a href="{{ url('/admin/providers') }}"
            class="menu-item {{ request()->is('admin/providers') ? 'active' : '' }}">
-
-            <i class='bx bx-wrench'></i>
+            <div class="menu-icon">
+                <i class='bx bx-wrench'></i>
+                
+            </div>
 
             <span>
                 Penyedia Layanan
@@ -94,8 +95,10 @@
 
         <a href="{{ url('/admin/Kategori_Layanan/categories') }}"
            class="menu-item {{ request()->is('admin/Kategori_Layanan/categories') ? 'active' : '' }}">
-
-            <i class='bx bx-category'></i>
+            <div class="menu-icon">
+                <i class='bx bx-category'></i>
+                
+            </div>
 
             <span>
                 Kategori Layanan
@@ -105,8 +108,10 @@
 
         <a href="{{ url('/admin/chat/chat') }}"
            class="menu-item {{ request()->is('admin/chat/chat') ? 'active' : '' }}">
-
-            <i class='bx bx-message-rounded-dots'></i>
+            <div class="menu-icon">
+                <i class='bx bx-message-rounded-dots'></i>
+                
+            </div>
 
             <span>
                 Chat

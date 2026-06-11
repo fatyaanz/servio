@@ -3,44 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Servio</title>
 
-    <style>
+    <title>@yield('title', 'Admin Servio')</title>
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, sans-serif;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        body{
-            display:flex;
-            min-height:100vh;
-            background:#f5f5f7;
-        }
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-        .main-content{
-            flex:1;
-            padding:30px;
-            background:#f5f5f7;
-            height:100vh;
-            overflow-y:auto;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="{{ asset('css/servio-design-system.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/admin-layout.css') }}">
 </head>
+
 <body>
 
-    {{-- Sidebar --}}
     @include('admin.components.sidebar')
 
-    {{-- Isi Halaman --}}
     <div class="main-content">
-
         @yield('content')
-
     </div>
 
 </body>

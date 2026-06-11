@@ -71,50 +71,7 @@
 
 <style>
 
-/* =========================
-    GLOBAL
-========================= */
 
-*{
-    box-sizing:border-box;
-}
-
-html,
-body{
-
-    overflow-x:hidden;
-
-    scroll-behavior:smooth;
-
-    background:#f6f8fc;
-
-    font-family:'Poppins',sans-serif;
-
-}
-
-/* =========================
-    SCROLLBAR
-========================= */
-
-::-webkit-scrollbar{
-    width:10px;
-}
-
-::-webkit-scrollbar-track{
-    background:#f3f4f6;
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:linear-gradient(
-        180deg,
-        #ffb066,
-        #ff7a00
-    );
-
-    border-radius:20px;
-
-}
 
 /* =========================
     PAGE CONTAINER
@@ -145,7 +102,7 @@ body{
 
 .page-title h1{
 
-    font-size:42px;
+    font-size:32px;
 
     font-weight:800;
 
@@ -158,32 +115,20 @@ body{
 }
 
 .page-title p{
-
-    color:#6b7280;
-
-    font-size:16px;
-
+    color:var(--text-secondary);
+    font-size:14px;
 }
 
 /* =========================
     TABLE WRAPPER
 ========================= */
-
 .table-wrapper{
-
     background:white;
-
-    border-radius:28px;
-
-    padding:24px;
-
-    border:1px solid #eef2f7;
-
-    box-shadow:
-    0 10px 28px rgba(15,23,42,0.05);
-
+    border-radius:20px;
+    padding:20px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-sm);
     overflow:hidden;
-
 }
 
 /* =========================

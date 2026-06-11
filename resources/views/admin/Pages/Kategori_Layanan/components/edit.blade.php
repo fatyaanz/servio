@@ -17,7 +17,8 @@
             href="{{ route('categories.index') }}"
             class="back-btn"
         >
-            ← Kembali
+            <i class='bx bx-arrow-back'></i>
+            Kembali
         </a>
 
     </div>
@@ -103,77 +104,121 @@
 
 <style>
 
+/* =========================
+    PAGE
+========================= */
+
 .edit-category-page{
 
     min-height:100vh;
 
 }
 
+/* =========================
+    HEADER
+========================= */
+
 .page-header{
 
     display:flex;
 
     justify-content:space-between;
-    align-items:center;
+
+    align-items:flex-start;
+
+    gap:20px;
 
     margin-bottom:28px;
+
+    flex-wrap:wrap;
 
 }
 
 .page-header h1{
 
-    font-size:38px;
+    font-size:32px;
 
-    font-weight:800;
+    font-weight:700;
 
-    color:#111827;
+    color:var(--text-dark);
 
-    margin-bottom:8px;
+    margin-bottom:6px;
 
 }
 
 .page-header p{
 
-    color:#6b7280;
+    font-size:14px;
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
 
 }
+
+/* =========================
+    BACK BUTTON
+========================= */
 
 .back-btn{
 
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
     text-decoration:none;
-
-    background:#ffffff;
-
-    color:#111827;
 
     padding:12px 18px;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    border:1px solid #e5e7eb;
+    border:1px solid var(--border);
+
+    background:white;
+
+    color:var(--text-dark);
+
+    font-size:14px;
 
     font-weight:600;
 
+    transition:.3s;
+
 }
+
+.back-btn:hover{
+
+    background:#F8FAFC;
+
+}
+
+/* =========================
+    CARD
+========================= */
 
 .edit-card{
 
     background:white;
 
-    border-radius:28px;
+    border:1px solid var(--border);
 
-    padding:30px;
+    border-radius:20px;
 
-    border:1px solid #eef2f7;
+    padding:24px;
 
-    box-shadow:
-    0 10px 28px rgba(15,23,42,0.05);
+    box-shadow:var(--shadow-sm);
 
 }
 
+/* =========================
+    FORM
+========================= */
+
 .form-group{
 
-    margin-bottom:22px;
+    margin-bottom:20px;
 
 }
 
@@ -183,9 +228,11 @@
 
     margin-bottom:8px;
 
+    font-size:14px;
+
     font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
 }
 
@@ -193,27 +240,75 @@
 
     width:100%;
 
-    padding:14px;
+    padding:12px 14px;
 
-    border-radius:14px;
+    border:1px solid var(--border);
 
-    border:1px solid #d1d5db;
+    border-radius:12px;
 
     font-size:14px;
 
+    outline:none;
+
+    transition:.3s;
+
 }
+
+.form-group input:focus{
+
+    border-color:var(--primary);
+
+}
+
+/* =========================
+    FILE INPUT
+========================= */
+
+input[type="file"]{
+
+    cursor:pointer;
+
+}
+
+input[type="file"]::file-selector-button{
+
+    border:none;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    margin-right:10px;
+
+}
+
+/* =========================
+    CURRENT ICON
+========================= */
 
 .current-icon{
 
-    margin-bottom:25px;
+    margin-bottom:24px;
 
 }
 
 .current-icon p{
 
-    margin-bottom:10px;
+    font-size:14px;
 
     font-weight:600;
+
+    color:var(--text-dark);
+
+    margin-bottom:10px;
 
 }
 
@@ -225,41 +320,79 @@
 
     object-fit:cover;
 
-    border-radius:20px;
+    border-radius:16px;
 
-    border:1px solid #e5e7eb;
+    border:1px solid var(--border);
 
 }
+
+/* =========================
+    ERROR
+========================= */
+
+.error{
+
+    display:block;
+
+    margin-top:6px;
+
+    font-size:12px;
+
+    color:#EF4444;
+
+}
+
+/* =========================
+    SAVE BUTTON
+========================= */
 
 .save-btn{
 
     border:none;
 
-    background:linear-gradient(
-        135deg,
-        #ffb066,
-        #ff7a00
-    );
+    padding:12px 20px;
+
+    border-radius:12px;
+
+    background:var(--primary);
 
     color:white;
 
-    padding:14px 24px;
+    font-size:14px;
 
-    border-radius:16px;
+    font-weight:600;
 
     cursor:pointer;
 
-    font-weight:700;
+    transition:.3s;
 
 }
 
-.error{
+.save-btn:hover{
 
-    color:red;
+    opacity:.95;
 
-    display:block;
+    transform:translateY(-2px);
 
-    margin-top:6px;
+}
+
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .page-header{
+
+        flex-direction:column;
+
+    }
+
+    .edit-card{
+
+        padding:20px;
+
+    }
 
 }
 

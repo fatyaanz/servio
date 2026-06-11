@@ -43,12 +43,20 @@
     </td>
 
     <td>
-        ⭐ 0
+
+        <div class="rating-display">
+
+            <i class='bx bxs-star'></i>
+
+            <span>0.0</span>
+
+        </div>
+
     </td>
 
     <td>
 
-        <span class="status active">
+        <span class="badge badge-success">
             Aktif
         </span>
 
@@ -62,8 +70,7 @@
 
         <a
             href="{{ route('admin.providers.show', $provider->id) }}"
-            class="detail-btn"
-            style="text-decoration:none;display:inline-block;"
+            class="btn btn-secondary detail-btn"
         >
             Detail
         </a>
@@ -76,8 +83,22 @@
 
 <tr>
 
-    <td colspan="7" style="text-align:center;padding:40px;">
-        Belum ada provider aktif
+    <td colspan="7" class="empty-table">
+
+        <div class="empty-content">
+
+            <i class='bx bx-user-x'></i>
+
+            <h4>
+                Belum Ada Provider
+            </h4>
+
+            <p>
+                Belum ada penyedia layanan yang tersedia saat ini.
+            </p>
+
+        </div>
+
     </td>
 
 </tr>
@@ -85,6 +106,68 @@
 @endforelse
 
 <style>
+.empty-table{
+    background:white !important;
+    padding:50px 20px !important;
+}
+
+.empty-content{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.empty-content i{
+    font-size:56px;
+    color:#cbd5e1;
+    margin-bottom:12px;
+}
+
+.empty-content h4{
+    font-size:18px;
+    font-weight:600;
+    color:var(--text-dark);
+    margin-bottom:6px;
+}
+
+.empty-content p{
+    font-size:14px;
+    color:var(--text-secondary);
+}
+    .empty-table{
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    background:white;
+}
+
+.empty-table i{
+
+    font-size:36px;
+
+    color:var(--text-secondary);
+}
+
+.empty-table p{
+
+    margin-top:10px;
+
+    color:var(--text-secondary);
+}
+
+    .rating-display{
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    color:#f59e0b;
+
+    font-weight:600;
+}
 
 /* =========================
     PROVIDER INFO
@@ -104,50 +187,46 @@
 
 .provider-avatar{
 
-    width:60px;
-    height:60px;
+    width:48px;
+    height:48px;
 
-    border-radius:18px;
+    border-radius:14px;
 
     background:linear-gradient(
         135deg,
-        #ffb066,
-        #ff7a00
+        var(--primary),
+        #ffb347
     );
 
     display:flex;
-
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 
     color:white;
 
-    font-size:22px;
+    font-size:16px;
     font-weight:700;
 
     flex-shrink:0;
-
 }
 
 .provider-name{
 
-    font-size:15px;
-    font-weight:700;
+    font-size:14px;
+    font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
     margin-bottom:4px;
-
 }
 
 .provider-sub{
 
-    font-size:13px;
+    font-size:12px;
 
-    color:#6b7280;
+    color:var(--text-secondary);
 
     line-height:1.5;
-
 }
 
 /* =========================
@@ -155,62 +234,28 @@
 ========================= */
 
 .category-badge{
+    display:inline-block;
 
-    padding:7px 14px;
-
-    border-radius:999px;
-
-    background:#fff4e8;
-
-    color:#ff7a00;
-
-    font-size:12px;
-    font-weight:700;
-
-}
-
-.status{
-
-    padding:7px 15px;
+    padding:6px 12px;
 
     border-radius:999px;
 
+    background:#FFF4E6;
+
+    color:var(--primary);
+
     font-size:12px;
-    font-weight:700;
-
+    font-weight:600;
 }
 
-.active{
 
-    background:#dcfce7;
-
-    color:#16a34a;
-
-}
 
 /* =========================
     DETAIL BUTTON
 ========================= */
 
 .detail-btn{
-
-    padding:10px 16px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#fff4e8;
-
-    color:#ff7a00;
-
-    font-size:13px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:0.25s ease;
-
+    padding:8px 14px;
 }
 
 .detail-btn:hover{

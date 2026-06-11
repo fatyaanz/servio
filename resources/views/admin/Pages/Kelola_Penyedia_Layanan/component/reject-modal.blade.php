@@ -2,27 +2,47 @@
 
     <div class="reject-box">
 
-        <h3>
-            Alasan Penolakan
-        </h3>
+        <div class="reject-header">
 
-        <p>
-            Berikan alasan kenapa pengajuan
-            penyedia layanan ditolak.
-        </p>
+            <div class="reject-icon">
+                <i class='bx bx-error-circle'></i>
+            </div>
+
+            <div>
+
+                <h3>
+                    Tolak Pengajuan Provider
+                </h3>
+
+                <p>
+                    Berikan alasan penolakan agar provider dapat melakukan perbaikan data.
+                </p>
+
+            </div>
+
+        </div>
 
         <form
             id="rejectForm"
             method="POST"
         >
+
             @csrf
             @method('PUT')
 
-            <textarea
-                name="reason"
-                placeholder="Masukkan alasan penolakan..."
-                required
-            ></textarea>
+            <div class="form-group">
+
+                <label>
+                    Alasan Penolakan
+                </label>
+
+                <textarea
+                    name="reason"
+                    placeholder="Masukkan alasan penolakan..."
+                    required
+                ></textarea>
+
+            </div>
 
             <div class="reject-actions">
 
@@ -61,14 +81,14 @@
 
     inset:0;
 
-    background:rgba(15,23,42,0.45);
+    background:rgba(15,23,42,.45);
 
     display:none;
 
     justify-content:center;
     align-items:center;
 
-    z-index:9999;
+    z-index:1000;
 
     padding:20px;
 
@@ -81,91 +101,147 @@
 .reject-box{
 
     width:100%;
-    max-width:500px;
+    max-width:520px;
 
     background:white;
 
-    border-radius:28px;
+    border-radius:20px;
 
-    padding:30px;
+    padding:24px;
 
-    box-shadow:
-    0 20px 50px rgba(0,0,0,0.15);
+    border:1px solid var(--border);
 
-    animation:modalFade 0.25s ease;
+    box-shadow:var(--shadow-md);
+
+    animation:modalFade .25s ease;
 
 }
 
 @keyframes modalFade{
 
     from{
-        transform:translateY(20px);
         opacity:0;
+        transform:translateY(15px);
     }
 
     to{
-        transform:translateY(0);
         opacity:1;
+        transform:translateY(0);
     }
 
 }
 
 /* =========================
-    TEXT
+    HEADER
 ========================= */
 
-.reject-box h3{
+.reject-header{
 
-    font-size:28px;
-    font-weight:800;
+    display:flex;
 
-    color:#111827;
+    align-items:flex-start;
 
-    margin-bottom:10px;
+    gap:16px;
+
+    margin-bottom:20px;
 
 }
 
-.reject-box p{
+.reject-icon{
 
-    color:#6b7280;
+    width:52px;
+    height:52px;
 
-    line-height:1.7;
+    display:flex;
 
-    margin-bottom:22px;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:#FEF2F2;
+
+    color:#EF4444;
+
+    font-size:24px;
+
+    flex-shrink:0;
+
+}
+
+.reject-header h3{
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:var(--text-dark);
+
+    margin-bottom:6px;
+
+}
+
+.reject-header p{
+
+    font-size:14px;
+
+    color:var(--text-secondary);
+
+    line-height:1.6;
 
 }
 
 /* =========================
-    TEXTAREA
+    FORM
 ========================= */
 
-.reject-box textarea{
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--text-dark);
+
+    margin-bottom:8px;
+
+}
+
+.form-group textarea{
 
     width:100%;
 
-    height:140px;
+    min-height:140px;
 
-    border:1px solid #e5e7eb;
+    border:1px solid var(--border);
 
-    border-radius:18px;
+    border-radius:12px;
 
-    padding:16px;
+    padding:14px;
 
     resize:none;
 
     font-size:14px;
 
+    font-family:'Poppins',sans-serif;
+
     outline:none;
 
-    transition:0.25s ease;
-
-    margin-bottom:22px;
+    transition:.3s;
 
 }
 
-.reject-box textarea:focus{
+.form-group textarea:focus{
 
-    border-color:#ff9a3d;
+    border-color:var(--primary);
 
 }
 
@@ -179,62 +255,80 @@
 
     justify-content:flex-end;
 
-    gap:14px;
-
-    flex-wrap:wrap;
+    gap:12px;
 
 }
-
-/* CANCEL */
 
 .cancel-btn{
 
-    padding:14px 24px;
+    padding:12px 20px;
 
-    border:none;
+    border:1px solid var(--border);
 
-    border-radius:14px;
+    border-radius:12px;
 
-    background:#f3f4f6;
+    background:white;
 
-    color:#475569;
+    color:var(--text-dark);
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
+    transition:.3s;
+
 }
 
-/* SUBMIT */
+.cancel-btn:hover{
+
+    background:#F8FAFC;
+
+}
 
 .submit-reject-btn{
 
-    padding:14px 24px;
+    padding:12px 20px;
 
     border:none;
 
-    border-radius:14px;
+    border-radius:12px;
 
-    background:linear-gradient(
-        135deg,
-        #ef4444,
-        #dc2626
-    );
+    background:#EF4444;
 
     color:white;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
+    transition:.3s;
 
 }
 
-.submit-reject-btn:hover,
-.cancel-btn:hover{
+.submit-reject-btn:hover{
 
-    transform:translateY(-2px);
+    background:#DC2626;
+
+}
+
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .reject-header{
+        flex-direction:column;
+    }
+
+    .reject-actions{
+        flex-direction:column;
+    }
+
+    .cancel-btn,
+    .submit-reject-btn{
+        width:100%;
+    }
 
 }
 
@@ -263,15 +357,15 @@ function closeRejectModal()
         .style.display = 'none';
 }
 
-window.onclick = function(e)
+window.addEventListener('click', function(e)
 {
-    let modal =
+    const modal =
         document.getElementById('rejectModal');
 
-    if(e.target == modal)
+    if(e.target === modal)
     {
         closeRejectModal();
     }
-}
+});
 
 </script>

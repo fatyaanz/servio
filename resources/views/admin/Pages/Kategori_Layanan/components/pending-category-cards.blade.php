@@ -11,12 +11,14 @@
 
         <div class="empty-request">
 
+            <i class='bx bx-check-shield'></i>
+
             <h3>
-                Tidak Ada Pengajuan
+                Tidak Ada Pengajuan Kategori
             </h3>
 
             <p>
-                Saat ini belum ada provider yang mengajukan kategori layanan.
+                Saat ini belum ada provider yang mengajukan kategori layanan baru.
             </p>
 
         </div>
@@ -33,41 +35,86 @@
 
 .pending-category-wrapper{
 
-    display:flex;
+    display:grid;
 
-    flex-direction:column;
+    grid-template-columns:
+    repeat(auto-fit,minmax(380px,1fr));
 
-    gap:24px;
+    gap:20px;
 
-    margin-top:10px;
+    margin-top:20px;
 
 }
 
+/* =========================
+    EMPTY STATE
+========================= */
+
 .empty-request{
+
+    grid-column:1 / -1;
 
     background:white;
 
-    padding:50px;
+    border:1px solid var(--border);
 
-    border-radius:24px;
+    border-radius:20px;
+
+    padding:60px 24px;
 
     text-align:center;
 
-    border:1px solid #eef2f7;
+    box-shadow:var(--shadow-sm);
+
+}
+
+.empty-request i{
+
+    font-size:64px;
+
+    color:#22c55e;
+
+    margin-bottom:16px;
 
 }
 
 .empty-request h3{
 
-    color:#111827;
+    font-size:20px;
 
-    margin-bottom:10px;
+    font-weight:600;
+
+    color:var(--text-dark);
+
+    margin-bottom:8px;
 
 }
 
 .empty-request p{
 
-    color:#64748b;
+    font-size:14px;
+
+    color:var(--text-secondary);
+
+    max-width:420px;
+
+    margin:auto;
+
+    line-height:1.6;
+
+}
+
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .pending-category-wrapper{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 

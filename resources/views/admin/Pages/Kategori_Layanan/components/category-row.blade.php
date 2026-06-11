@@ -17,7 +17,7 @@
 
                 @else
 
-                    <span>📁</span>
+                    <i class='bx bx-category'></i>
 
                 @endif
 
@@ -59,7 +59,11 @@
             href="{{ route('categories.providers', $category->id) }}"
             class="provider-btn"
         >
-            👥 Lihat Penyedia
+
+            <i class='bx bx-group'></i>
+
+            Lihat Penyedia
+
         </a>
 
     </td>
@@ -72,9 +76,9 @@
 
             {{ $category->created_at->format('d M Y') }}
 
-        <span>
-            {{ $category->created_at->format('H:i') }} WIB
-        </span>
+            <span>
+                {{ $category->created_at->format('H:i') }} WIB
+            </span>
 
         </div>
 
@@ -84,11 +88,19 @@
 
     <td>
 
-        <div class="status-badge active">
+        @if($category->is_active)
 
-            {{ $category->is_active ? 'Aktif' : 'Nonaktif' }}
+            <span class="badge badge-success">
+                Aktif
+            </span>
 
-        </div>
+        @else
+
+            <span class="badge badge-danger">
+                Nonaktif
+            </span>
+
+        @endif
 
     </td>
 
@@ -103,7 +115,9 @@
                 class="edit-btn"
                 title="Edit Kategori"
             >
-                ✏️
+
+                <i class='bx bx-edit-alt'></i>
+
             </a>
 
         </div>
@@ -115,61 +129,7 @@
 <style>
 
 /* =========================
-   TABLE ROW
-========================= */
-
-tr{
-
-    transition:.2s ease;
-
-}
-
-tr:hover td{
-
-    background:#ffffff;
-
-}
-
-/* =========================
-   TABLE CELL
-========================= */
-
-td{
-
-    padding:16px 14px;
-
-    vertical-align:middle;
-
-    background:#f8fafc;
-
-    border-top:1px solid #eef2f7;
-
-    border-bottom:1px solid #eef2f7;
-
-}
-
-/* FIRST */
-
-tr td:first-child{
-
-    border-left:1px solid #eef2f7;
-
-    border-radius:18px 0 0 18px;
-
-}
-
-/* LAST */
-
-tr td:last-child{
-
-    border-right:1px solid #eef2f7;
-
-    border-radius:0 18px 18px 0;
-
-}
-
-/* =========================
-   CATEGORY INFO
+    CATEGORY INFO
 ========================= */
 
 .category-info{
@@ -185,52 +145,55 @@ tr td:last-child{
 }
 
 /* =========================
-   ICON
+    ICON
 ========================= */
 
 .category-icon{
 
-    width:56px;
-    height:56px;
+    width:48px;
+    height:48px;
 
-    border-radius:16px;
+    border-radius:14px;
 
-    background:#fff4e8;
+    background:#FFF4E6;
 
     display:flex;
 
     align-items:center;
     justify-content:center;
 
-    font-size:24px;
+    overflow:hidden;
 
     flex-shrink:0;
+
+    color:var(--primary);
+
+    font-size:20px;
+
+}
+
+.category-icon img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
 
 }
 
 /* =========================
-   DETAIL
+    DETAIL
 ========================= */
-
-.category-detail{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
 
 .category-detail h4{
 
     font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
-    margin:0 0 4px;
-
-    line-height:1.3;
+    margin-bottom:4px;
 
 }
 
@@ -238,68 +201,66 @@ tr td:last-child{
 
     font-size:12px;
 
-    color:#6b7280;
-
-    margin:0;
-
-    line-height:1.4;
+    color:var(--text-secondary);
 
 }
 
 /* =========================
-   PROVIDER COUNT
+    PROVIDER COUNT
 ========================= */
 
 .provider-count{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--text-dark);
+
+    white-space:nowrap;
+
+}
+
+/* =========================
+    PROVIDER BUTTON
+========================= */
+
+.provider-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 14px;
+
+    border-radius:12px;
+
+    background:#FFF4E6;
+
+    color:var(--primary);
+
+    text-decoration:none;
 
     font-size:13px;
 
     font-weight:600;
 
-    color:#475569;
-
-    white-space:nowrap;
-
-}
-
-/* =========================
-   PROVIDER BUTTON
-========================= */
-
-.provider-btn{
-
-    border:none;
-
-    padding:10px 14px;
-
-    border-radius:12px;
-
-    background:#fff7ed;
-
-    color:#ff7a00;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.2s ease;
-
-    white-space:nowrap;
+    transition:.3s;
 
 }
 
 .provider-btn:hover{
 
-    background:#ffedd5;
+    background:var(--primary);
 
-    transform:translateY(-2px);
+    color:white;
 
 }
 
 /* =========================
-   DATE
+    DATE
 ========================= */
 
 .date-info{
@@ -308,15 +269,15 @@ tr td:last-child{
 
     flex-direction:column;
 
-    gap:3px;
+    gap:2px;
+
+    white-space:nowrap;
 
     font-size:13px;
 
-    font-weight:600;
+    color:var(--text-dark);
 
-    color:#334155;
-
-    white-space:nowrap;
+    font-weight:500;
 
 }
 
@@ -324,38 +285,12 @@ tr td:last-child{
 
     font-size:11px;
 
-    color:#94a3b8;
+    color:var(--text-secondary);
 
 }
 
 /* =========================
-   STATUS
-========================= */
-
-.status-badge{
-
-    width:max-content;
-
-    padding:8px 14px;
-
-    border-radius:999px;
-
-    font-size:11px;
-
-    font-weight:700;
-
-}
-
-.status-badge.active{
-
-    background:#ecfdf3;
-
-    color:#16a34a;
-
-}
-
-/* =========================
-   ACTION GROUP
+    ACTION
 ========================= */
 
 .action-group{
@@ -369,7 +304,7 @@ tr td:last-child{
 }
 
 /* =========================
-   BUTTONS
+    EDIT BUTTON
 ========================= */
 
 .edit-btn{
@@ -382,131 +317,38 @@ tr td:last-child{
     align-items:center;
     justify-content:center;
 
-    text-decoration:none;
-
     border-radius:12px;
 
-    cursor:pointer;
+    background:#FFF4E6;
 
-    font-size:14px;
+    color:var(--primary);
 
-    transition:.2s ease;
+    text-decoration:none;
 
-    background:#fff7ed;
-
-    color:#ff7a00;
+    transition:.3s;
 
 }
 
-/* HOVER */
-
 .edit-btn:hover{
 
-    transform:translateY(-2px);
-
-    background:#ff7a00;
+    background:var(--primary);
 
     color:white;
 
 }
 
 /* =========================
-   RESPONSIVE
+    RESPONSIVE
 ========================= */
 
 @media(max-width:768px){
 
-    td{
-
-        padding:14px 10px;
-
-    }
-
     .category-info{
 
-        min-width:200px;
+        min-width:220px;
 
     }
 
-    .category-icon{
-
-        width:48px;
-        height:48px;
-
-        font-size:20px;
-
-    }
-
-    .category-detail h4{
-
-        font-size:13px;
-
-    }
-
-    .category-detail p{
-
-        font-size:11px;
-
-    }
-
-    .provider-btn{
-
-        padding:9px 12px;
-
-        font-size:11px;
-
-    }
-
-    .edit-btn{
-
-        width:36px;
-        height:36px;
-
-        font-size:12px;
-
-    }
-
-}
-
-.category-icon{
-
-    width:56px;
-    height:56px;
-
-    border-radius:16px;
-
-    background:#fff4e8;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-
-    flex-shrink:0;
-
-}
-
-.category-icon img{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    border-radius:16px;
-
-}
-
-.provider-btn{
-
-    text-decoration:none;
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
 }
 
 </style>

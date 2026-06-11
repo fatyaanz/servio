@@ -6,6 +6,7 @@
     <div class="add-category-modal">
 
         <!-- HEADER -->
+
         <div class="modal-header">
 
             <div>
@@ -15,24 +16,25 @@
                 </h2>
 
                 <p>
-                    Tambahkan kategori layanan baru
-                    untuk provider Servio.
+                    Tambahkan kategori layanan baru untuk provider Servio.
                 </p>
 
             </div>
 
             <button
                 class="close-btn"
+                type="button"
                 onclick="closeAddCategoryModal()"
             >
 
-                ✕
+                <i class='bx bx-x'></i>
 
             </button>
 
         </div>
 
         <!-- FORM -->
+
         <form
             action="{{ route('categories.store') }}"
             method="POST"
@@ -42,6 +44,7 @@
             @csrf
 
             <!-- NAMA -->
+
             <div class="input-group">
 
                 <label>
@@ -58,10 +61,11 @@
             </div>
 
             <!-- FOTO -->
+
             <div class="input-group">
 
                 <label>
-                    Foto Kategori
+                    Icon / Foto Kategori
                 </label>
 
                 <input
@@ -73,6 +77,7 @@
             </div>
 
             <!-- BUTTON -->
+
             <button
                 type="submit"
                 class="submit-btn"
@@ -90,31 +95,32 @@
 
 <script>
 
-/* =========================
-    OPEN MODAL
-========================= */
-
-function openAddCategoryModal(){
-
+function openAddCategoryModal()
+{
     document
-    .getElementById('addCategoryModal')
-    .classList
-    .add('active');
-
+        .getElementById('addCategoryModal')
+        .classList
+        .add('active');
 }
 
-/* =========================
-    CLOSE MODAL
-========================= */
-
-function closeAddCategoryModal(){
-
+function closeAddCategoryModal()
+{
     document
-    .getElementById('addCategoryModal')
-    .classList
-    .remove('active');
-
+        .getElementById('addCategoryModal')
+        .classList
+        .remove('active');
 }
+
+window.addEventListener('click', function(e)
+{
+    const modal =
+        document.getElementById('addCategoryModal');
+
+    if(e.target === modal)
+    {
+        closeAddCategoryModal();
+    }
+});
 
 </script>
 
@@ -130,26 +136,23 @@ function closeAddCategoryModal(){
 
     inset:0;
 
-    background:rgba(15,23,42,0.45);
+    background:rgba(15,23,42,.45);
 
     display:flex;
 
-    align-items:center;
     justify-content:center;
+    align-items:center;
 
-    padding:24px;
+    padding:20px;
 
-    z-index:9999;
+    z-index:1000;
 
     opacity:0;
-
     visibility:hidden;
 
-    transition:0.25s ease;
+    transition:.3s;
 
 }
-
-/* ACTIVE */
 
 .add-category-overlay.active{
 
@@ -171,38 +174,23 @@ function closeAddCategoryModal(){
 
     background:white;
 
-    border-radius:30px;
+    border-radius:20px;
 
-    padding:30px;
+    border:1px solid var(--border);
 
-    box-shadow:
-    0 20px 60px rgba(15,23,42,0.18);
+    padding:24px;
 
-    animation:modalUp 0.25s ease;
+    box-shadow:var(--shadow-md);
+
+    transform:translateY(15px);
+
+    transition:.3s;
 
 }
 
-/* =========================
-    ANIMATION
-========================= */
+.add-category-overlay.active .add-category-modal{
 
-@keyframes modalUp{
-
-    from{
-
-        transform:translateY(20px);
-
-        opacity:0;
-
-    }
-
-    to{
-
-        transform:translateY(0);
-
-        opacity:1;
-
-    }
+    transform:translateY(0);
 
 }
 
@@ -215,33 +203,34 @@ function closeAddCategoryModal(){
     display:flex;
 
     justify-content:space-between;
+
     align-items:flex-start;
 
-    gap:20px;
+    gap:16px;
 
-    margin-bottom:28px;
+    margin-bottom:24px;
 
 }
 
 .modal-header h2{
 
-    font-size:30px;
+    font-size:20px;
 
-    font-weight:800;
+    font-weight:600;
 
-    color:#111827;
+    color:var(--text-dark);
 
-    margin-bottom:8px;
+    margin-bottom:6px;
 
 }
 
 .modal-header p{
 
-    color:#6b7280;
+    font-size:14px;
 
-    font-size:15px;
+    color:var(--text-secondary);
 
-    line-height:1.7;
+    line-height:1.6;
 
 }
 
@@ -251,36 +240,43 @@ function closeAddCategoryModal(){
 
 .close-btn{
 
-    width:50px;
-    height:50px;
+    width:40px;
+    height:40px;
 
     border:none;
 
-    border-radius:16px;
+    border-radius:12px;
 
-    background:#f3f4f6;
+    background:#F8FAFC;
 
-    font-size:20px;
+    color:var(--text-secondary);
 
     cursor:pointer;
 
-    transition:0.25s ease;
+    transition:.3s;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
 
 }
 
 .close-btn:hover{
 
-    background:#e5e7eb;
+    background:#EEF2F7;
 
 }
 
 /* =========================
-    INPUT GROUP
+    FORM
 ========================= */
 
 .input-group{
 
-    margin-bottom:22px;
+    margin-bottom:18px;
 
 }
 
@@ -288,47 +284,45 @@ function closeAddCategoryModal(){
 
     display:block;
 
-    margin-bottom:10px;
+    margin-bottom:8px;
 
     font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
-    color:#334155;
+    color:var(--text-dark);
 
 }
-
-/* INPUT */
 
 .input-group input{
 
     width:100%;
 
-    padding:16px;
+    padding:12px 14px;
 
-    border-radius:16px;
+    border:1px solid var(--border);
 
-    border:1px solid #e2e8f0;
-
-    outline:none;
+    border-radius:12px;
 
     font-size:14px;
 
-    transition:0.25s ease;
+    outline:none;
+
+    transition:.3s;
 
 }
 
 .input-group input:focus{
 
-    border-color:#ff7a00;
+    border-color:var(--primary);
 
 }
 
-/* FILE */
+/* =========================
+    FILE INPUT
+========================= */
 
 .file-input{
-
-    background:#fafafa;
 
     cursor:pointer;
 
@@ -340,15 +334,15 @@ function closeAddCategoryModal(){
 
     padding:10px 14px;
 
-    border-radius:12px;
+    border-radius:10px;
 
-    background:#ffb066;
+    background:var(--primary);
 
     color:white;
 
-    font-weight:700;
+    font-weight:600;
 
-    margin-right:12px;
+    margin-right:10px;
 
     cursor:pointer;
 
@@ -364,34 +358,43 @@ function closeAddCategoryModal(){
 
     border:none;
 
-    padding:16px;
+    border-radius:12px;
 
-    border-radius:18px;
+    padding:12px;
 
-    background:linear-gradient(
-        135deg,
-        #ffb066,
-        #ff7a00
-    );
+    background:var(--primary);
 
     color:white;
 
-    font-size:15px;
+    font-size:14px;
 
-    font-weight:700;
+    font-weight:600;
 
     cursor:pointer;
 
-    transition:0.25s ease;
-
-    box-shadow:
-    0 10px 24px rgba(255,122,0,0.18);
+    transition:.3s;
 
 }
 
 .submit-btn:hover{
 
+    opacity:.95;
+
     transform:translateY(-2px);
+
+}
+
+/* =========================
+    RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .add-category-modal{
+
+        padding:20px;
+
+    }
 
 }
 

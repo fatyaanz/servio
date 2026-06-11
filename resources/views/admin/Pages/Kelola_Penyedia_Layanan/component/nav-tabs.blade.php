@@ -10,7 +10,7 @@
             ? 'active'
             : '' }}"
     >
-
+        <i class='bx bx-check-circle'></i>
         Penyedia Aktif
 
         <span>
@@ -28,7 +28,7 @@
             ? 'active'
             : '' }}"
     >
-
+        <i class='bx bx-time-five'></i>
         Pending
 
         <span>
@@ -56,6 +56,9 @@
     position: relative;
     z-index: 1;
 }
+.tab-btn i{
+    font-size:18px;
+}
 
 /* =========================
    TAB BUTTON
@@ -64,11 +67,11 @@
 .tab-btn{
     border: none;
     text-decoration: none;
-    background: #FFFFFF;
+    background:white;
 
     padding: 14px 24px;
 
-    border-radius: 16px;
+    border-radius: 14px;
 
     font-size: 15px;
     font-weight: 600;
@@ -83,17 +86,18 @@
 
     transition: 0.3s ease;
 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    border:1px solid var(--border);
+    box-shadow:none;
 }
 
 /* ACTIVE */
 
 .tab-btn.active{
-    background: linear-gradient(
-        135deg,
-        #FFA63D,
-        #FF8A00
-    );
+    background:linear-gradient(
+    135deg,
+    var(--primary),
+    #ffb347
+);
 
     color: white;
 
@@ -103,17 +107,26 @@
 /* BADGE */
 
 .tab-btn span{
-    background: rgba(255,255,255,0.2);
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 600;
+
+    padding:4px 10px;
+
+    border-radius:999px;
+
+    font-size:12px;
+    font-weight:600;
+
+    background:#FFF4E6;
+
+    color:var(--primary);
 }
 
 /* HOVER */
 
 .tab-btn:hover{
-    transform: translateY(-2px);
+
+    transform:translateY(-2px);
+
+    border-color:var(--primary);
 }
 
 /* =========================

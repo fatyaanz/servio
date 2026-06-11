@@ -3,18 +3,6 @@
 @section('content')
 
 <style>
-
-    *{
-        font-family:'Inter',sans-serif;
-        box-sizing:border-box;
-    }
-
-    html,
-    body{
-        background:#f5f7fb;
-        overflow-y:auto !important;
-    }
-
     /* =========================
         PAGE
     ========================== */
@@ -35,11 +23,10 @@
     }
 
     .dashboard-title h1{
-        font-size:36px;
-        font-weight:800;
-        color:#ff7a00;
+        font-size:32px;
+        font-weight:700;
+        color:var(--primary);
         margin-bottom:6px;
-        letter-spacing:-1px;
     }
 
     .dashboard-title p{
@@ -64,14 +51,13 @@
 
         padding:22px;
 
-        border-radius:24px;
+        border-radius:20px;
 
         background:linear-gradient(135deg,#ff8a00,#ffb347);
 
         color:white;
 
-        box-shadow:
-        0 10px 25px rgba(255,138,0,0.18);
+        box-shadow:var(--shadow-md);
 
         transition:0.3s ease;
     }
@@ -80,37 +66,9 @@
         transform:translateY(-4px);
     }
 
-    .stat-card::before{
-        content:'';
-
-        position:absolute;
-
-        width:130px;
-        height:130px;
-
-        background:rgba(255,255,255,0.10);
-
-        border-radius:50%;
-
-        top:-50px;
-        right:-40px;
-    }
-
-    .stat-card::after{
-        content:'';
-
-        position:absolute;
-
-        width:70px;
-        height:70px;
-
-        background:rgba(255,255,255,0.08);
-
-        border-radius:50%;
-
-        bottom:-20px;
-        right:15px;
-    }
+   .stat-card{
+    min-height:140px;
+}
 
     .stat-label{
         font-size:14px;
@@ -120,8 +78,8 @@
     }
 
     .stat-number{
-        font-size:34px;
-        font-weight:800;
+        font-size:30px;
+        font-weight:700;
         margin:10px 0 8px;
         position:relative;
         z-index:2;
@@ -146,21 +104,12 @@
     }
 
     .table-card{
-        background:white;
-        border-radius:24px;
-        padding:20px;
-
-        border:1px solid #f3f4f6;
-
-        box-shadow:
-        0 6px 20px rgba(15,23,42,0.04);
-
-        transition:0.3s ease;
-    }
-
-    .table-card:hover{
-        transform:translateY(-2px);
-    }
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-sm);
+}
 
     .table-header{
         display:flex;
@@ -170,9 +119,9 @@
     }
 
     .table-header h3{
-        font-size:20px;
-        font-weight:800;
-        color:#1f2937;
+        font-size:18px;
+    font-weight:600;
+    color:var(--text-dark);
     }
 
     .table-header a{
@@ -196,15 +145,21 @@
         text-align:left;
         padding:0 12px 8px;
         font-size:12px;
-        color:#94a3b8;
+        color:var(--text-secondary);
         font-weight:700;
     }
+    .empty-state{
+    text-align:center;
+    color:var(--text-secondary);
+    padding:24px;
+    background:white;
+}
 
     td{
         padding:14px 12px;
         font-size:13px;
         color:#374151;
-        background:#fafafa;
+        background: white;
         transition:0.2s ease;
     }
 
@@ -281,6 +236,24 @@
         }
 
     }
+    .dashboard-date{
+    font-size:14px;
+    color:var(--text-secondary);
+    font-weight:500;
+}
+.stat-card{
+    position:relative;
+}
+
+.stat-icon{
+    position:absolute;
+    top:20px;
+    right:20px;
+
+    font-size:32px;
+
+    opacity:.25;
+}
 
 </style>
 
@@ -291,8 +264,12 @@
     <div class="dashboard-header">
 
         <div class="dashboard-title">
-            <h1>Dashboard</h1>
-            <p>Selamat datang kembali, Admin Servio 👋</p>
+            <h1>Dashboard Admin</h1>
+            <p>Pantau aktivitas dan data layanan Servio.</p>
+        </div>
+
+        <div class="dashboard-date">
+            {{ now()->translatedFormat('l, d F Y') }}
         </div>
 
     </div>
@@ -337,7 +314,9 @@
 
             <div class="table-header">
                 <h3>Penyedia Layanan Terbaru</h3>
-                <a href="#">Lihat semua</a>
+                <a href="{{ url('/admin/providers') }}">
+                    Lihat Semua
+                </a>
             </div>
 
             <table>
@@ -377,7 +356,9 @@
 
             <div class="table-header">
                 <h3>Kategori Layanan</h3>
-                <a href="#">Lihat semua</a>
+                <a href="{{ url('/admin/Kategori_Layanan/categories') }}">
+                    Lihat Semua
+                </a>
             </div>
 
             <table>
@@ -395,9 +376,17 @@
                     <td>{{ $category->providers->count() }}</td>
 
                     <td>
-                        <span class="status active">
-                            Aktif
-                        </span>
+                        @if($provider->status == 'approved')
+                            <td>
+                                <span class="badge badge-success">
+                                    Aktif
+                                </span>
+                            </td>
+                        @else
+                            <span class="badge badge-warning">
+                                Pending
+                            </span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -412,7 +401,9 @@
 
             <div class="table-header">
                 <h3>Approval Penyedia Baru</h3>
-                <a href="#">Lihat semua</a>
+                <a href="{{ url('/admin/providers') }}">
+                    Lihat Semua
+                </a>
             </div>
 
             <table>
@@ -423,19 +414,33 @@
                     <th>Status</th>
                 </tr>
 
+                @if($pendingProviders->isEmpty())
+
+                <tr>
+                    <td colspan="3" class="empty-state">
+                        Belum ada provider yang menunggu approval
+                    </td>
+                </tr>
+
+                @else
+
                 @foreach($pendingProviders as $provider)
+
                 <tr>
                     <td>{{ $provider->name }}</td>
 
                     <td>{{ $provider->email }}</td>
 
                     <td>
-                        <span class="status pending">
+                        <span class="badge badge-warning">
                             Menunggu Approval
                         </span>
                     </td>
                 </tr>
+
                 @endforeach
+
+                @endif
 
             </table>
 
