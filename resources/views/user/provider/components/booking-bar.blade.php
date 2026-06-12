@@ -3,7 +3,7 @@
     <div class="booking-price">
 
         <span class="price-label">
-            Harga mulai dari
+            Estimasi Harga
         </span>
 
         <h3>
@@ -19,7 +19,7 @@
         ) }}"
         class="booking-button"
     >
-        Lihat pilhan layanan
+        Booking Sekarang
     </a>
 
 </div>

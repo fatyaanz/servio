@@ -1,130 +1,87 @@
 <div class="provider-info">
 
-    <div class="provider-card">
+    <div class="provider-top">
 
-        <div class="provider-top">
+        <div class="provider-logo">
 
-            <div class="provider-logo">
+            <img
+                        id="previewPhoto"
+                        src="{{ Auth::user()->profile_photo
+                            ? asset('storage/' . Auth::user()->profile_photo)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)
+                        }}">
 
-                <img
-                    src="{{ $provider->profile_photo
-                        ? asset('storage/'.$provider->profile_photo)
-                        : 'https://ui-avatars.com/api/?name=' . urlencode($provider->name)
-                    }}"
-                    alt="{{ $provider->name }}"
-                >
+        </div>
+
+        <div class="provider-detail">
+
+            <span class="provider-badge">
+                Tepat Waktu
+            </span>
+
+                <h2>
+
+                    {{ $provider->name }}
+
+                </h2>
+
+            <div class="provider-rating">
+
+                <span class="rating-score">
+                    ⭐ 4.9
+                </span>
+
+                <span class="review-count">
+                    120 Ulasan
+                </span>
 
             </div>
 
-            <div class="provider-detail">
-
-                <div class="provider-badges">
-
-                    <span class="provider-badge">
-                        ⭐ Top Rated
-                    </span>
-
-                    <span class="provider-badge success">
-                        ✔ Terverifikasi
-                    </span>
-
-                </div>
-
-                <h2>
-                    {{ $provider->name }}
-                </h2>
-
-                <div class="provider-rating">
-
-                    <span>
-                        ⭐ 4.9
-                    </span>
-
-                    <span>
-                        120 Ulasan
-                    </span>
-
-                    <span>
-                        850+ Order
-                    </span>
-
-                </div>
-
-                <div class="provider-address">
-
-                    <i class='bx bx-map'></i>
-
-                    Jl. Sukabirus No.12, Dayeuhkolot,
-                    Kabupaten Bandung, Jawa Barat
-
-                </div>
-
-                <div class="provider-satisfaction">
-
-                    👍 98% pelanggan puas
-
-                </div>
-
+            <div class="provider-satisfaction">
+                👍 98% Pelanggan puas
             </div>
 
         </div>
 
-        <div class="provider-features">
+    </div>
 
-            <div class="feature-card">
+    <div class="provider-features">
 
-                <i class='bx bx-current-location'></i>
+        <div class="feature-card">
 
-                <div>
-
-                    <h4>5 KM</h4>
-
-                    <span>Dari Lokasi Anda</span>
-
-                </div>
-
+            <div class="feature-icon">
+                📍
             </div>
 
-            <div class="feature-card">
-
-                <i class='bx bx-shield-quarter'></i>
-
-                <div>
-
-                    <h4>2 Bulan</h4>
-
-                    <span>Garansi Servis</span>
-
-                </div>
-
+            <div>
+                <h4>5 km</h4>
+                <span>Dari lokasi Anda</span>
             </div>
 
-            <div class="feature-card">
+        </div>
 
-                <i class='bx bx-time-five'></i>
+        <div class="feature-card">
 
-                <div>
-
-                    <h4>7 Menit</h4>
-
-                    <span>Estimasi Datang</span>
-
-                </div>
-
+            <div class="feature-icon">
+                🛡️
             </div>
 
-            <div class="feature-card">
+            <div>
+                <h4>2 Bulan</h4>
+                <span>Garansi</span>
+            </div>
 
-                <i class='bx bx-check-circle'></i>
+        </div>
 
-                <div>
+        <div class="feature-card">
 
-                    <h4>850+</h4>
+            <div class="feature-icon">
+                ⏰
+            </div>
 
-                    <span>Pekerjaan Selesai</span>
-
-                </div>
-
+            <div>
+                <h4>7 Menit</h4>
+                <span>Estimasi Datang</span>
             </div>
 
         </div>
@@ -135,179 +92,139 @@
 
 <style>
 
+/* =========================
+   PROVIDER INFO
+========================= */
+
 .provider-info{
     max-width:1400px;
+
     margin:0 auto;
+
     padding:0 30px;
 }
 
-.provider-card{
-
-    background:white;
-
-    border-radius:32px;
-
-    padding:32px;
-
-    border:1px solid #eef2f7;
-
-    box-shadow:
-    0 12px 30px rgba(15,23,42,.06);
-
-}
+/* =========================
+   TOP SECTION
+========================= */
 
 .provider-top{
-
     display:flex;
-
-    gap:28px;
-
     align-items:center;
 
+    gap:24px;
 }
 
+/* =========================
+   LOGO
+========================= */
+
 .provider-logo{
-
-    width:180px;
-    height:180px;
-
-    border-radius:28px;
-
-    overflow:hidden;
+    width:170px;
+    height:170px;
 
     flex-shrink:0;
 
-    background:#f8fafc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
+    background:rgba(255,255,255,.85);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:24px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.05);
 }
 
 .provider-logo img{
+    width:100px;
+    height:100px;
 
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
+    object-fit:contain;
 }
+
+/* =========================
+   DETAIL
+========================= */
 
 .provider-detail{
-
     flex:1;
-
-}
-
-.provider-badges{
-
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-
-    margin-bottom:14px;
-
 }
 
 .provider-badge{
+    display:inline-flex;
+    align-items:center;
 
     padding:8px 14px;
 
     border-radius:999px;
 
-    background:#fff3e6;
+    background:#E53935;
 
-    color:#ff8a00;
+    color:white;
 
     font-size:12px;
-
     font-weight:700;
-
-}
-
-.provider-badge.success{
-
-    background:#ecfdf3;
-
-    color:#16a34a;
-
 }
 
 .provider-detail h2{
+    margin:12px 0 10px;
 
-    font-size:38px;
-
+    font-size:32px;
     font-weight:800;
 
-    color:#111827;
+    color:#222;
 
-    margin-bottom:14px;
-
+    line-height:1.3;
 }
 
 .provider-rating{
-
     display:flex;
-
-    gap:18px;
+    align-items:center;
+    gap:10px;
 
     flex-wrap:wrap;
-
-    color:#64748b;
-
-    font-weight:600;
-
-    margin-bottom:14px;
-
 }
 
-.provider-address{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    color:#64748b;
-
-    margin-bottom:14px;
-
-    line-height:1.6;
-
-}
-
-.provider-address i{
-
-    color:#ff8a00;
-
+.rating-score{
     font-size:18px;
+    font-weight:700;
+}
 
+.review-count{
+    color:#888;
+
+    font-size:14px;
+    font-weight:500;
 }
 
 .provider-satisfaction{
+    margin-top:10px;
 
-    color:#16a34a;
+    color:#4CAF50;
 
+    font-size:16px;
     font-weight:700;
-
 }
 
+/* =========================
+   FEATURES
+========================= */
+
 .provider-features{
+    margin-top:28px;
 
     display:grid;
-
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(3,1fr);
 
     gap:18px;
-
-    margin-top:30px;
-
 }
 
 .feature-card{
-
     display:flex;
-
     align-items:center;
 
     gap:14px;
@@ -316,101 +233,112 @@
 
     border-radius:20px;
 
-    background:#fafafa;
+    background:rgba(255,255,255,.85);
 
-    border:1px solid #eef2f7;
+    backdrop-filter:blur(15px);
 
+    border:1px solid rgba(240,138,40,.10);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.04);
+
+    transition:.3s ease;
 }
 
-.feature-card i{
+.feature-card:hover{
+    transform:translateY(-3px);
 
-    font-size:28px;
+    box-shadow:
+        0 12px 25px rgba(240,138,40,.08);
+}
 
-    color:#ff8a00;
-
+.feature-icon{
+    font-size:26px;
 }
 
 .feature-card h4{
-
     margin:0;
 
     font-size:18px;
-
     font-weight:800;
 
-    color:#111827;
-
+    color:#222;
 }
 
 .feature-card span{
+    color:#777;
 
     font-size:13px;
+}
 
-    color:#64748b;
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:1024px){
+
+    .provider-info{
+        padding:0 20px;
+    }
+
+    .provider-detail h2{
+        font-size:28px;
+    }
 
 }
 
-@media(max-width:992px){
-
-    .provider-top{
-
-        flex-direction:column;
-
-        text-align:center;
-
-    }
-
-    .provider-address{
-
-        justify-content:center;
-
-    }
-
-    .provider-rating{
-
-        justify-content:center;
-
-    }
-
-    .provider-features{
-
-        grid-template-columns:repeat(2,1fr);
-
-    }
-
-}
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:768px){
 
     .provider-info{
-
         padding:0 15px;
-
     }
 
-    .provider-card{
+    .provider-top{
+        flex-direction:column;
 
-        padding:24px;
-
+        text-align:center;
     }
 
     .provider-logo{
+        width:150px;
+        height:150px;
+    }
 
-        width:140px;
-        height:140px;
-
+    .provider-logo img{
+        width:90px;
+        height:90px;
     }
 
     .provider-detail h2{
+        font-size:24px;
+    }
 
-        font-size:28px;
-
+    .provider-rating{
+        justify-content:center;
     }
 
     .provider-features{
-
         grid-template-columns:1fr;
+    }
 
+}
+
+/* =========================
+   MOBILE KECIL
+========================= */
+
+@media(max-width:480px){
+
+    .provider-detail h2{
+        font-size:22px;
+    }
+
+    .provider-satisfaction{
+        font-size:14px;
     }
 
 }

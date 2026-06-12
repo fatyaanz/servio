@@ -6,7 +6,10 @@
         class="service-card"
         data-id="{{ $subService->id }}"
     >
+<<<<<<< HEAD
 
+=======
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
         <input
             type="checkbox"
             name="sub_services[]"
@@ -18,9 +21,13 @@
             ✓
         </div>
 
+<<<<<<< HEAD
         <span class="service-badge">
             Populer
         </span>
+=======
+
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
         <div class="service-content">
 
@@ -32,6 +39,7 @@
 
             <p>
 
+<<<<<<< HEAD
                 {{ $subService->description ?? 'Tidak ada deskripsi layanan.' }}
 
             </p>
@@ -45,16 +53,37 @@
                     Rp{{ number_format($subService->price_min, 0, ',', '.') }}
                 @endif
             </div>
+=======
+                {{ $subService->description ?? 'Tidak ada deskripsi' }}
+
+            </p>
+
+            <strong>
+
+                Rp{{ number_format($subService->price_min,0,',','.') }}
+                -
+                Rp{{ number_format($subService->price_max,0,',','.') }}
+
+            </strong>
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
         </div>
 
     </div>
 
+<<<<<<< HEAD
         @empty
 
         <div class="empty-service">
 
             <i class='bx bx-package'></i>
+=======
+    @empty
+
+    <div class="service-card">
+
+        <div class="service-content">
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
             <h3>
 
@@ -70,27 +99,41 @@
 
         </div>
 
+<<<<<<< HEAD
         @endforelse
 
     </div>
 
+=======
+    </div>
+
+    @endforelse
+
+</div>
+
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 <style>
 
 /* =========================
    SERVICE LIST
 ========================= */
 
+<<<<<<< HEAD
 /* =========================
    LIST
 ========================= */
 
 .service-list{
 
+=======
+.service-list{
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
     max-width:1400px;
 
     margin:0 auto;
 
     padding:0 30px;
+<<<<<<< HEAD
 
     display:grid;
 
@@ -99,6 +142,8 @@
 
     gap:20px;
 
+=======
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 /* =========================
@@ -109,6 +154,7 @@
 
     position:relative;
 
+<<<<<<< HEAD
     background:white;
 
     border-radius:24px;
@@ -116,31 +162,65 @@
     padding:22px;
 
     cursor:pointer;
+=======
+    display:flex;
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    margin-bottom:16px;
+
+    cursor:pointer;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.85);
+
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
     border:2px solid transparent;
 
     box-shadow:
+<<<<<<< HEAD
     0 8px 24px rgba(15,23,42,.05);
 
     transition:.3s ease;
 
+=======
+        0 10px 25px rgba(0,0,0,.04);
+
+    transition:.3s ease;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 .service-card:hover{
 
+<<<<<<< HEAD
     transform:translateY(-4px);
+=======
+    transform:translateY(-3px);
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
     border-color:#F08A28;
 
     box-shadow:
+<<<<<<< HEAD
     0 15px 35px rgba(240,138,40,.12);
 
+=======
+        0 15px 30px rgba(240,138,40,.10);
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 .service-card.selected{
 
     border-color:#F08A28;
 
+<<<<<<< HEAD
     background:#FFF8F2;
 
 }
@@ -167,28 +247,106 @@
 
     margin-bottom:16px;
 
+=======
+    background:rgba(255,249,243,.95);
+}
+
+/* =========================
+   CHECKMARK
+========================= */
+
+.service-check{
+
+    position:absolute;
+
+    top:15px;
+    right:15px;
+
+    width:26px;
+    height:26px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#EAEAEA;
+
+    color:white;
+
+    font-size:13px;
+    font-weight:700;
+
+    transition:.3s ease;
+}
+
+.service-card.selected .service-check{
+
+    background:#F08A28;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.service-image{
+
+    width:95px;
+    height:95px;
+
+    flex-shrink:0;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    border:1px solid rgba(240,138,40,.15);
+}
+
+.service-image img{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 /* =========================
    CONTENT
 ========================= */
 
+<<<<<<< HEAD
+=======
+.service-content{
+
+    flex:1;
+}
+
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 .service-content h3{
 
     margin:0;
 
     color:#222;
 
+<<<<<<< HEAD
     font-size:18px;
 
     font-weight:800;
 
     line-height:1.4;
 
+=======
+    font-size:20px;
+    font-weight:800;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 .service-content p{
 
+<<<<<<< HEAD
     margin-top:10px;
 
     color:#777;
@@ -275,12 +433,22 @@
 
     background:#22C55E;
 
+=======
+    margin-top:8px;
+
+    color:#777;
+
+    font-size:14px;
+
+    line-height:1.7;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 }
 
 /* =========================
    TABLET
 ========================= */
 
+<<<<<<< HEAD
 @media(max-width:1200px){
 
     .service-list{
@@ -301,6 +469,12 @@
 
         padding:0 20px;
 
+=======
+@media(max-width:1024px){
+
+    .service-list{
+        padding:0 20px;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
     }
 
 }
@@ -312,11 +486,64 @@
 @media(max-width:768px){
 
     .service-list{
+<<<<<<< HEAD
 
         grid-template-columns:1fr;
 
         padding:0 15px;
 
+=======
+        padding:0 15px;
+    }
+
+    .service-card{
+
+        gap:14px;
+
+        padding:14px;
+    }
+
+    .service-image{
+
+        width:75px;
+        height:75px;
+    }
+
+    .service-content h3{
+
+        font-size:17px;
+    }
+
+    .service-content p{
+
+        font-size:13px;
+    }
+
+    .service-check{
+
+        width:22px;
+        height:22px;
+
+        font-size:11px;
+    }
+
+}
+
+/* =========================
+   MOBILE KECIL
+========================= */
+
+@media(max-width:480px){
+
+    .service-content h3{
+
+        font-size:15px;
+    }
+
+    .service-content p{
+
+        font-size:12px;
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
     }
 
 }

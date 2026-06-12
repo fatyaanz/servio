@@ -1,73 +1,50 @@
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-<div class="statistics-section">
+<div class="provider-statistics">
 
-    <div class="section-title">
+    <div class="stat-card">
 
-        <h3>Statistik Penyedia</h3>
+        <div class="stat-icon">
+            💼
+        </div>
 
-        <p>
-            Ringkasan performa dan pengalaman layanan
-        </p>
+        <h4>250+</h4>
+
+        <p>Pekerjaan Selesai</p>
 
     </div>
 
-    <div class="provider-statistics">
+    <div class="stat-card">
 
-        <div class="stat-card">
-
-            <div class="stat-icon orange">
-
-                <i class='bx bx-briefcase'></i>
-
-            </div>
-
-            <h4>250+</h4>
-
-            <p>Pekerjaan Selesai</p>
-
+        <div class="stat-icon">
+            ⭐
         </div>
 
-        <div class="stat-card">
+        <h4>4.9/5</h4>
 
-            <div class="stat-icon yellow">
+        <p>Rating Rata-rata</p>
 
-                <i class='bx bxs-star'></i>
+    </div>
 
-            </div>
+    <div class="stat-card">
 
-            <h4>4.9/5</h4>
-
-            <p>Rating Rata-rata</p>
-
+        <div class="stat-icon">
+            😊
         </div>
 
-        <div class="stat-card">
+        <h4>98%</h4>
 
-            <div class="stat-icon green">
+        <p>Pelanggan Puas</p>
 
-                <i class='bx bx-happy-heart-eyes'></i>
+    </div>
 
-            </div>
+    <div class="stat-card">
 
-            <h4>98%</h4>
-
-            <p>Pelanggan Puas</p>
-
+        <div class="stat-icon">
+            🕒
         </div>
 
-        <div class="stat-card">
+        <h4>5+ Tahun</h4>
 
-            <div class="stat-icon blue">
-
-                <i class='bx bx-time-five'></i>
-
-            </div>
-
-            <h4>5+ Tahun</h4>
-
-            <p>Pengalaman</p>
-
-        </div>
+        <p>Pengalaman</p>
 
     </div>
 
@@ -76,63 +53,20 @@
 <style>
 
 /* =========================
-   SECTION
+   PROVIDER STATISTICS
 ========================= */
 
-.statistics-section{
-
+.provider-statistics{
     max-width:1400px;
 
     margin:30px auto;
 
     padding:0 30px;
 
-}
-
-/* =========================
-   TITLE
-========================= */
-
-.section-title{
-
-    margin-bottom:20px;
-
-}
-
-.section-title h3{
-
-    margin:0;
-
-    font-size:24px;
-
-    font-weight:800;
-
-    color:#111827;
-
-}
-
-.section-title p{
-
-    margin-top:6px;
-
-    color:#64748B;
-
-    font-size:14px;
-
-}
-
-/* =========================
-   GRID
-========================= */
-
-.provider-statistics{
-
     display:grid;
-
     grid-template-columns:repeat(4,1fr);
 
     gap:18px;
-
 }
 
 /* =========================
@@ -141,19 +75,23 @@
 
 .stat-card{
 
-    background:white;
+    background:rgba(255,255,255,.85);
 
-    border-radius:24px;
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 
-    padding:24px;
+    border-radius:22px;
 
-    border:1px solid #eef2f7;
+    padding:24px 20px;
+
+    text-align:center;
+
+    border:1px solid rgba(240,138,40,.08);
 
     box-shadow:
-    0 8px 24px rgba(15,23,42,.05);
+        0 10px 25px rgba(0,0,0,.04);
 
     transition:.3s ease;
-
 }
 
 .stat-card:hover{
@@ -161,8 +99,7 @@
     transform:translateY(-4px);
 
     box-shadow:
-    0 16px 30px rgba(15,23,42,.08);
-
+        0 15px 30px rgba(240,138,40,.10);
 }
 
 /* =========================
@@ -171,84 +108,48 @@
 
 .stat-icon{
 
-    width:60px;
-    height:60px;
+    width:55px;
+    height:55px;
 
-    border-radius:18px;
+    margin:0 auto 14px;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
-    margin-bottom:18px;
+    border-radius:16px;
 
-}
+    background:rgba(240,138,40,.10);
 
-.stat-icon i{
-
-    font-size:28px;
-
-}
-
-/* COLORS */
-
-.orange{
-
-    background:#FFF4E8;
-
-    color:#FF8A00;
-
-}
-
-.yellow{
-
-    background:#FFF9E8;
-
-    color:#EAB308;
-
-}
-
-.green{
-
-    background:#ECFDF3;
-
-    color:#16A34A;
-
-}
-
-.blue{
-
-    background:#EFF6FF;
-
-    color:#2563EB;
-
+    font-size:26px;
 }
 
 /* =========================
-   TEXT
+   NUMBER
 ========================= */
 
 .stat-card h4{
 
     margin:0;
 
-    font-size:30px;
-
+    font-size:26px;
     font-weight:800;
 
-    color:#111827;
-
+    color:#222;
 }
+
+/* =========================
+   LABEL
+========================= */
 
 .stat-card p{
 
     margin-top:8px;
 
-    font-size:14px;
+    color:#777;
 
-    color:#64748B;
-
+    font-size:13px;
+    font-weight:500;
 }
 
 /* =========================
@@ -257,17 +158,10 @@
 
 @media(max-width:1024px){
 
-    .statistics-section{
+    .provider-statistics{
+        grid-template-columns:repeat(2,1fr);
 
         padding:0 20px;
-
-    }
-
-    .provider-statistics{
-
-        grid-template-columns:
-        repeat(2,1fr);
-
     }
 
 }
@@ -278,30 +172,58 @@
 
 @media(max-width:768px){
 
-    .statistics-section{
-
-        padding:0 15px;
-
-    }
-
     .provider-statistics{
 
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(2,1fr);
 
-        gap:14px;
+        gap:12px;
 
+        padding:0 15px;
     }
 
     .stat-card{
 
-        padding:20px;
+        padding:18px 14px;
+    }
 
+    .stat-icon{
+
+        width:45px;
+        height:45px;
+
+        font-size:22px;
     }
 
     .stat-card h4{
 
-        font-size:24px;
+        font-size:20px;
+    }
 
+    .stat-card p{
+
+        font-size:12px;
+    }
+
+}
+
+/* =========================
+   MOBILE KECIL
+========================= */
+
+@media(max-width:480px){
+
+    .provider-statistics{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat-card h4{
+        font-size:18px;
+    }
+
+    .stat-icon{
+        width:40px;
+        height:40px;
+        font-size:20px;
     }
 
 }

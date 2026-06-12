@@ -1,120 +1,48 @@
-<div class="filter-wrapper">
+<div class="filter-section">
 
-    <div class="filter-info">
+    <button class="filter-btn active">
+        Semua
+    </button>
 
-        <span class="result-count">
-            👨‍🔧 {{ count($providers) }} Penyedia Ditemukan
-        </span>
+    <button class="filter-btn">
+        Rating Tertinggi
+    </button>
 
-    </div>
+    <button class="filter-btn">
+        Paling Murah
+    </button>
 
-    <div class="filter-section">
-
-        <button class="filter-btn active">
-            ✨ Semua
-        </button>
-
-        <button class="filter-btn">
-            ⭐ Rating Tertinggi
-        </button>
-
-        <button class="filter-btn">
-            💰 Paling Murah
-        </button>
-
-        <button class="filter-btn">
-            📍 Terdekat
-        </button>
-
-    </div>
+    <button class="filter-btn">
+        Terdekat
+    </button>
 
 </div>
 
 <style>
 
 /* =========================
-   WRAPPER
+   FILTER SECTION
 ========================= */
 
-.filter-wrapper{
-
-    position:sticky;
-
-    top:15px;
-
-    z-index:100;
+.filter-section{
 
     max-width:1400px;
 
     margin:0 auto 25px;
 
-    padding:0 30px;
-
-}
-
-/* =========================
-   INFO
-========================= */
-
-.filter-info{
-
-    margin-bottom:12px;
-
-}
-
-.result-count{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    padding:8px 14px;
-
-    border-radius:999px;
-
-    background:#FFF4E8;
-
-    color:#FF8A00;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-/* =========================
-   FILTER CONTAINER
-========================= */
-
-.filter-section{
+    padding:10px 30px;
 
     display:flex;
-
     align-items:center;
 
-    gap:12px;
+    gap:14px;
 
     overflow-x:auto;
+    overflow-y:visible;
 
     scrollbar-width:none;
 
     -webkit-overflow-scrolling:touch;
-
-    padding:8px;
-
-    border-radius:24px;
-
-    background:rgba(255,255,255,.85);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.6);
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,.05);
-
 }
 
 .filter-section::-webkit-scrollbar{
@@ -122,7 +50,7 @@
 }
 
 /* =========================
-   BUTTON
+   FILTER BUTTON
 ========================= */
 
 .filter-btn{
@@ -131,46 +59,44 @@
 
     border:none;
 
-    background:white;
+    background:#ffffff;
 
-    color:#64748B;
+    color:#D98A3A;
 
-    padding:12px 20px;
+    padding:14px 26px;
 
     border-radius:999px;
 
-    font-size:14px;
+    font-size:15px;
+    font-weight:700;
 
-    font-weight:600;
+    white-space:nowrap;
 
     cursor:pointer;
 
-    transition:.25s ease;
+    border:1px solid rgba(240,138,40,.18);
 
-    border:1px solid #E5E7EB;
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.04);
 
+    transition:all .3s ease;
 }
-
-/* HOVER */
 
 .filter-btn:hover{
 
     transform:translateY(-2px);
 
-    border-color:#FF8A00;
+    border-color:#F08A28;
 
-    color:#FF8A00;
-
+    color:#F08A28;
 }
-
-/* ACTIVE */
 
 .filter-btn.active{
 
     background:linear-gradient(
         135deg,
-        #FFA63D,
-        #FF8A00
+        #F08A28,
+        #FFB04D
     );
 
     color:white;
@@ -178,8 +104,7 @@
     border:none;
 
     box-shadow:
-    0 8px 20px rgba(255,138,0,.20);
-
+        0 10px 25px rgba(240,138,40,.25);
 }
 
 /* =========================
@@ -188,8 +113,8 @@
 
 @media(max-width:1024px){
 
-    .filter-wrapper{
-        padding:0 20px;
+    .filter-section{
+        padding:10px 20px;
     }
 
 }
@@ -200,22 +125,33 @@
 
 @media(max-width:768px){
 
-    .filter-wrapper{
-        padding:0 15px;
+    .filter-section{
+
+        padding:10px 15px;
+
+        gap:10px;
     }
 
     .filter-btn{
 
-        padding:11px 16px;
+        padding:12px 22px;
 
-        font-size:13px;
-
+        font-size:14px;
     }
 
-    .result-count{
+}
 
-        font-size:12px;
+/* =========================
+   MOBILE KECIL
+========================= */
 
+@media(max-width:480px){
+
+    .filter-btn{
+
+        padding:11px 18px;
+
+        font-size:13px;
     }
 
 }

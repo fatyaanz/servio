@@ -19,6 +19,7 @@ use App\Http\Controllers\Provider\PesananController;
 use App\Http\Controllers\Provider\DamageReportController;
 use App\Http\Controllers\Provider\DiagnosisProdukController;
 use App\Http\Controllers\Provider\DiagnosisController;
+use App\Http\Controll<<<<<<< HEAD
 use App\Http\Controllers\AiDiagnosisController;
 
 use App\Http\Controllers\UserDiagnosisController;
@@ -37,6 +38,8 @@ Route::post(
 )->name('diagnosis.analyze');
 
 
+=======
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 
 use App\Http\Controllers\Provider\DashboardController as ProviderDashboardController;
 /*
@@ -348,8 +351,14 @@ Route::get(
     [SubLayananController::class, 'index']
 )->name('pilih.layanan');
 
+<<<<<<< HEAD
 
 
+=======
+Route::get('/diagnosis', function () {
+    return view('user.diagnosis.diagnosis-form');
+})->name('diagnosis.form');
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 Route::get('/diagnosis-result', function () {
     return view('user.diagnosis.diagnosis-result');
 })->name('diagnosis.result');
@@ -477,9 +486,12 @@ Route::delete(
 //     [SparepartController::class, 'destroy']
 // )->name('provider.sparepart.destroy');
 
+<<<<<<< HEAD
 // ✅ KODE YANG BENAR (Samakan penamaannya agar sesuai dengan pemfanggilan di Blade):
 
 
+=======
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
 Route::post(
     '/provider/diagnosis-produk/store',
     [DiagnosisProdukController::class, 'store']
@@ -559,6 +571,7 @@ Route::get(
 Route::get(
     '/provider/dashboard',
     [ProviderDashboardController::class, 'index']
+<<<<<<< HEAD
 )->name('provider.dashboard');
 
 
@@ -569,3 +582,6 @@ Route::get(
 );
 
 
+=======
+)->name('provider.dashboard');
+>>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c

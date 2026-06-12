@@ -1,133 +1,37 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {{ $provider->name }} | Servio
-    </title>
+    <title>Detail Penyedia Layanan</title>
 </head>
 <body>
 
-<div class="provider-detail-page">
 
-    {{-- HEADER --}}
-    @include(
-        'user.provider.components.provider-header',
+
+    {{-- Header --}}
+    @include('user.provider.components.provider-header')
+
+    {{-- Informasi Provider --}}
+   @include(
+        'user.provider.components.provider-info',
         ['provider' => $provider]
     )
 
-    <div class="provider-container">
+    {{-- Tentang Provider --}}
+    @include('user.provider.components.provider-about')
 
-        {{-- INFO --}}
-        @include(
-            'user.provider.components.provider-info',
-            ['provider' => $provider]
-        )
+    {{-- Statistik --}}
+    @include('user.provider.components.provider-statistics')
 
-        {{-- ABOUT --}}
-        @include(
-            'user.provider.components.provider-about',
-            ['provider' => $provider]
-        )
+    {{-- Review --}}
+    @include('user.provider.components.provider-review')
 
-        {{-- STATISTICS --}}
-        @include(
-            'user.provider.components.provider-statistics',
-            ['provider' => $provider]
-        )
-
-        {{-- REVIEW --}}
-        @include(
-            'user.provider.components.provider-review',
-            ['provider' => $provider]
-        )
-
-    </div>
-
-    {{-- BOOKING BAR --}}
+    {{-- Booking Bar --}}
     @include(
         'user.provider.components.booking-bar',
         ['provider' => $provider]
     )
 
-</div>
-
 </body>
 </html>
-
-<style>
-
-/* =========================
-   PAGE
-========================= */
-
-.provider-detail-page{
-
-    min-height:100vh;
-
-    background:#f8fafc;
-
-    padding-bottom:120px;
-
-}
-
-/* =========================
-   CONTAINER
-========================= */
-
-.provider-container{
-
-    max-width:1400px;
-
-    margin:0 auto;
-
-    padding:0 30px;
-
-}
-
-/* =========================
-   SECTION SPACING
-========================= */
-
-.provider-container > *{
-
-    margin-bottom:24px;
-
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media(max-width:1024px){
-
-    .provider-container{
-
-        padding:0 20px;
-
-    }
-
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:768px){
-
-    .provider-container{
-
-        padding:0 15px;
-
-    }
-
-    .provider-detail-page{
-
-        padding-bottom:140px;
-
-    }
-
-}
-
-</style>
