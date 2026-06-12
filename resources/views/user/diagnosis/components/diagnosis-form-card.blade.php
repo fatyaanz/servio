@@ -1,28 +1,9 @@
 <div class="diagnosis-container">
 
-<<<<<<< HEAD
     <a href="{{ url()->previous() }}" class="back-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-=======
-    <a href="{{ route('pilih.layanan') }}" class="back-btn">
-
-        <svg width="20"
-             height="20"
-             viewBox="0 0 24 24"
-             fill="none">
-
-            <path
-                d="M15 18L9 12L15 6"
-                stroke="currentColor"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"/>
-
-        </svg>
-
->>>>>>> 90255ac1f636f41656c0c3977bcb05e2bd35c16c
     </a>
 
     <div class="diagnosis-card">
