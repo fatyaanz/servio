@@ -109,62 +109,20 @@ $totalMax =
 
         </div>
 
-        <div class="order-actions">
+        <div class="order-actions" style="flex: 1; display: flex; justify-content: flex-end;">
 
-            @if($booking->status == 'pending')
-
-                <form
-                    action="{{ route(
-                        'provider.booking.reject',
-                        $booking->id
-                    ) }}"
-                    method="POST"
-                    style="flex:1"
-                >
-
-                    @csrf
-
-                    <button
-                        type="submit"
-                        class="reject-btn"
-                    >
-
-                        Tolak
-
-                    </button>
-
-                </form>
-
-                <form
-                    action="{{ route('provider.booking.accept', $booking->id) }}"
-                    method="POST"
-                    style="flex:1"
-                >
-
-                    @csrf
-
-                    <button
-                        type="submit"
-                        class="accept-btn"
-                    >
-                        Terima
-                    </button>
-
-                </form>
-
-            @else
-
-                <a
-                    href="{{ route(
-                        'provider.detail-pesanan',
-                        $booking->id
-                    ) }}"
-                    class="accept-btn"
-                >
-                    Lihat Detail →
-                </a>
-
-            @endif
+            {{-- 
+               Hapus semua kode @if @else yang lama. 
+               Cukup sisakan satu tombol ini aja supaya semua status (pending/approved) 
+               mempunyai tombol yang sama, yaitu masuk ke halaman detail dulu.
+            --}}
+            <a 
+                href="{{ route('provider.detail-pesanan', $booking->id) }}" 
+                class="accept-btn"
+                style="width: 100%; max-width: 200px;"
+            >
+                Lihat Detail →
+            </a>
 
         </div>
 
