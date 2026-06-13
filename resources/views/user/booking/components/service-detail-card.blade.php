@@ -63,17 +63,7 @@ $category =
 
             </div>
 
-            <div class="detail-row">
 
-                <span class="detail-label">
-                    Deskripsi Masalah
-                </span>
-
-                <span class="detail-value">
-                    AC tidak dingin
-                </span>
-
-            </div>
 
         </div>
 

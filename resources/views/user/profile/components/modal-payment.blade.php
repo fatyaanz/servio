@@ -18,24 +18,27 @@
 
         </div>
 
-        <!-- E-WALLET -->
-
-        <div class="payment-item">
+        {{-- ServioPay --}}
+        <div class="payment-item" style="border-color: rgba(240,138,40,.3); background: #FFFBF5;">
 
             <div class="payment-info">
 
-                <span class="payment-icon">
-                    🟣
+                <span class="payment-icon" style="background:#FFF3E0;">
+                    🟠
                 </span>
 
                 <div>
 
                     <h4>
-                        DANA
+                        ServioPay Wallet
                     </h4>
 
                     <p>
-                        081234567890
+                        {{ Auth::user()->phone ?? 'Nomor belum diatur' }}
+                    </p>
+
+                    <p style="margin-top:4px; color:#F08A28; font-weight:700; font-size:14px;">
+                        Saldo: Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}
                     </p>
 
                 </div>
@@ -43,67 +46,17 @@
             </div>
 
             <span class="active-badge">
-
                 Aktif
-
             </span>
 
         </div>
 
-        <div class="payment-item">
-
-            <div class="payment-info">
-
-                <span class="payment-icon">
-                    🟢
-                </span>
-
-                <div>
-
-                    <h4>
-                        GoPay
-                    </h4>
-
-                    <p>
-                        081234567890
-                    </p>
-
-                </div>
-
-            </div>
-
+        <div style="background:#F9FAFB; border-radius:14px; padding:16px; margin-top:8px; font-size:13px; color:#888; line-height:1.7;">
+            💡 <strong>ServioPay</strong> adalah dompet digital bawaan Servio. Semua pembayaran booking dilakukan melalui ServioPay. Isi saldo melalui halaman Profil.
         </div>
 
-        <!-- BANK -->
-
-        <div class="payment-item">
-
-            <div class="payment-info">
-
-                <span class="payment-icon">
-                    🏦
-                </span>
-
-                <div>
-
-                    <h4>
-                        BCA
-                    </h4>
-
-                    <p>
-                        **** 1234
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <button class="add-payment-btn">
-
-            + Tambah Metode Pembayaran
-
+        <button class="add-payment-btn" onclick="closePaymentModal()">
+            Tutup
         </button>
 
     </div>

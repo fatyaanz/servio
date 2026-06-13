@@ -8,125 +8,73 @@
             Order aktif
         </h2>
 
-        <a href="#">
+        <a href="{{ route('provider.pesanan') }}">
             Lihat semua
         </a>
 
     </div>
 
-    <!-- ITEM -->
+    <!-- ITEM LOOP -->
+    @forelse($activeBookings as $booking)
+        @php
+            $statusLabels = [
+                'accepted' => 'Disetujui',
+                'on_the_way' => 'Perjalanan',
+                'diagnosis' => 'Diagnosa',
+                'waiting_approval' => 'Estimasi',
+                'working' => 'Dikerjakan',
+                'payment' => 'Pembayaran'
+            ];
+            $label = $statusLabels[$booking->status] ?? ucfirst(str_replace('_', ' ', $booking->status));
+        @endphp
+        
+        <a href="{{ route('provider.detail-pesanan', $booking->id) }}" class="active-order-card" style="text-decoration: none;">
 
-    <div class="active-order-card">
+            <div class="active-left">
 
-        <div class="active-left">
+                <div class="service-icon">
+                    🛠️
+                </div>
 
-            <div class="service-icon">
-                🖥️
+                <div class="service-info">
+
+                    <h3>
+                        {{ $booking->subServices->first()?->providerService?->category?->name ?? 'Layanan' }}
+                    </h3>
+
+                    <p>
+                        {{ $booking->customer->name }} • #{{ $booking->formatted_id }}
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="service-info">
+            <div class="active-right">
 
-                <h3>
-                    Service AC
-                </h3>
+                <div class="status-badge" style="background: 
+                    @if($booking->status == 'accepted') #e0f2fe; color: #0369a1;
+                    @elseif($booking->status == 'on_the_way') #f0fdf4; color: #15803d;
+                    @elseif($booking->status == 'diagnosis') #f3e8ff; color: #7e22ce;
+                    @elseif($booking->status == 'waiting_approval') #fff7ed; color: #c2410c;
+                    @elseif($booking->status == 'working') #f0fdf4; color: #166534;
+                    @else #fff8df; color: #d4a300;
+                    @endif">
+                    {{ $label }}
+                </div>
 
-                <p>
-                    Budi Santoso • #AsV-213413-0092
-                </p>
+                <span>
+                    {{ substr($booking->booking_time, 0, 5) }} WIB
+                </span>
 
             </div>
 
+        </a>
+    @empty
+        <div class="active-order-card" style="justify-content: center; padding: 25px; color: #888;">
+            Belum ada order aktif saat ini.
         </div>
-
-        <div class="active-right">
-
-            <div class="status-badge">
-                ⏳ Menunggu Konfirmasi
-            </div>
-
-            <span>
-                10.00
-            </span>
-
-        </div>
-
-    </div>
-
-    <!-- ITEM -->
-
-    <div class="active-order-card">
-
-        <div class="active-left">
-
-            <div class="service-icon">
-                🖥️
-            </div>
-
-            <div class="service-info">
-
-                <h3>
-                    Service AC
-                </h3>
-
-                <p>
-                    Budi Santoso • #AsV-213413-0092
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="active-right">
-
-            <div class="status-badge">
-                ⏳ Menunggu Konfirmasi
-            </div>
-
-            <span>
-                10.00
-            </span>
-
-        </div>
-
-    </div>
-
-    <!-- ITEM -->
-
-    <div class="active-order-card">
-
-        <div class="active-left">
-
-            <div class="service-icon">
-                🖥️
-            </div>
-
-            <div class="service-info">
-
-                <h3>
-                    Service AC
-                </h3>
-
-                <p>
-                    Budi Santoso • #AsV-213413-0092
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="active-right">
-
-            <div class="status-badge">
-                ⏳ Menunggu Konfirmasi
-            </div>
-
-            <span>
-                10.00
-            </span>
-
-        </div>
-
-    </div>
+    @endforelse
 
 </div>
 

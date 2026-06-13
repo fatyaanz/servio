@@ -41,14 +41,16 @@
         {{-- SEARCH --}}
         @include('user.home.components.search-bar')
 
+        {{-- ACTIVE BOOKING --}}
+        @if($activeBooking)
+            @include('user.home.components.active-booking', ['booking' => $activeBooking])
+        @endif
+
         {{-- CATEGORY --}}
         @include(
             'user.home.components.category-section',
             ['categories' => $categories]
         )
-
-        {{-- PROMO --}}
-        @include('user.home.components.promo-section')
 
         {{-- FREQUENTLY SEARCHED --}}
         @include('user.home.components.frequently-searched-section')

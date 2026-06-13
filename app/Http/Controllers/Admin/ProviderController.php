@@ -13,7 +13,7 @@ class ProviderController extends Controller
     {
         $status = $request->get('status', 'approved');
 
-        $providers = User::where('role', 'provider');
+        $providers = User::where('role', 'provider')->with(['categories', 'providerReviews']);
 
         if ($status == 'approved') {
             $providers->where('status', 'active');

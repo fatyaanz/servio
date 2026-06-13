@@ -20,6 +20,10 @@ class DiagnosisController extends Controller
             $request->diagnosis_id
         );
 
+        if ($diagnosis->booking->status !== 'diagnosis') {
+            return back()->with('error', 'Biaya jasa tidak dapat diubah setelah estimasi dikirim.');
+        }
+
         $diagnosis->update([
             'service_fee' => $request->service_fee
         ]);

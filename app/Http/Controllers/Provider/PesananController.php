@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Sparepart;
 use App\Models\Produk;
 use App\Models\Diagnosis;
+use App\Models\Notification;
 
 class PesananController extends Controller
 {
@@ -17,7 +18,9 @@ class PesananController extends Controller
             'subServices',
             'diagnosis.damageReports',
             'diagnosis.produks'
-        ])->findOrFail($id);
+        ])
+        ->where('provider_id', auth()->id())
+        ->findOrFail($id);
 
         $produks = Produk::all();
 
@@ -36,6 +39,7 @@ class PesananController extends Controller
             'customer',
             'subServices'
         ])
+        ->where('provider_id', auth()->id())
         ->whereNotIn(
             'status',
             [
@@ -62,18 +66,36 @@ class PesananController extends Controller
             'status' => 'accepted'
         ]);
 
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Pesanan Diterima',
+            'message' => 'Pesanan ' . $booking->formatted_id . ' Anda telah diterima oleh penyedia jasa ' . auth()->user()->name . '.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
         return back();
     }
 
     public function reject($id)
-{
-    $booking = Booking::findOrFail($id);
+    {
+        $booking = Booking::findOrFail($id);
 
-    $booking->update([
-        'status' => 'cancelled'
-    ]);
+        $booking->update([
+            'status' => 'cancelled'
+        ]);
 
-    return back()->with(
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Pesanan Ditolak',
+            'message' => 'Pesanan ' . $booking->formatted_id . ' Anda telah ditolak oleh penyedia jasa.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
+        return back()->with(
             'success',
             'Pesanan berhasil ditolak'
         );
@@ -87,6 +109,15 @@ class PesananController extends Controller
             'status' => 'on_the_way'
         ]);
 
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Penyedia Jasa dalam Perjalanan',
+            'message' => 'Penyedia jasa ' . auth()->user()->name . ' sedang menuju ke lokasi Anda.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
         return back();
     }
 
@@ -98,18 +129,27 @@ class PesananController extends Controller
             'status' => 'diagnosis'
         ]);
 
-       Diagnosis::firstOrCreate(
-    [
-        'booking_id' => $booking->id
-    ],
-    [
-        'description' => '-',
-        'service_fee' => 0,
-        'status' => 'draft'
-    ]
-);
+        Diagnosis::firstOrCreate(
+            [
+                'booking_id' => $booking->id
+            ],
+            [
+                'description' => '-',
+                'service_fee' => 0,
+                'status' => 'draft'
+            ]
+        );
 
-            return back();
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Penyedia Jasa Telah Sampai',
+            'message' => 'Penyedia jasa ' . auth()->user()->name . ' telah sampai di lokasi dan mulai melakukan diagnosa.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
+        return back();
     }
 
     public function startWork($id)
@@ -120,21 +160,71 @@ class PesananController extends Controller
             'status' => 'working'
         ]);
 
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Perbaikan Dimulai',
+            'message' => 'Penyedia jasa mulai melakukan pengerjaan/perbaikan pada pesanan ' . $booking->formatted_id . '.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
         return back();
     }
 
-    public function sendEstimation($id)
+    public function sendEstimation(\Illuminate\Http\Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
+        $location = $request->input('customer_location', 'outside');
 
-        $booking->update([
-            'status' => 'waiting_approval'
-        ]);
+        if ($location === 'inside') {
+            $booking->update([
+                'status' => 'working'
+            ]);
 
-        return back()->with(
-            'success',
-            'Estimasi berhasil dikirim'
-        );
+            // Auto-approve all recommended spare parts if customer is inside the house
+            if ($booking->diagnosis) {
+                $productIds = $booking->diagnosis->produks->pluck('id')->toArray();
+                if (!empty($productIds)) {
+                    $booking->diagnosis->produks()->updateExistingPivot(
+                        $productIds,
+                        ['is_selected' => true]
+                    );
+                }
+            }
+
+            Notification::create([
+                'user_id' => $booking->customer_id,
+                'title' => 'Perbaikan Langsung Dimulai',
+                'message' => 'Estimasi perbaikan ' . $booking->formatted_id . ' telah disimpan dan pengerjaan langsung dimulai karena Anda berada di lokasi.',
+                'type' => 'status_updated',
+                'booking_id' => $booking->id,
+                'is_read' => false
+            ]);
+
+            return back()->with(
+                'success',
+                'Estimasi disimpan & pekerjaan langsung dimulai.'
+            );
+        } else {
+            $booking->update([
+                'status' => 'waiting_approval'
+            ]);
+
+            Notification::create([
+                'user_id' => $booking->customer_id,
+                'title' => 'Estimasi Biaya Dikirim',
+                'message' => 'Estimasi biaya untuk perbaikan ' . $booking->formatted_id . ' telah dikirim. Harap periksa dan berikan persetujuan Anda.',
+                'type' => 'status_updated',
+                'booking_id' => $booking->id,
+                'is_read' => false
+            ]);
+
+            return back()->with(
+                'success',
+                'Estimasi berhasil dikirim'
+            );
+        }
     }
 
     public function finishWork($id)
@@ -145,18 +235,29 @@ class PesananController extends Controller
             'status' => 'payment'
         ]);
 
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Pekerjaan Selesai & Menunggu Pembayaran',
+            'message' => 'Perbaikan pesanan ' . $booking->formatted_id . ' telah selesai. Silakan lakukan pembayaran.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
         return back()->with(
             'success',
             'Perbaikan selesai'
         );
     }
 
- public function riwayat()
+    public function riwayat()
     {
         $bookings = Booking::with([
             'customer',
-            'subServices'
+            'subServices',
+            'review'
         ])
+        ->where('provider_id', auth()->id())
         ->whereIn(
             'status',
             [

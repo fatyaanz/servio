@@ -1,7 +1,21 @@
 <div class="chat-body">
-
-    @include('user.chat.components.message-bubble')
-
+    @if($messages->isEmpty())
+        <div style="text-align: center; padding: 40px; color: #888;">
+            <span style="font-size: 40px;">💬</span>
+            <p style="margin-top: 15px; font-weight: 600;">Belum ada pesan. Silakan ketik pesan di bawah untuk memulai percakapan.</p>
+        </div>
+    @else
+        @foreach($messages as $msg)
+            <div class="message {{ $msg->sender_id == Auth::id() ? 'sent' : 'received' }}">
+                <div class="bubble">
+                    {{ $msg->message }}
+                    <span class="time">
+                        {{ $msg->created_at->format('H:i') }}
+                    </span>
+                </div>
+            </div>
+        @endforeach
+    @endif
 </div>
 
 <style>

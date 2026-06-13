@@ -19,8 +19,21 @@ class Booking extends Model
         'booking_date',
         'booking_time',
         'notes',
-        'status'
+        'status',
+        'damage_description',
+        'damage_photo',
+        'latitude',
+        'longitude'
     ];
+
+    protected $casts = [
+        'damage_photo' => 'array',
+    ];
+
+    public function getFormattedIdAttribute()
+    {
+        return 'SV-' . str_pad($this->id, 5, '0', STR_PAD_LEFT);
+    }
 
     public function customer()
     {
@@ -56,6 +69,27 @@ class Booking extends Model
     {
         return $this->hasMany(
             DamageReport::class
+        );
+    }
+
+    public function review()
+    {
+        return $this->hasOne(
+            Review::class
+        );
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(
+            Message::class
+        );
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(
+            Transaction::class
         );
     }
 }

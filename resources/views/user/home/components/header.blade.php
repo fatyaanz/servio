@@ -17,7 +17,7 @@
             <span class="location-icon">📍</span>
 
             <span class="location-text">
-                Bandung
+                {{ auth()->check() && auth()->user()->city ? auth()->user()->city : 'Bandung' }}
             </span>
 
             <svg class="dropdown-icon"
@@ -37,9 +37,17 @@
 
         </div>
 
-        <div class="notification">
+        <a href="{{ route('notifications.index') }}" class="notification" style="text-decoration: none; position: relative;">
             🔔
-        </div>
+            @php
+                $unreadNotifCount = auth()->check() ? \App\Models\Notification::where('user_id', auth()->id())->where('is_read', false)->count() : 0;
+            @endphp
+            @if($unreadNotifCount > 0)
+                <span class="notif-badge" style="position: absolute; top: -5px; right: -5px; background: #EF4444; color: white; border-radius: 50%; font-size: 10px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: bold; line-height: 1;">
+                    {{ $unreadNotifCount }}
+                </span>
+            @endif
+        </a>
 
     </div>
 
@@ -208,3 +216,63 @@
 }
 
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function getMyLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+                        const data = await response.json();
+                        if (data && data.address) {
+                            const city = data.address.city || data.address.town || data.address.municipality || data.address.village || data.address.suburb || "Bandung";
+                            const fullAddress = data.display_name;
+                            
+                            const locationEl = document.querySelector('.location-text');
+                            if (locationEl) {
+                                locationEl.textContent = city;
+                            }
+                            
+                            // Send coordinates to backend to make it connect (nyambung)
+                            await fetch("{{ route('user.update-location') }}", {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({
+                                    latitude: lat,
+                                    longitude: lon,
+                                    address: fullAddress,
+                                    city: city
+                                })
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Gagal mendapatkan info lokasi:", error);
+                    }
+                },
+                function(error) {
+                    console.log("Izin lokasi tidak diberikan atau gagal:", error.message);
+                }
+            );
+        }
+    }
+    
+    // Automatically trigger on load
+    getMyLocation();
+
+    // Trigger on clicking location badge too
+    const locationBtn = document.querySelector('.location');
+    if (locationBtn) {
+        locationBtn.addEventListener('click', function() {
+            getMyLocation();
+        });
+    }
+});
+</script>

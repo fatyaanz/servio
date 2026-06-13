@@ -7,7 +7,7 @@
         </span>
 
         <span class="summary-price">
-            Rp100.000 - Rp200.000
+            Rp{{ number_format($subServices->sum('price_min'),0,',','.') }} - Rp{{ number_format($subServices->sum('price_max'),0,',','.') }}
         </span>
 
     </div>

@@ -21,14 +21,15 @@
 
         <div class="action-group">
 
-            <button
-                type="button"
+            <a
+                href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
                 class="secondary-btn"
+                style="text-decoration: none;"
             >
 
                 💬 Chat Teknisi
 
-            </button>
+            </a>
 
         </div>
 
@@ -45,6 +46,16 @@
 
             </button>
 
+            <a
+                href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+                class="secondary-btn"
+                style="text-decoration: none;"
+            >
+
+                💬 Chat
+
+            </a>
+
         </div>
 
     @elseif($booking->status == 'diagnosis')
@@ -60,6 +71,16 @@
                 🔍 Teknisi Sedang Diagnosis
 
             </button>
+
+            <a
+                href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+                class="secondary-btn"
+                style="text-decoration: none;"
+            >
+
+                💬 Chat
+
+            </a>
 
         </div>
 
@@ -107,6 +128,14 @@
 
         </form>
 
+        <a
+            href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+            class="secondary-btn"
+            style="text-decoration: none; width: auto; flex: unset; padding: 0 20px;"
+        >
+            💬 Chat
+        </a>
+
     </div>
 
     @elseif($booking->status == 'approved')
@@ -122,6 +151,14 @@
             ⏳ Menunggu Teknisi Memulai Perbaikan
 
         </button>
+
+        <a
+            href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+            class="secondary-btn"
+            style="text-decoration: none;"
+        >
+            💬 Chat
+        </a>
 
     </div>
 
@@ -139,6 +176,16 @@
 
             </button>
 
+            <a
+                href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+                class="secondary-btn"
+                style="text-decoration: none;"
+            >
+
+                💬 Chat
+
+            </a>
+
         </div>
 
     @elseif($booking->status == 'payment')
@@ -152,6 +199,7 @@
             ) }}"
             method="POST"
             class="action-form"
+            style="flex: 2;"
         >
 
             @csrf
@@ -167,20 +215,43 @@
 
         </form>
 
+        <a
+            href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"
+            class="secondary-btn"
+            style="flex: 1; text-decoration: none;"
+        >
+
+            💬 Chat
+
+        </a>
+
     </div>
 
     @elseif($booking->status == 'completed')
 
         <div class="action-group">
 
-            <button
-                type="button"
-                class="success-btn"
-            >
+            @if(!$booking->review)
+                <button
+                    type="button"
+                    class="success-btn"
+                    onclick="openReviewModal()"
+                >
 
-                ⭐ Beri Ulasan
+                    ⭐ Beri Ulasan
 
-            </button>
+                </button>
+            @else
+                <button
+                    type="button"
+                    class="success-btn"
+                    disabled
+                >
+
+                    ✓ Sudah Diulas
+
+                </button>
+            @endif
 
             <button
                 type="button"

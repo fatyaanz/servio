@@ -1,3 +1,12 @@
+@if(!isset($activeUser) || !$activeUser)
+<div class="chat-room" style="align-items: center; justify-content: center; background: #fafafa; display: flex;">
+    <div style="text-align: center; padding: 40px; color: #888;">
+        <span style="font-size: 60px; display: block; margin-bottom: 20px;">💬</span>
+        <h3 style="margin: 0; color: #333; font-size: 18px; font-weight: 700;">Mulai Percakapan</h3>
+        <p style="margin-top: 8px; font-size: 14px; color: #777;">Pilih salah satu pelanggan dari sidebar untuk mulai berkirim pesan.</p>
+    </div>
+</div>
+@else
 <div class="chat-room">
 
     <!-- HEADER -->
@@ -6,14 +15,14 @@
 
         <div class="room-user">
 
-            <div class="room-avatar">
-                👨
+            <div class="room-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 16px;">
+                <img src="{{ $activeUser->profile_photo ? asset('storage/' . $activeUser->profile_photo) : 'https://ui-avatars.com/api/?name=' . urlencode($activeUser->name) }}" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
 
             <div class="room-info">
 
                 <h3>
-                    Budi
+                    {{ $activeUser->name }}
                 </h3>
 
                 <p>
@@ -24,54 +33,74 @@
 
         </div>
 
-        <button class="more-btn">
-            ⋮
-        </button>
-
     </div>
+
+    <!-- BOOKING CONTEXT CARD (Provider) -->
+    @if($booking)
+    <div class="booking-context-card" style="padding: 12px 20px; background: #FFF8F2; border-bottom: 1px solid rgba(240, 138, 40, 0.15); display: flex; align-items: center; justify-content: space-between; gap: 15px; box-sizing: border-box;">
+        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+            <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFF0E0; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🛠️</div>
+            <div style="min-width: 0;">
+                <h4 style="margin: 0; font-size: 13px; color: #222; font-weight: 700;">Order #{{ $booking->formatted_id }}</h4>
+                <p style="margin: 3px 0 0; font-size: 11px; color: #666; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ $booking->subServices->pluck('name')->join(', ') }} • 
+                    <span style="color: #F08A28; font-weight: 700; text-transform: uppercase; font-size: 9px;">{{ str_replace('_', ' ', $booking->status) }}</span>
+                </p>
+            </div>
+        </div>
+        <a href="{{ route('provider.detail-pesanan', $booking->id) }}" style="text-decoration: none; padding: 6px 14px; background: #F08A28; color: white; border-radius: 8px; font-size: 11px; font-weight: 700; transition: .2s; flex-shrink: 0; box-shadow: 0 4px 10px rgba(240,138,40,0.15);">
+            Detail Order
+        </a>
+    </div>
+    @endif
 
     <!-- BODY -->
 
     <div class="chat-body">
 
-        <div class="message other-message">
+        @if($messages->isEmpty())
+            <div style="text-align: center; padding: 40px; color: #888; margin: auto;">
+                <p style="font-weight: 600;">Belum ada pesan. Kirim pesan pertama untuk memulai!</p>
+            </div>
+        @else
+            @foreach($messages as $msg)
+                <div class="message {{ $msg->sender_id == Auth::id() ? 'my-message' : 'other-message' }}">
 
-            Halo kak, service AC nya bisa hari ini?
+                    {{ $msg->message }}
 
-            <span>
-                13:10
-            </span>
+                    <span>
+                        {{ $msg->created_at->format('H:i') }}
+                    </span>
 
-        </div>
-
-        <div class="message my-message">
-
-            Bisa kak, nanti teknisi datang jam 2 ya 🙌
-
-            <span>
-                13:11
-            </span>
-
-        </div>
+                </div>
+            @endforeach
+        @endif
 
     </div>
 
     <!-- INPUT -->
 
-    <div class="chat-input-area">
-
+    <form action="{{ route('chat.send', $activeUser->id) }}" method="POST" class="chat-input-area">
+        @csrf
+        @if($booking)
+            <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+        @endif
         <input
             type="text"
+            name="message"
             placeholder="Ketik pesan..."
+            required
+            autocomplete="off"
         >
 
-        <button>
+        <button type="submit">
             Kirim
         </button>
 
-    </div>
+    </form>
 
 </div>
+@endif
 
 <style>
 

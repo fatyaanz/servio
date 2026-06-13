@@ -35,6 +35,18 @@ $category =
         <div class="info-row">
 
             <span class="info-label">
+                ID Order
+            </span>
+
+            <span class="info-value" style="color: #F08A28;">
+                #{{ $booking->formatted_id }}
+            </span>
+
+        </div>
+
+        <div class="info-row">
+
+            <span class="info-label">
                 Penyedia Layanan
             </span>
 
@@ -93,6 +105,56 @@ $category =
             </span>
 
         </div>
+
+        @if($booking->damage_description)
+            <div class="info-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+
+                <span class="info-label">
+                    Deskripsi Masalah
+                </span>
+
+                <span class="info-value" style="text-align: left; max-width: 100%; font-weight: 500; font-size: 14px; color: #4b5563; line-height: 1.6;">
+                    {{ $booking->damage_description }}
+                </span>
+
+            </div>
+        @endif
+
+        @php
+            $photos = [];
+            if ($booking->damage_photo) {
+                if (is_array($booking->damage_photo)) {
+                    $photos = $booking->damage_photo;
+                } else {
+                    $decoded = json_decode($booking->damage_photo, true);
+                    if (is_array($decoded)) {
+                        $photos = $decoded;
+                    } else {
+                        $photos = [$booking->damage_photo];
+                    }
+                }
+            }
+        @endphp
+
+        @if(count($photos) > 0)
+            <div class="info-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+
+                <span class="info-label">
+                    Foto Lampiran Kerusakan
+                </span>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; width: 100%;">
+                    @foreach($photos as $photo)
+                        <div style="width: 100px; height: 100px; border-radius: 14px; overflow: hidden; border: 1px solid #ECECEC; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                            <a href="{{ asset('storage/' . $photo) }}" target="_blank">
+                                <img src="{{ asset('storage/' . $photo) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        @endif
 
     </div>
 

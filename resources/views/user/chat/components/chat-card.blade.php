@@ -1,11 +1,15 @@
-<a href="{{ route('detail.chat') }}"
+<a href="{{ route('chat.detail', ['user' => $chat['user']->id]) }}"
    class="chat-card">
 
-    <div class="chat-avatar">
+    <div class="chat-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 18px;">
 
         <img
-            src="{{ asset('assets/images/provider-logo.png') }}"
-            alt="provider"
+            src="{{ $chat['user']->profile_photo
+                ? asset('storage/' . $chat['user']->profile_photo)
+                : 'https://ui-avatars.com/api/?name=' . urlencode($chat['user']->name)
+            }}"
+            alt="user"
+            style="width: 100%; height: 100%; object-fit: cover;"
         >
 
     </div>
@@ -15,18 +19,25 @@
         <div class="chat-top">
 
             <h3>
-                Service AC Berkah
+                {{ $chat['user']->name }}
             </h3>
 
             <span>
-                10:20
+                {{ $chat['latest_message'] ? $chat['latest_message']->created_at->format('H:i') : '' }}
             </span>
 
         </div>
 
-        <p>
-            Teknisi sedang menuju lokasi Anda
-        </p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+            <p style="margin: 0; color: #777; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
+                {{ $chat['latest_message'] ? $chat['latest_message']->message : 'Mulai percakapan baru' }}
+            </p>
+            @if($chat['unread_count'] > 0)
+                <span style="background: #F08A28; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                    {{ $chat['unread_count'] }}
+                </span>
+            @endif
+        </div>
 
     </div>
 

@@ -6,9 +6,9 @@
 
             <img
                         id="previewPhoto"
-                        src="{{ Auth::user()->profile_photo
-                            ? asset('storage/' . Auth::user()->profile_photo)
-                            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)
+                        src="{{ $provider->profile_photo
+                            ? asset('storage/' . $provider->profile_photo)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($provider->name)
                         }}">
 
         </div>
@@ -25,20 +25,28 @@
 
                 </h2>
 
+            @php
+                $avgRating = $provider->providerReviews()->avg('rating') ?: 0;
+                $reviewCount = $provider->providerReviews()->count();
+                $satisfiedCount = $provider->providerReviews()->where('rating', '>=', 4)->count();
+                $satisfactionRate = $reviewCount > 0 ? round(($satisfiedCount / $reviewCount) * 100) : 100;
+                $distance = Auth::check() ? Auth::user()->distanceTo($provider) : null;
+            @endphp
+
             <div class="provider-rating">
 
                 <span class="rating-score">
-                    ⭐ 4.9
+                    ⭐ {{ number_format($avgRating, 1) }}
                 </span>
 
                 <span class="review-count">
-                    120 Ulasan
+                    {{ $reviewCount }} Ulasan
                 </span>
 
             </div>
 
             <div class="provider-satisfaction">
-                👍 98% Pelanggan puas
+                👍 {{ $satisfactionRate }}% Pelanggan puas
             </div>
 
         </div>
@@ -54,7 +62,7 @@
             </div>
 
             <div>
-                <h4>5 km</h4>
+                <h4>{{ $distance !== null ? number_format($distance, 1) . ' km' : '-' }}</h4>
                 <span>Dari lokasi Anda</span>
             </div>
 
@@ -67,7 +75,7 @@
             </div>
 
             <div>
-                <h4>2 Bulan</h4>
+                <h4>{{ $provider->warranty ?? 'Tidak ada' }}</h4>
                 <span>Garansi</span>
             </div>
 
@@ -80,7 +88,7 @@
             </div>
 
             <div>
-                <h4>7 Menit</h4>
+                <h4>{{ $distance !== null ? round(5 + ($distance * 3)) . ' Menit' : '-' }}</h4>
                 <span>Estimasi Datang</span>
             </div>
 

@@ -13,11 +13,7 @@
         </div>
 
         <p>
-            Berkah AC Service telah berpengalaman lebih dari 5 tahun
-            dalam menangani berbagai permasalahan AC rumah maupun
-            kantor. Kami mengutamakan kualitas pekerjaan,
-            ketepatan waktu, serta kepuasan pelanggan dengan
-            memberikan layanan profesional dan bergaransi.
+            {{ $provider->description ?? 'Penyedia layanan belum menambahkan deskripsi toko.' }}
         </p>
 
     </div>

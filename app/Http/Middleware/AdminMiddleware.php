@@ -23,9 +23,12 @@ class AdminMiddleware
         }
 
         if (auth()->user()->role !== 'admin') {
-
+            if (auth()->user()->role === 'provider') {
+                return redirect()->route('provider.Dashboard.dashboard');
+            } elseif (auth()->user()->role === 'customer') {
+                return redirect()->route('home');
+            }
             abort(403, 'Akses ditolak');
-
         }
 
         return $next($request);

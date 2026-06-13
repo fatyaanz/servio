@@ -34,7 +34,7 @@
                 kondisi perangkat Anda.
             </p>
 
-            <a href="{{ route('diagnosis.form') }}" class="diagnosis-action">
+            <a href="{{ route('diagnosis.form', ['provider_id' => $provider->id]) }}" class="diagnosis-action">
                 Mulai Diagnosis →
             </a>
 

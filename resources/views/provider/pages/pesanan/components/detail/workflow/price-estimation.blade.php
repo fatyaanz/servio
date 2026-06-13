@@ -50,16 +50,19 @@ $grandTotal =
                 value="{{ $serviceFee }}"
                 class="fee-input"
                 min="0"
+                {{ $booking->status !== 'diagnosis' ? 'disabled' : '' }}
             >
 
         </div>
 
+        @if($booking->status == 'diagnosis')
         <button
             type="submit"
             class="save-fee-btn"
         >
             Simpan Biaya Jasa
         </button>
+        @endif
 
     </form>
 

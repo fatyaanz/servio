@@ -33,7 +33,7 @@
         <div class="profile-info">
 
             <div class="profile-name">
-                Admin Servio
+                {{ Auth::user()?->name ?? 'Admin' }}
             </div>
 
             <div class="profile-role">
@@ -54,9 +54,10 @@
                     Profile
                 </a>
 
-                <a href="{{ url('/login') }}">
-                    Logout
-                </a>
+                <form action="{{ route('logout') }}" method="POST" style="margin:0;padding:0;">
+                    @csrf
+                    <button type="submit" style="background:none;border:none;width:100%;text-align:left;padding:8px 15px;color:#EF4444;font-weight:600;cursor:pointer;font-size:14px;">🚪 Logout</button>
+                </form>
 
             </div>
 
@@ -115,6 +116,18 @@
 
             <span>
                 Chat
+            </span>
+
+        </a>
+
+        <a href="{{ route('admin.revenue') }}"
+           class="menu-item {{ request()->is('admin/revenue') ? 'active' : '' }}">
+            <div class="menu-icon">
+                <i class='bx bx-wallet'></i>
+            </div>
+
+            <span>
+                ServioPay Ledger
             </span>
 
         </a>

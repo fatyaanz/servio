@@ -297,9 +297,9 @@
         </div>
 
         <div class="stat-card">
-            <div class="stat-label">Total Sub Layanan</div>
-            <div class="stat-number">{{ $totalSubLayanan }}</div>
-            <div class="stat-info">Sub layanan tersedia</div>
+            <div class="stat-label">Pendapatan ServioPay</div>
+            <div class="stat-number">Rp{{ number_format($totalRevenue, 0, ',', '.') }}</div>
+            <div class="stat-info">Total dana dari biaya layanan</div>
         </div>
 
     </div>

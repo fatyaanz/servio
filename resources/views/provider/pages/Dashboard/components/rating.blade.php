@@ -5,160 +5,85 @@
     <div class="rating-header">
 
         <h2>
-            Rating & Ulasan
+            Rating & Ulasan (24 Jam Terakhir)
         </h2>
 
-        <a href="#">
+        <a href="{{ route('provider.ulasan') }}">
             Lihat semua
         </a>
 
     </div>
 
-    <!-- REVIEW CARD -->
+    @forelse($reviews as $review)
+        <!-- REVIEW CARD -->
 
-    <div class="review-card">
+        <div class="review-card">
 
-        <!-- TOP -->
+            <!-- TOP -->
 
-        <div class="review-top">
+            <div class="review-top">
 
-            <div class="review-user">
+                <div class="review-user">
 
-                <img
-                    src="https://i.pravatar.cc/150?img=32"
-                    class="review-profile"
-                >
+                    <img
+                        src="{{ $review->customer->profile_photo
+                            ? asset('storage/' . $review->customer->profile_photo)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($review->customer->name)
+                        }}"
+                        class="review-profile"
+                    >
 
-                <div>
+                    <div>
 
-                    <h3>
-                        Budi Santoso
-                    </h3>
+                        <h3>
+                            {{ $review->customer->name }}
+                        </h3>
 
-                    <p>
-                        ID Order :
-                        #AsV-213413-0092
-                    </p>
+                        <p>
+                            ID Order :
+                            #{{ $review->booking->id }}
+                        </p>
 
+                    </div>
+
+                </div>
+
+                <div class="review-rating">
+                    ⭐ {{ number_format($review->rating, 1) }}
                 </div>
 
             </div>
 
-            <div class="review-rating">
-                ⭐ 4.9
-            </div>
+            <!-- LAYANAN -->
 
-        </div>
+            <div class="review-service">
 
-        <!-- LAYANAN -->
+                <span>
+                    Layanan Dipilih
+                </span>
 
-        <div class="review-service">
-
-            <span>
-                Layanan Dipilih
-            </span>
-
-            <p>
-                Cuci AC + Diagnosa
-            </p>
-
-        </div>
-
-        <!-- IMAGE -->
-
-        <div class="review-images">
-
-            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=500">
-
-            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=500">
-
-            <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=500">
-
-        </div>
-
-        <!-- ULASAN -->
-
-        <div class="review-comment">
-
-            “Pelayanan sangat cepat dan ramah.
-            AC jadi dingin kembali dan teknisinya
-            menjelaskan kerusakan dengan detail.”
-
-        </div>
-
-    </div>
-
-    <!-- REVIEW CARD -->
-
-    <div class="review-card">
-
-        <!-- TOP -->
-
-        <div class="review-top">
-
-            <div class="review-user">
-
-                <img
-                    src="https://i.pravatar.cc/150?img=14"
-                    class="review-profile"
-                >
-
-                <div>
-
-                    <h3>
-                        Andi Saputra
-                    </h3>
-
-                    <p>
-                        ID Order :
-                        #AsV-213413-0121
-                    </p>
-
-                </div>
+                <p>
+                    @foreach($review->booking->subServices as $subService)
+                        {{ $subService->name }}{{ !$loop->last ? ', ' : '' }}
+                    @endforeach
+                </p>
 
             </div>
 
-            <div class="review-rating">
-                ⭐ 5.0
+            <!-- ULASAN -->
+
+            <div class="review-comment">
+
+                “{{ $review->comment }}”
+
             </div>
 
         </div>
-
-        <!-- LAYANAN -->
-
-        <div class="review-service">
-
-            <span>
-                Layanan Dipilih
-            </span>
-
-            <p>
-                Service Mesin Cuci
-            </p>
-
+    @empty
+        <div class="review-card" style="text-align: center; color: #888; padding: 30px;">
+            Belum ada rating dan ulasan dari pelanggan.
         </div>
-
-        <!-- IMAGE -->
-
-        <div class="review-images">
-
-            <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=500">
-
-            <img src="https://images.unsplash.com/photo-1616628182509-6c9d5f7bff48?q=80&w=500">
-
-        </div>
-
-        <!-- ULASAN -->
-
-        <div class="review-comment">
-
-            “Hasil servicenya bagus banget,
-            mesin cuci jadi normal lagi dan
-            pengerjaannya cepat.”
-
-        </div>
-
-    </div>
+    @endforelse
 
 </div>
 

@@ -22,6 +22,8 @@ class DashboardController extends Controller
 
         $totalSubLayanan = SubService::count();
 
+        $totalRevenue = User::where('role', 'admin')->first()?->balance ?? 0;
+
         $categories = Category::with('providers')
             ->latest()
             ->take(5)
@@ -47,10 +49,22 @@ class DashboardController extends Controller
                 'providerAktif',
                 'totalKategori',
                 'totalSubLayanan',
+                'totalRevenue',
                 'latestProviders',
                 'pendingProviders',
                 'categories'
             )
         );
+    }
+
+    public function revenue()
+    {
+        $transactions = \App\Models\Transaction::with(['provider', 'customer', 'booking'])
+            ->latest()
+            ->paginate(15);
+
+        $totalRevenue = User::where('role', 'admin')->first()?->balance ?? 0;
+
+        return view('admin.Pages.revenue.index', compact('transactions', 'totalRevenue'));
     }
 }

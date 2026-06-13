@@ -1,6 +1,6 @@
 <div
     class="provider-modal-overlay"
-    id="providerModal"
+    id="providerModal-{{ $category->id }}"
 >
 
     <div class="provider-modal">
@@ -12,7 +12,7 @@
             <div>
 
                 <h2>
-                    Penyedia Layanan AC
+                    Penyedia Layanan {{ $category->name }}
                 </h2>
 
                 <p>
@@ -23,11 +23,9 @@
 
             <button
                 class="close-modal-btn"
-                onclick="closeProviderModal()"
+                onclick="closeProviderModal({{ $category->id }})"
             >
-
                 ✕
-
             </button>
 
         </div>
@@ -64,301 +62,78 @@
 
                 <tbody>
 
-                    <!-- ROW -->
-
-                    <tr>
-
-                        <!-- PROVIDER -->
-
-                        <td>
-
-                            <div class="provider-info">
-
-                                <div class="provider-avatar">
-
-                                    AJ
-
+                    @forelse($category->providers as $provider)
+                        <tr>
+                            <!-- PROVIDER -->
+                            <td>
+                                <div class="provider-info">
+                                    <div class="provider-avatar">
+                                        {{ strtoupper(substr($provider->name, 0, 2)) }}
+                                    </div>
+                                    <div class="provider-detail">
+                                        <h4>
+                                            {{ $provider->name }}
+                                        </h4>
+                                        <p>
+                                            {{ $provider->email }}
+                                        </p>
+                                    </div>
                                 </div>
+                            </td>
 
-                                <div class="provider-detail">
+                            <!-- SUB LAYANAN -->
+                            <td>
+                                <div class="sub-service">
+                                    @php
+                                        $provServ = $provider->providerServices
+                                            ->where('category_id', $category->id)
+                                            ->first();
+                                    @endphp
 
-                                    <h4>
-                                        Andi Jaya Teknik
-                                    </h4>
-
-                                    <p>
-                                        andi@gmail.com
-                                    </p>
-
+                                    @if($provServ && $provServ->subServices->count())
+                                        @foreach($provServ->subServices as $sub)
+                                            <span>
+                                                {{ $sub->name }}
+                                            </span>
+                                        @endforeach
+                                    @else
+                                        <span style="color: #9ca3af; font-style: italic; border: none; padding: 0; background: none;">
+                                            Belum ada sub layanan
+                                        </span>
+                                    @endif
                                 </div>
+                            </td>
 
-                            </div>
-
-                        </td>
-
-                        <!-- SUB LAYANAN -->
-
-                        <td>
-
-                            <div class="sub-service">
-
-                                <span>
-                                    Cuci AC
-                                </span>
-
-                                <span>
-                                    Isi Freon
-                                </span>
-
-                                <span>
-                                    Bongkar Pasang
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <!-- STATUS -->
-
-                        <td>
-
-                            <div class="provider-status active">
-
-                                Aktif
-
-                            </div>
-
-                        </td>
-
-                        <!-- BUTTON -->
-
-                        <td>
-
-                            <button class="remove-btn">
-
-                                Hapus
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- ROW -->
-
-                    <tr>
-
-                        <td>
-
-                            <div class="provider-info">
-
-                                <div class="provider-avatar">
-
-                                    AJ
-
+                            <!-- STATUS -->
+                            <td>
+                                <div class="provider-status active">
+                                    {{ ucfirst($provider->status) }}
                                 </div>
-
-                                <div class="provider-detail">
-
-                                    <h4>
-                                        Andi Jaya Teknik
-                                    </h4>
-
-                                    <p>
-                                        andi@gmail.com
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="sub-service">
-
-                                <span>
-                                    Cuci AC
-                                </span>
-
-                                <span>
-                                    Isi Freon
-                                </span>
-
-                                <span>
-                                    Bongkar Pasang
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="provider-status active">
-
-                                Aktif
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <button class="remove-btn">
-
-                                Hapus
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- ROW -->
-
-                    <tr>
-
-                        <td>
-
-                            <div class="provider-info">
-
-                                <div class="provider-avatar">
-
-                                    AJ
-
-                                </div>
-
-                                <div class="provider-detail">
-
-                                    <h4>
-                                        Andi Jaya Teknik
-                                    </h4>
-
-                                    <p>
-                                        andi@gmail.com
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="sub-service">
-
-                                <span>
-                                    Cuci AC
-                                </span>
-
-                                <span>
-                                    Isi Freon
-                                </span>
-
-                                <span>
-                                    Bongkar Pasang
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="provider-status active">
-
-                                Aktif
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <button class="remove-btn">
-
-                                Hapus
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- ROW -->
-
-                    <tr>
-
-                        <td>
-
-                            <div class="provider-info">
-
-                                <div class="provider-avatar">
-
-                                    AJ
-
-                                </div>
-
-                                <div class="provider-detail">
-
-                                    <h4>
-                                        Andi Jaya Teknik
-                                    </h4>
-
-                                    <p>
-                                        andi@gmail.com
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="sub-service">
-
-                                <span>
-                                    Cuci AC
-                                </span>
-
-                                <span>
-                                    Isi Freon
-                                </span>
-
-                                <span>
-                                    Bongkar Pasang
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <div class="provider-status active">
-
-                                Aktif
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <button class="remove-btn">
-
-                                Hapus
-
-                            </button>
-
-                        </td>
-
-                    </tr>
+                            </td>
+
+                            <!-- AKSI -->
+                            <td>
+                                <form
+                                    action="{{ route('categories.remove-provider', ['category' => $category->id, 'provider' => $provider->id]) }}"
+                                    method="POST"
+                                    style="margin: 0; padding: 0;"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus provider {{ $provider->name }} dari kategori {{ $category->name }}?')"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="remove-btn">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #9ca3af; padding: 30px;">
+                                Belum ada penyedia layanan untuk kategori ini.
+                            </td>
+                        </tr>
+                    @endforelse
 
                 </tbody>
 
@@ -371,54 +146,33 @@
 </div>
 
 <script>
-
-/* =========================
-   OPEN MODAL
-========================= */
-
-function openProviderModal(){
-
-    document
-    .getElementById('providerModal')
-    .classList
-    .add('active');
-
-    document.body.style.overflow = "hidden";
-
-}
-
-/* =========================
-   CLOSE MODAL
-========================= */
-
-function closeProviderModal(){
-
-    document
-    .getElementById('providerModal')
-    .classList
-    .remove('active');
-
-    document.body.style.overflow = "auto";
-
-}
-
-/* =========================
-   CLOSE OUTSIDE
-========================= */
-
-window.addEventListener('click', function(e){
-
-    const modal =
-    document.getElementById('providerModal');
-
-    if(e.target === modal){
-
-        closeProviderModal();
-
+if (typeof openProviderModal !== 'function') {
+    function openProviderModal(categoryId){
+        const modal = document.getElementById('providerModal-' + categoryId);
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = "hidden";
+        }
     }
+}
 
+if (typeof closeProviderModal !== 'function') {
+    function closeProviderModal(categoryId){
+        const modal = document.getElementById('providerModal-' + categoryId);
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = "auto";
+        }
+    }
+}
+
+// Close outside click
+window.addEventListener('click', function(e){
+    if (e.target.classList.contains('provider-modal-overlay')) {
+        e.target.classList.remove('active');
+        document.body.style.overflow = "auto";
+    }
 });
-
 </script>
 
 <style>

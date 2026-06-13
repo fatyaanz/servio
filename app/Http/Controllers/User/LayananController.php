@@ -14,8 +14,9 @@ class LayananController extends Controller
         $categoryId = $request->category;
 
         $providers = ProviderService::with([
-            'provider',
-            'category'
+            'provider.providerReviews',
+            'category',
+            'subServices'
         ])
         ->where('status', 'approved')
         ->when($categoryId, function ($query) use ($categoryId) {

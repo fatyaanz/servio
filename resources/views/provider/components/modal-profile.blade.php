@@ -91,13 +91,83 @@
 
             </div>
 
+            <div class="profile-grid">
+
+                <div class="form-group">
+
+                    <label>Garansi</label>
+
+                    <input
+                        type="text"
+                        name="warranty"
+                        value="{{ Auth::user()->warranty }}"
+                        placeholder="Contoh: 2 Bulan">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Pengalaman (Tahun)</label>
+
+                    <input
+                        type="number"
+                        name="experience"
+                        value="{{ Auth::user()->experience }}"
+                        placeholder="Contoh: 5">
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Lokasi Koordinat (Latitude, Longitude)</label>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                    <input
+                        type="text"
+                        name="latitude"
+                        id="provider_latitude"
+                        value="{{ Auth::user()->latitude }}"
+                        placeholder="Latitude"
+                        style="flex: 1;">
+                    <input
+                        type="text"
+                        name="longitude"
+                        id="provider_longitude"
+                        value="{{ Auth::user()->longitude }}"
+                        placeholder="Longitude"
+                        style="flex: 1;">
+                </div>
+
+                <button
+                    type="button"
+                    class="location-btn"
+                    onclick="getProviderLocation()"
+                    style="background: #EEF4FF; color: #2563EB; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: .25s ease;">
+                    📍 Dapatkan Lokasi Saat Ini
+                </button>
+
+            </div>
+
             <div class="form-group">
 
                 <label>Alamat</label>
 
                 <textarea
                     name="address"
-                    rows="4">{{ Auth::user()->address }}</textarea>
+                    rows="3">{{ Auth::user()->address }}</textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Deskripsi Toko</label>
+
+                <textarea
+                    name="description"
+                    rows="3"
+                    placeholder="Masukkan deskripsi toko Anda...">{{ Auth::user()->description }}</textarea>
 
             </div>
 
@@ -127,11 +197,15 @@
     display:none;
 
     justify-content:center;
-    align-items:center;
+    align-items:flex-start;
 
     z-index:99999;
 
     backdrop-filter:blur(5px);
+
+    overflow-y:auto;
+
+    padding:40px 10px;
 
 }
 
@@ -151,6 +225,12 @@
     padding:30px;
 
     position:relative;
+
+    margin:auto;
+
+    max-height:calc(100vh - 80px);
+
+    overflow-y:auto;
 
     animation:pop .25s ease;
 
@@ -341,6 +421,33 @@ function previewProfile(event) {
 
     reader.readAsDataURL(file);
 
+}
+
+function getProviderLocation() {
+    if (navigator.geolocation) {
+        const btn = document.querySelector('.profile-modal-content .location-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '🔄 Mengambil Lokasi...';
+        btn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('provider_latitude').value = position.coords.latitude.toFixed(8);
+            document.getElementById('provider_longitude').value = position.coords.longitude.toFixed(8);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Lokasi berhasil didapatkan: ' + position.coords.latitude + ', ' + position.coords.longitude);
+        }, function(error) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Gagal mengambil lokasi: ' + error.message);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    } else {
+        alert('Geolocation tidak didukung oleh browser ini.');
+    }
 }
 
 </script>

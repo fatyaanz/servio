@@ -76,13 +76,30 @@
         <form
             action="{{ route('provider.booking.send-estimation', $booking->id) }}"
             method="POST"
+            style="background: white; padding: 20px; border-radius: 18px; border: 1px solid #ECECEC; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 15px; margin-top: 10px;"
         >
             @csrf
+            
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-weight: 700; font-size: 14px; color: #374151; text-align: left;">📍 Lokasi Pelanggan Saat Ini:</label>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: #4b5563;">
+                        <input type="radio" name="customer_location" value="outside" checked style="accent-color: #F08A28; width: 16px; height: 16px;">
+                        🏠 Di Luar Rumah (Butuh Persetujuan)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: #4b5563;">
+                        <input type="radio" name="customer_location" value="inside" style="accent-color: #F08A28; width: 16px; height: 16px;">
+                        🤝 Di Dalam Rumah (Langsung Kerja)
+                    </label>
+                </div>
+            </div>
+
             <button
                 type="submit"
                 class="action-btn btn-purple"
+                style="box-shadow: none;"
             >
-                📨 Kirim Estimasi ke Pelanggan
+                📨 Kirim & Proses Lanjut
             </button>
         </form>
 

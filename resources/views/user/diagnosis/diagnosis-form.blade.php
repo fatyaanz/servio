@@ -87,6 +87,10 @@ document.getElementById('formDiagnosis').addEventListener('submit', async functi
                         hargaText = `Rp ${priceMin.toLocaleString('id-ID')}`;
                     }
 
+                    // Ambil provider_id dari query parameter halaman saat ini
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const providerId = urlParams.get('provider_id') || '';
+
                     // Buat struktur kartu dengan variabel hargaText yang sudah jadi range
                     htmlLayanan = `
                         <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-emerald-500 mt-4">
@@ -103,7 +107,7 @@ document.getElementById('formDiagnosis').addEventListener('submit', async functi
                             <hr class="my-4 border-slate-100">
                             <p class="text-slate-700 text-sm font-medium">Detail Perbaikan:</p>
                             <p class="text-slate-600 text-sm mt-1 leading-relaxed">${deskripsiLayanan}</p>
-                            <a href="/user/booking/sub-layanan/${data.layanan_direkomendasikan.id}" class="mt-5 w-full sm:w-auto inline-block text-center bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl hover:bg-emerald-600 transition shadow-sm">
+                            <a href="/booking-normal?provider_id=${providerId}&sub_services[]=${data.layanan_direkomendasikan.id}" class="mt-5 w-full sm:w-auto inline-block text-center bg-emerald-500 text-white font-semibold px-6 py-3 rounded-xl hover:bg-emerald-600 transition shadow-sm">
                                 Pilih & Lanjutkan Jasa Ini
                             </a>
                         </div>

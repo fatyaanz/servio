@@ -3,6 +3,13 @@
     <div class="provider-grid">
         @forelse($providers as $providerService)
 
+        @php
+            $distance = Auth::check() ? Auth::user()->distanceTo($providerService->provider) : null;
+            $avgRating = $providerService->provider->providerReviews->avg('rating') ?: 0;
+            $minPrice = $providerService->subServices->min('price_min') ?: 0;
+            $maxPrice = $providerService->subServices->max('price_max') ?: 0;
+        @endphp
+
         <!-- CARD 1 -->
         <a
             href="{{ route(
@@ -12,23 +19,29 @@
             class="provider-card"
         >
 
-            <div class="badge badge-red">
-                Tepat Waktu
-            </div>
+            @if($providerService->provider->experience)
+                <div class="badge badge-purple" style="background:#7E57C2;">
+                    ⭐ Pengalaman {{ $providerService->provider->experience }} Thn
+                </div>
+            @else
+                <div class="badge badge-red">
+                    Tepat Waktu
+                </div>
+            @endif
 
             <div class="provider-image">
                 <img
                         id="previewPhoto"
-                        src="{{ Auth::user()->profile_photo
-                            ? asset('storage/' . Auth::user()->profile_photo)
-                            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)
+                        src="{{ $providerService->provider->profile_photo
+                            ? asset('storage/' . $providerService->provider->profile_photo)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($providerService->provider->name)
                         }}">
             </div>
 
             <div class="provider-content">
 
                 <div class="provider-meta">
-                    0.5 km • 10 min
+                    {{ $distance !== null ? number_format($distance, 1) . ' km' : '-' }} • {{ $distance !== null ? round(5 + ($distance * 3)) . ' min' : '-' }}
                 </div>
 
                 <h3>
@@ -38,7 +51,7 @@
                 </h3>
 
                 <div class="provider-rating">
-                    ⭐ 4.9
+                    ⭐ {{ number_format($avgRating, 1) }}
                 </div>
 
                 <div class="provider-price">
@@ -48,7 +61,18 @@
                     </span>
 
                     <span class="price-value">
-                        💰 100k-200k
+                        💰 
+                        @if($minPrice > 0 && $maxPrice > 0)
+                            @if($minPrice == $maxPrice)
+                                Rp{{ number_format($minPrice/1000, 0) }}k
+                            @else
+                                Rp{{ number_format($minPrice/1000, 0) }}k - Rp{{ number_format($maxPrice/1000, 0) }}k
+                            @endif
+                        @elseif($minPrice > 0)
+                            Mulai Rp{{ number_format($minPrice/1000, 0) }}k
+                        @else
+                            Hubungi Jasa
+                        @endif
                     </span>
 
                 </div>
@@ -56,7 +80,7 @@
                 <hr>
 
                 <div class="provider-guarantee">
-                    ✅ Garansi 1 Bulan
+                    ✅ Garansi {{ $providerService->provider->warranty ?? 'Tidak ada' }}
                 </div>
 
             </div>

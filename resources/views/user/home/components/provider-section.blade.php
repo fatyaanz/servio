@@ -14,18 +14,19 @@
 
     <div class="provider-grid">
 
-        <!-- CARD 1 -->
+        @forelse($providers as $provider)
         <div class="provider-card">
 
             <div class="provider-cover">
 
                 <img
-                    src="{{ asset('assets/images/provider-logo.png') }}"
+                    src="{{ $provider->profile_photo ? asset('storage/' . $provider->profile_photo) : asset('assets/images/provider-logo.png') }}"
                     alt="Provider"
+                    style="object-fit: cover;"
                 >
 
                 <span class="provider-badge top-rated">
-                    Top Rated
+                    {{ $provider->experience ? $provider->experience . ' Thn Kerja' : 'Terverifikasi' }}
                 </span>
 
             </div>
@@ -35,228 +36,62 @@
                 <div class="provider-header">
 
                     <h3>
-                        Service AC Berkah
+                        {{ $provider->name }}
                     </h3>
 
                     <span class="provider-rating">
-                        ⭐ 4.9
+                        ⭐ {{ number_format($provider->providerReviews()->avg('rating') ?: 5.0, 1) }}
                     </span>
 
                 </div>
 
                 <div class="provider-address">
-                    📌 Jl. Sukabirus No. 12, Dayeuhkolot, Kabupaten Bandung, Jawa Barat
+                    📌 {{ $provider->city ?: ($provider->address ?: 'Bandung') }}
                 </div>
 
                 <div class="provider-price">
 
                     Mulai dari
 
+                    @php
+                        $subServices = collect();
+                        foreach ($provider->providerServices as $ps) {
+                            $subServices = $subServices->merge($ps->subServices);
+                        }
+                        $minPrice = $subServices->min('price_min');
+                        $firstServices = $subServices->take(2)->pluck('name')->implode(', ');
+                    @endphp
+
                     <strong>
-                        Rp100.000
+                        @if($minPrice)
+                            Rp{{ number_format($minPrice, 0, ',', '.') }}
+                        @else
+                            Hubungi Provider
+                        @endif
                     </strong>
 
                 </div>
 
-                <div class="provider-features">
-
-                    <span>✅ Garansi</span>
-
-                    <span>⚡ Cepat</span>
-
-                    <span>🔧 Profesional</span>
-
+                <div class="provider-features" style="height: 32px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    @if($firstServices)
+                        <span style="font-size: 11px; color: #555;">{{ $firstServices }}</span>
+                    @else
+                        <span style="font-size: 11px; color: #888;">Belum ada layanan</span>
+                    @endif
                 </div>
 
-                <a href="#" class="provider-btn">
+                <a href="{{ route('provider.detail', $provider->id) }}" class="provider-btn">
                     Lihat Detail
                 </a>
 
             </div>
 
         </div>
-
-        <!-- CARD 2 -->
-        <div class="provider-card">
-
-            <div class="provider-cover">
-
-                <img
-                    src="{{ asset('assets/images/provider-logo.png') }}"
-                    alt="Provider"
-                >
-
-                <span class="provider-badge">
-                    Tepat Waktu
-                </span>
-
-            </div>
-
-            <div class="provider-content">
-
-                <div class="provider-header">
-
-                    <h3>
-                        Service Mesin Cuci Jaya
-                    </h3>
-
-                    <span class="provider-rating">
-                        ⭐ 4.8
-                    </span>
-
-                </div>
-
-                <div class="provider-address">
-                    📌 Jl. Telekomunikasi No. 1, Bojongsoang, Bandung
-                </div>
-
-                <div class="provider-price">
-
-                    Mulai dari
-
-                    <strong>
-                        Rp80.000
-                    </strong>
-
-                </div>
-
-                <div class="provider-features">
-
-                    <span>✅ Garansi</span>
-
-                    <span>⚡ Cepat</span>
-
-                </div>
-
-                <a href="#" class="provider-btn">
-                    Lihat Detail
-                </a>
-
-            </div>
-
+        @empty
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 20px; border: 1px solid var(--border); width: 100%;">
+            <p style="margin: 0; color: #777;">Belum ada penyedia layanan aktif.</p>
         </div>
-
-        <!-- CARD 3 -->
-        <div class="provider-card">
-
-            <div class="provider-cover">
-
-                <img
-                    src="{{ asset('assets/images/provider-logo.png') }}"
-                    alt="Provider"
-                >
-
-                <span class="provider-badge">
-                    Recommended
-                </span>
-
-            </div>
-
-            <div class="provider-content">
-
-                <div class="provider-header">
-
-                    <h3>
-                        Tukang Listrik Amanah
-                    </h3>
-
-                    <span class="provider-rating">
-                        ⭐ 4.7
-                    </span>
-
-                </div>
-
-                <div class="provider-address">
-                    📌 Jl. Soekarno Hatta No. 100, Bandung
-                </div>
-
-                <div class="provider-price">
-
-                    Mulai dari
-
-                    <strong>
-                        Rp120.000
-                    </strong>
-
-                </div>
-
-                <div class="provider-features">
-
-                    <span>⚡ Cepat</span>
-
-                    <span>🔧 Profesional</span>
-
-                </div>
-
-                <a href="#" class="provider-btn">
-                    Lihat Detail
-                </a>
-
-            </div>
-
-        </div>
-
-        <!-- CARD 4 -->
-        <div class="provider-card">
-
-            <div class="provider-cover">
-
-                <img
-                    src="{{ asset('assets/images/provider-logo.png') }}"
-                    alt="Provider"
-                >
-
-                <span class="provider-badge">
-                    Top Rated
-                </span>
-
-            </div>
-
-            <div class="provider-content">
-
-                <div class="provider-header">
-
-                    <h3>
-                        Cleaning Service Bersih
-                    </h3>
-
-                    <span class="provider-rating">
-                        ⭐ 5.0
-                    </span>
-
-                </div>
-
-                <div class="provider-address">
-                    📌 Jl. Asia Afrika No. 88, Bandung, Jawa Barat
-                </div>
-
-                <div class="provider-price">
-
-                    Mulai dari
-
-                    <strong>
-                        Rp150.000
-                    </strong>
-
-                </div>
-
-                <div class="provider-features">
-
-                    <span>✅ Garansi</span>
-
-                    <span>⚡ Cepat</span>
-
-                    <span>🔧 Profesional</span>
-
-                </div>
-
-                <a href="#" class="provider-btn">
-                    Lihat Detail
-                </a>
-
-            </div>
-
-        </div>
+        @endforelse
 
     </div>
 

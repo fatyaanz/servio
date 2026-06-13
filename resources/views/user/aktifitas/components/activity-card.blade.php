@@ -52,6 +52,9 @@ $totalMax =
 
                 <h3>
                     {{ $category->name ?? 'Layanan' }}
+                    <span style="font-size: 14px; font-weight: 500; color: #9ca3af; margin-left: 8px;">
+                        #{{ $booking->formatted_id }}
+                    </span>
                 </h3>
 
                 <div class="activity-subservice-count">

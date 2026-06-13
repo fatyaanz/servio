@@ -2,31 +2,20 @@
 
     <div class="logout-info">
 
-        <div class="logout-icon">
-
-            🚪
-
-        </div>
+        <div class="logout-icon">🚪</div>
 
         <div>
-
-            <h3>
-                Keluar dari Akun
-            </h3>
-
-            <p>
-                Anda akan keluar dari akun Servio pada perangkat ini.
-            </p>
-
+            <h3>Keluar dari Akun</h3>
+            <p>Login sebagai: <strong>{{ Auth::user()->name }}</strong> ({{ Auth::user()->email }})</p>
+            <p style="margin-top:4px; color:#aaa;">Anda akan keluar dari akun Servio pada perangkat ini.</p>
         </div>
 
     </div>
 
-    <button class="logout-btn">
-
-        Logout
-
-    </button>
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
 
 </div>
 

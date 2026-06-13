@@ -70,12 +70,22 @@
             'user.aktifitas.components.detail.price-approval',
             ['booking' => $booking]
         )
-    @include(
-        'user.aktifitas.components.detail.action-buttons',
-        ['booking' => $booking]
-    )
 
+        @if($booking->status == 'payment')
+            @include('user.aktifitas.components.detail.payment-card', ['booking' => $booking])
+        @endif
+
+        @if($booking->status == 'completed')
+            @include('user.aktifitas.components.detail.receipt-card', ['booking' => $booking])
+        @endif
+
+        @include(
+            'user.aktifitas.components.detail.action-buttons',
+            ['booking' => $booking]
+        )
     @endif
+
+    @include('user.aktifitas.components.detail.modal-review', ['booking' => $booking])
           
 </body>
 </html>

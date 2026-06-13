@@ -1,3 +1,17 @@
+@php
+$serviceFee = $booking->diagnosis?->service_fee ?? 0;
+$sparepartTotal = 0;
+
+foreach ($booking->diagnosis?->produks ?? [] as $produk) {
+    if ($produk->pivot->is_selected) {
+        $sparepartTotal += $produk->harga * $produk->pivot->qty;
+    }
+}
+
+$appFee = 5000;
+$total = $serviceFee + $sparepartTotal + $appFee;
+@endphp
+
 <div class="payment-card">
 
     <div class="payment-header">
@@ -35,7 +49,7 @@
             </span>
 
             <strong>
-                Rp150.000
+                Rp{{ number_format($serviceFee, 0, ',', '.') }}
             </strong>
 
         </div>
@@ -47,7 +61,19 @@
             </span>
 
             <strong>
-                Rp230.000
+                Rp{{ number_format($sparepartTotal, 0, ',', '.') }}
+            </strong>
+
+        </div>
+
+        <div class="invoice-row">
+
+            <span>
+                Biaya Layanan Aplikasi
+            </span>
+
+            <strong>
+                Rp{{ number_format($appFee, 0, ',', '.') }}
             </strong>
 
         </div>
@@ -61,7 +87,7 @@
             </span>
 
             <strong>
-                Rp380.000
+                Rp{{ number_format($total, 0, ',', '.') }}
             </strong>
 
         </div>
@@ -83,7 +109,7 @@
             </strong>
 
             <p>
-                Pembayaran belum diterima. Segera lakukan pembayaran untuk melanjutkan proses layanan.
+                Pembayaran belum diterima. Saldo ServioPay Anda saat ini: <strong>Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}</strong>.
             </p>
 
         </div>
@@ -92,11 +118,12 @@
 
     <!-- BUTTON -->
 
-    <button class="pay-btn">
-
-        💳 Bayar Sekarang
-
-    </button>
+    <form action="{{ route('booking.pay', $booking->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="pay-btn">
+            💳 Bayar Sekarang
+        </button>
+    </form>
 
 </div>
 

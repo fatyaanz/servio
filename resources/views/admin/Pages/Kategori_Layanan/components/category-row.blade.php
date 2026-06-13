@@ -55,16 +55,15 @@
 
     <td>
 
-        <a
-            href="{{ route('categories.providers', $category->id) }}"
+        <button
+            type="button"
             class="provider-btn"
+            onclick="openProviderModal({{ $category->id }})"
+            style="border: none; cursor: pointer; outline: none;"
         >
-
             <i class='bx bx-group'></i>
-
             Lihat Penyedia
-
-        </a>
+        </button>
 
     </td>
 

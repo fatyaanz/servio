@@ -33,113 +33,31 @@
     <!-- LIST -->
 
     <div class="chat-list">
-
-        <!-- ITEM -->
-
-        <div class="chat-item active-chat">
-
-            <div class="chat-avatar">
-                👨
+        @if(empty($chats))
+            <div style="text-align: center; padding: 40px; color: #888;">
+                <p style="font-weight: 600;">Belum ada chat masuk.</p>
             </div>
-
-            <div class="chat-info">
-
-                <div class="chat-top">
-
-                    <h4>
-                        Budi
-                    </h4>
-
-                    <span>
-                        12:30
-                    </span>
-
-                </div>
-
-                <div class="chat-bottom">
-
-                    <p>
-                        Service AC nya jadi hari ini?
-                    </p>
-
-                    <div class="unread-badge">
-                        2
+        @else
+            @foreach($chats as $chat)
+                <div class="chat-item {{ isset($activeUser) && $activeUser->id == $chat['user']->id ? 'active-chat' : '' }}" onclick="window.location.href='{{ route('provider.chat', ['user_id' => $chat['user']->id]) }}'">
+                    <div class="chat-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 20px;">
+                        <img src="{{ $chat['user']->profile_photo ? asset('storage/' . $chat['user']->profile_photo) : 'https://ui-avatars.com/api/?name=' . urlencode($chat['user']->name) }}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
-
+                    <div class="chat-info">
+                        <div class="chat-top">
+                            <h4>{{ $chat['user']->name }}</h4>
+                            <span>{{ $chat['latest_message'] ? $chat['latest_message']->created_at->format('H:i') : '' }}</span>
+                        </div>
+                        <div class="chat-bottom">
+                            <p>{{ $chat['latest_message'] ? $chat['latest_message']->message : 'Mulai percakapan baru' }}</p>
+                            @if($chat['unread_count'] > 0)
+                                <div class="unread-badge">{{ $chat['unread_count'] }}</div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-
-        </div>
-
-        <!-- ITEM -->
-
-        <div class="chat-item">
-
-            <div class="chat-avatar">
-                👩
-            </div>
-
-            <div class="chat-info">
-
-                <div class="chat-top">
-
-                    <h4>
-                        Sinta
-                    </h4>
-
-                    <span>
-                        11:12
-                    </span>
-
-                </div>
-
-                <div class="chat-bottom">
-
-                    <p>
-                        Apakah bisa service besok?
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- ITEM -->
-
-        <div class="chat-item">
-
-            <div class="chat-avatar">
-                👨
-            </div>
-
-            <div class="chat-info">
-
-                <div class="chat-top">
-
-                    <h4>
-                        Andi
-                    </h4>
-
-                    <span>
-                        Kemarin
-                    </span>
-
-                </div>
-
-                <div class="chat-bottom">
-
-                    <p>
-                        Terima kasih servicenya
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
+            @endforeach
+        @endif
     </div>
 
 </div>

@@ -4,7 +4,7 @@
         Akun Saya
     </h3>
 
-    <button class="menu-item">
+    <button class="menu-item" onclick="openEditProfileModal()">
 
         <div class="menu-left">
 
@@ -19,7 +19,7 @@
                 </span>
 
                 <small>
-                    Ubah data akun dan foto profil
+                    {{ Auth::user()->name }} &middot; {{ Auth::user()->email }}
                 </small>
 
             </div>

@@ -15,11 +15,11 @@
             </p>
 
             <h2>
-                8
+                {{ $ordersTodayCount }}
             </h2>
 
-            <span class="stats-success">
-                📈 2 dari kemarin
+            <span class="stats-success" style="color: {{ strpos($comparisonText, '📈') !== false ? '#22c55e' : (strpos($comparisonText, '📉') !== false ? '#ef4444' : '#6b7280') }};">
+                {{ $comparisonText }}
             </span>
 
         </div>
@@ -41,10 +41,10 @@
             </p>
 
             <h2>
-                2
+                {{ $activeOrders }}
             </h2>
 
-            <a href="#">
+            <a href="{{ route('provider.pesanan') }}">
                 Lihat Detail
             </a>
 
@@ -63,14 +63,14 @@
         <div class="stats-info">
 
             <p>
-                Menunggu Approval
+                Order Baru (Pending)
             </p>
 
             <h2>
-                2
+                {{ $pendingApprovalCount }}
             </h2>
 
-            <a href="#">
+            <a href="{{ route('provider.pesanan') }}">
                 Lihat Detail
             </a>
 
@@ -93,10 +93,10 @@
             </p>
 
             <h2>
-                2
+                Rp{{ number_format($todayIncome, 0, ',', '.') }}
             </h2>
 
-            <a href="#">
+            <a href="{{ route('provider.transaksi') }}">
                 Lihat Detail
             </a>
 

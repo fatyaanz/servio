@@ -18,8 +18,8 @@
 
         </div>
 
-                <!-- ALAMAT 1 -->
-
+        <!-- ALAMAT UTAMA -->
+        @if(Auth::user()->address)
         <div class="address-card">
 
             <div class="address-top">
@@ -37,92 +37,39 @@
             </div>
 
             <h4>
-                Muhammad Nabil
+                {{ Auth::user()->name }}
             </h4>
 
             <p class="phone">
 
-                0812-3456-7890
+                {{ Auth::user()->phone }}
 
             </p>
 
             <p class="address-text">
 
-                Jl. Telekomunikasi No.1,
-                Sukapura, Dayeuhkolot,
-                Kabupaten Bandung,
-                Jawa Barat 40257
+                {{ Auth::user()->address }}
 
             </p>
 
             <div class="address-actions">
 
-                <button class="edit-btn">
-
+                <button class="edit-btn" onclick="closeAddressModal(); openEditProfileModal();">
                     ✏ Edit
-
-                </button>
-
-                <button class="delete-btn">
-
-                    🗑 Hapus
-
                 </button>
 
             </div>
 
         </div>
-
-        <!-- ALAMAT 2 -->
-
-        <div class="address-card">
-
-            <div class="address-top">
-
-                <div class="address-type">
-
-                    🏢 Kantor
-
-                </div>
-
-            </div>
-
-            <h4>
-                Muhammad Nabil
-            </h4>
-
-            <p class="phone">
-
-                0813-9988-7766
-
-            </p>
-
-            <p class="address-text">
-
-                Gedung Telkom University Landmark Tower,
-                Jl. Telekomunikasi No.1,
-                Bandung,
-                Jawa Barat
-
-            </p>
-
-            <div class="address-actions">
-
-                <button class="edit-btn">
-
-                    ✏ Edit
-
-                </button>
-
-                <button class="delete-btn">
-
-                    🗑 Hapus
-
-                </button>
-
-            </div>
-
+        @else
+        <div style="text-align: center; padding: 40px; color: #888;">
+            <span style="font-size: 40px;">📍</span>
+            <p style="margin-top: 15px; font-weight: 600;">Alamat utama belum dikonfigurasi.</p>
+            <button class="add-address-btn" onclick="closeAddressModal(); openEditProfileModal();" style="margin-top: 15px; width: auto; padding: 0 25px;">
+                ⚙️ Atur Alamat Sekarang
+            </button>
         </div>
+        @endif
 
         <button
             class="add-address-btn"

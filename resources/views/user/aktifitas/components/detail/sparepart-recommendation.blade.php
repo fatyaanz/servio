@@ -22,15 +22,19 @@ $totalSparepart = 0;
             </span>
 
             <h3>
-
-                Pilih Sparepart
-
+                @if($booking->status == 'waiting_approval')
+                    Pilih Sparepart
+                @else
+                    Sparepart Digunakan
+                @endif
             </h3>
 
             <p>
-
-                Centang sparepart yang ingin digunakan.
-
+                @if($booking->status == 'waiting_approval')
+                    Centang sparepart yang ingin digunakan.
+                @else
+                    Daftar sparepart yang digunakan dalam perbaikan.
+                @endif
             </p>
 
         </div>
@@ -64,6 +68,8 @@ $totalSparepart = 0;
                         name="produk_ids[]"
                         value="{{ $produk->id }}"
                         data-subtotal="{{ $subtotal }}"
+                        {{ $produk->pivot->is_selected ? 'checked' : '' }}
+                        {{ $booking->status !== 'waiting_approval' ? 'disabled' : '' }}
                     >
 
                     <img

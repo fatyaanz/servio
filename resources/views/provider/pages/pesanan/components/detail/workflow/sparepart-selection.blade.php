@@ -14,6 +14,7 @@
 
         </div>
 
+        @if($booking->status == 'diagnosis')
         <button
             class="add-product-btn"
             onclick="openSparepartModal()"
@@ -22,6 +23,7 @@
             + Tambah Sparepart
 
         </button>
+        @endif
 
     </div>
 
@@ -78,6 +80,7 @@
 
                 </span>
 
+                @if($booking->status == 'diagnosis')
                 <form
                     action="{{ route(
                         'provider.diagnosis-produk.destroy',
@@ -102,6 +105,7 @@
                     </button>
 
                 </form>
+                @endif
 
             </div>
 

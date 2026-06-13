@@ -46,11 +46,11 @@
             <div class="provider-rating">
 
                 <span class="rating-badge">
-                    ⭐ 4.9
+                    ⭐ {{ number_format($provider->providerReviews()->avg('rating') ?? 5.0, 1) }}
                 </span>
 
                 <span class="review-count">
-                    120 Ulasan
+                    {{ $provider->providerReviews()->count() }} Ulasan
                 </span>
 
             </div>
@@ -59,12 +59,12 @@
 
                 <div class="meta-item">
                     🛡️ Garansi
-                    <strong>2 Bulan</strong>
+                    <strong>{{ $provider->warranty ?? 'Tidak ada Garansi' }}</strong>
                 </div>
 
                 <div class="meta-item">
                     ⚡ Respon Cepat
-                    <strong>± 5 Menit</strong>
+                    <strong>{{ $provider->averageResponseTime() }}</strong>
                 </div>
 
                 <div class="meta-item">

@@ -8,6 +8,7 @@
 
         </h3>
 
+        @if($booking->status == 'diagnosis')
         <button
             class="add-btn"
             onclick="openDamageModal()"
@@ -16,6 +17,7 @@
             + Tambah Kerusakan
 
         </button>
+        @endif
 
     </div>
 
@@ -42,6 +44,7 @@
 
             </div>
 
+            @if($booking->status == 'diagnosis')
             <form
                 action="{{ route('provider.damage.destroy', $damage->id) }}"
                 method="POST"
@@ -57,6 +60,7 @@
                     ✕
                 </button>
             </form>
+            @endif
 
         </div>
 

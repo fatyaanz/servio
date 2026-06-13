@@ -11,149 +11,165 @@
             </h2>
 
             <span>
-                2
+                {{ $pendingBookings->count() }}
             </span>
 
         </div>
 
-        <a href="#">
+        <a href="{{ route('provider.pesanan') }}">
             Lihat semua
         </a>
 
     </div>
 
-    <!-- ORDER CARD -->
+    <!-- ORDER CARD LOOP -->
+    @forelse($pendingBookings as $booking)
+        <div class="order-card" style="margin-bottom: 16px;">
 
-    <div class="order-card">
+            <!-- TOP -->
 
-        <!-- TOP -->
+            <div class="order-top">
 
-        <div class="order-top">
+                <div class="order-top-left">
 
-            <div class="order-top-left">
+                    <h4 style="color: #F08A28;">
+                        #{{ $booking->formatted_id }}
+                    </h4>
 
-                <h4>
-                    #AsV-213413-0092
-                </h4>
+                    <p>
+                        Waktu pengerjaan :
+                        <span>
+                            {{ substr($booking->booking_time, 0, 5) }} WIB
+                        </span>
+                    </p>
 
-                <p>
-                    Waktu pemesanan :
-                    <span>
-                        09:00 WIB
-                    </span>
-                </p>
+                </div>
+
+                <div class="order-location" style="margin-right: 20px;">
+                    📍 {{ Str::limit($booking->address, 60) }}
+                </div>
 
             </div>
 
-            <div class="order-location">
-                📍 Jalan sukapura gg. selari nomor 10
+            <!-- MIDDLE -->
+
+            <div class="order-middle">
+
+                <!-- PROFILE -->
+
+                <div class="customer-profile">
+
+                    <img
+                        src="{{ $booking->customer->profile_photo
+                            ? asset('storage/' . $booking->customer->profile_photo)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($booking->customer->name)
+                        }}"
+                        class="customer-img"
+                    >
+
+                    <div>
+
+                        <h3>
+                            {{ $booking->customer->name }}
+                        </h3>
+
+                        <p>
+                            {{ $booking->customer->phone ?? '-' }}
+                        </p>
+
+                        <span>
+                            📍 {{ number_format($booking->customer->distanceTo(auth()->user()) ?? 0, 1) }} Km dari lokasi Anda
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- DETAIL -->
+
+                <div class="order-detail">
+
+                    <div class="detail-item">
+
+                        <span>
+                            Layanan
+                        </span>
+
+                        <p>
+                            {{ $booking->subServices->first()?->providerService?->category?->name ?? 'Layanan' }}
+                        </p>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <span>
+                            Sub
+                        </span>
+
+                        <p>
+                            @foreach($booking->subServices as $sub)
+                                {{ $sub->name }}{{ !$loop->last ? ', ' : '' }}
+                            @endforeach
+                        </p>
+
+                    </div>
+
+                    <div class="detail-item">
+
+                        <span>
+                            Catatan
+                        </span>
+
+                        <p>
+                            {{ $booking->notes ?? '-' }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOTTOM -->
+
+            <div class="order-bottom" style="padding-right: 0;">
+
+                <div class="response-time">
+
+                    Masuk :
+                    <span style="font-size: 13px; font-weight: 700; color: #6b7280;">
+                        {{ $booking->created_at->diffForHumans() }}
+                    </span>
+
+                </div>
+
+                <div class="order-buttons">
+
+                    <form action="{{ route('provider.booking.reject', $booking->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="reject-btn">
+                            Tolak
+                        </button>
+                    </form>
+
+                    <form action="{{ route('provider.booking.accept', $booking->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="accept-btn">
+                            Terima
+                        </button>
+                    </form>
+
+                </div>
+
             </div>
 
         </div>
-
-        <!-- MIDDLE -->
-
-        <div class="order-middle">
-
-            <!-- PROFILE -->
-
-            <div class="customer-profile">
-
-                <img
-                    src="https://i.pravatar.cc/150?img=12"
-                    class="customer-img"
-                >
-
-                <div>
-
-                    <h3>
-                        Budi Santoso
-                    </h3>
-
-                    <p>
-                        0858-2302-4444
-                    </p>
-
-                    <span>
-                        📍 5 Km
-                    </span>
-
-                </div>
-
-            </div>
-
-            <!-- DETAIL -->
-
-            <div class="order-detail">
-
-                <div class="detail-item">
-
-                    <span>
-                        Layanan
-                    </span>
-
-                    <p>
-                        AC
-                    </p>
-
-                </div>
-
-                <div class="detail-item">
-
-                    <span>
-                        Sub
-                    </span>
-
-                    <p>
-                        Cuci AC + Diagnosa
-                    </p>
-
-                </div>
-
-                <div class="detail-item">
-
-                    <span>
-                        Catatan
-                    </span>
-
-                    <p>
-                        -
-                    </p>
-
-                </div>
-
-            </div>
-
+    @empty
+        <div class="order-card" style="text-align: center; padding: 30px; color: #888;">
+            Belum ada order masuk saat ini.
         </div>
-
-        <!-- BOTTOM -->
-
-        <div class="order-bottom">
-
-            <div class="response-time">
-
-                Respon :
-                <span>
-                    04:32
-                </span>
-
-            </div>
-
-            <div class="order-buttons">
-
-                <button class="reject-btn">
-                    Tolak
-                </button>
-
-                <button class="accept-btn">
-                    Terima
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
+    @endforelse
 
 </div>
 

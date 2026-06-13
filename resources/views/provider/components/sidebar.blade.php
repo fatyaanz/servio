@@ -46,13 +46,14 @@
 
             <div class="dropdown-menu">
 
-                <a href="#" onclick="openProfileModal()">
+                <a href="#" onclick="openProfileModal(); return false;">
                     Profile
                 </a>
 
-                <a href="{{ url('/login') }}">
-                    Logout
-                </a>
+                <form action="{{ route('logout') }}" method="POST" style="margin:0;padding:0;">
+                    @csrf
+                    <button type="submit" style="background:none;border:none;width:100%;text-align:left;padding:12px 14px;color:#EF4444;font-weight:600;cursor:pointer;font-size:13px;">🚪 Logout</button>
+                </form>
 
             </div>
 
@@ -116,6 +117,19 @@
 
         </a>
 
+        <a href="{{ route('provider.ulasan') }}"
+           class="menu-item {{ request()->routeIs('provider.ulasan') ? 'active' : '' }}">
+
+            <div class="menu-icon">
+                ⭐
+            </div>
+
+            <span>
+                Ulasan Toko
+            </span>
+
+        </a>
+
         <a href="{{ url('/provider/chat/chat') }}"
            class="menu-item {{ request()->is('provider/chat/chat') ? 'active' : '' }}">
 
@@ -125,6 +139,41 @@
 
             <span>
                 Chat
+            </span>
+
+        </a>
+
+        <a href="{{ route('notifications.index') }}"
+           class="menu-item {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
+
+            <div class="menu-icon">
+                🔔
+            </div>
+
+            <span>
+                Notifikasi
+            </span>
+
+            @php
+                $unreadProviderNotifs = \App\Models\Notification::where('user_id', auth()->id())->where('is_read', false)->count();
+            @endphp
+            @if($unreadProviderNotifs > 0)
+                <span style="background: #EF4444; color: white; border-radius: 50%; font-size: 10px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-left: auto; line-height: 1;">
+                    {{ $unreadProviderNotifs }}
+                </span>
+            @endif
+
+        </a>
+
+        <a href="{{ url('/provider/transaksi') }}"
+           class="menu-item {{ request()->is('provider/transaksi*') ? 'active' : '' }}">
+
+            <div class="menu-icon">
+                💰
+            </div>
+
+            <span>
+                Transaksi
             </span>
 
         </a>

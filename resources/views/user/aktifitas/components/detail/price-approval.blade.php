@@ -33,23 +33,27 @@ $total =
 
         <div class="approval-title">
 
-            <span class="approval-badge">
-
-                Menunggu Persetujuan
-
-            </span>
-
-            <h3>
-
-                Persetujuan Harga
-
-            </h3>
-
-            <p>
-
-                Silakan tinjau estimasi biaya hasil pemeriksaan teknisi.
-
-            </p>
+            @if($booking->status == 'waiting_approval')
+                <span class="approval-badge">
+                    Menunggu Persetujuan
+                </span>
+                <h3>
+                    Persetujuan Harga
+                </h3>
+                <p>
+                    Silakan tinjau estimasi biaya hasil pemeriksaan teknisi.
+                </p>
+            @else
+                <span class="approval-badge" style="background: #EAFDF0; color: #15803D;">
+                    Disetujui
+                </span>
+                <h3>
+                    Rincian Biaya Estimasi
+                </h3>
+                <p>
+                    Rincian biaya perbaikan yang telah disetujui.
+                </p>
+            @endif
 
         </div>
 

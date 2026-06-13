@@ -73,9 +73,12 @@
     'admin.Pages.Kategori_Layanan.components.add-category-modal'
 )
 
-@include(
-    'admin.Pages.Kategori_Layanan.components.provider-modal'
-)
+@foreach($categories as $category)
+    @include(
+        'admin.Pages.Kategori_Layanan.components.provider-modal',
+        ['category' => $category]
+    )
+@endforeach
 
 @include(
     'admin.Pages.Kategori_Layanan.components.reject-modal'

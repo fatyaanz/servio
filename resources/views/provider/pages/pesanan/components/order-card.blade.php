@@ -24,7 +24,7 @@ $totalMax =
         </div>
 
         <div class="booking-id">
-            #{{ $booking->booking_code ?? $booking->id }}
+            #{{ $booking->formatted_id }}
         </div>
 
     </div>

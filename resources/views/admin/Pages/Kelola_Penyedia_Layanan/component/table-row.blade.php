@@ -33,13 +33,17 @@
     <td>
 
         <span class="category-badge">
-            Provider
+            @if($provider->categories->count())
+                {{ $provider->categories->pluck('name')->join(', ') }}
+            @else
+                Belum ada kategori
+            @endif
         </span>
 
     </td>
 
     <td>
-        -
+        {{ $provider->city ?? $provider->address ?? '-' }}
     </td>
 
     <td>
@@ -48,7 +52,7 @@
 
             <i class='bx bxs-star'></i>
 
-            <span>0.0</span>
+            <span>{{ number_format($provider->providerReviews->avg('rating') ?? 0, 1) }}</span>
 
         </div>
 
@@ -56,9 +60,23 @@
 
     <td>
 
-        <span class="badge badge-success">
-            Aktif
-        </span>
+        @if($provider->status == 'active')
+            <span class="badge badge-success" style="background:#dcfce7; color:#16a34a; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                Aktif
+            </span>
+        @elseif($provider->status == 'pending')
+            <span class="badge badge-warning" style="background:#fef3c7; color:#d97706; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                Pending
+            </span>
+        @elseif($provider->status == 'suspended')
+            <span class="badge badge-danger" style="background:#fee2e2; color:#dc2626; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                Suspended
+            </span>
+        @else
+            <span class="badge badge-secondary" style="background:#f1f5f9; color:#64748b; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                {{ ucfirst($provider->status) }}
+            </span>
+        @endif
 
     </td>
 

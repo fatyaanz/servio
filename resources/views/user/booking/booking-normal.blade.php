@@ -9,6 +9,7 @@
     <form
         action="{{ route('booking.store') }}"
         method="POST"
+        enctype="multipart/form-data"
     >
 
         @csrf
@@ -36,6 +37,8 @@
         @include('user.booking.components.provider-card')
 
         @include('user.booking.components.schedule-card')
+
+        @include('user.booking.components.damage-card')
 
         @include('user.booking.components.service-detail-card')
 

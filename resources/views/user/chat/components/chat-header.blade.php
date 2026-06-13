@@ -7,11 +7,15 @@
 
     </a>
 
-    <div class="provider-avatar">
+    <div class="provider-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; border-radius: 16px;">
 
         <img
-            src="{{ asset('assets/images/provider-logo.png') }}"
+            src="{{ $user->profile_photo
+                ? asset('storage/' . $user->profile_photo)
+                : 'https://ui-avatars.com/api/?name=' . urlencode($user->name)
+            }}"
             alt="provider"
+            style="width: 100%; height: 100%; object-fit: cover;"
         >
 
     </div>
@@ -19,7 +23,7 @@
     <div class="provider-info">
 
         <h3>
-            Service AC Berkah
+            {{ $user->name }}
         </h3>
 
         <span>

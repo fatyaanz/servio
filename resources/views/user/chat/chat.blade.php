@@ -13,8 +13,6 @@
 
     @include('user.chat.components.search-bar')
 
-    @include('user.chat.components.chat-card')
-
     @include('user.chat.components.chat-list')
 
 </body>

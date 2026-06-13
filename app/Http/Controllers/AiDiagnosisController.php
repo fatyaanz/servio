@@ -55,7 +55,7 @@ class AiDiagnosisController extends Controller
             ";
 
             // 3. Request ke API Gemini (Menggunakan gemini-2.5-flash)
-            $urlGemini = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+            $urlGemini = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
             ])->post($urlGemini . '?key=' . $apiKey, [
@@ -77,6 +77,12 @@ class AiDiagnosisController extends Controller
 
             $result = $response->json();
             $aiRawContent = $result['candidates'][0]['content']['parts'][0]['text'] ?? '{}';
+            
+            $aiRawContent = trim($aiRawContent);
+            if (preg_match('/^```(?:json)?\s*([\s\S]*?)\s*```$/i', $aiRawContent, $matches)) {
+                $aiRawContent = trim($matches[1]);
+            }
+            
             $aiData = json_decode($aiRawContent, true);
 
             // 4. Ambil data model SubService secara utuh dari database berdasarkan rekomendasi AI

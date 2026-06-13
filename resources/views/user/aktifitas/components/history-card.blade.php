@@ -92,6 +92,41 @@ $category =
 
             </div>
 
+            {{-- MINI RECEIPT IF COMPLETED --}}
+            @if($booking->status == 'completed' && $booking->diagnosis)
+                @php
+                    $serviceFee = $booking->diagnosis->service_fee;
+                    $sparepartTotal = 0;
+                    foreach ($booking->diagnosis->produks ?? [] as $produk) {
+                        if ($produk->pivot->is_selected) {
+                            $sparepartTotal += $produk->harga * $produk->pivot->qty;
+                        }
+                    }
+                    $totalPayable = $serviceFee + $sparepartTotal + 5000;
+                @endphp
+                <div class="mini-receipt">
+                    <div class="mini-receipt-title">=== STRUK PEMBAYARAN ===</div>
+                    <div class="mini-receipt-row">
+                        <span>Biaya Jasa:</span>
+                        <span>Rp{{ number_format($serviceFee, 0, ',', '.') }}</span>
+                    </div>
+                    @if($sparepartTotal > 0)
+                        <div class="mini-receipt-row">
+                            <span>Sparepart:</span>
+                            <span>Rp{{ number_format($sparepartTotal, 0, ',', '.') }}</span>
+                        </div>
+                    @endif
+                    <div class="mini-receipt-row">
+                        <span>Biaya Aplikasi:</span>
+                        <span>Rp5.000</span>
+                    </div>
+                    <div class="mini-receipt-total">
+                        <span>Total Bayar:</span>
+                        <span>Rp{{ number_format($totalPayable, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+            @endif
+
         </div>
 
         <div class="history-arrow">
@@ -384,6 +419,41 @@ $category =
         font-size:18px;
     }
 
+}
+
+/* =========================
+   MINI RECEIPT
+========================= */
+.mini-receipt {
+    margin-top: 15px;
+    padding: 15px;
+    background: #FAF8F6;
+    border: 1px dashed #F08A28;
+    border-radius: 16px;
+    font-family: monospace;
+    font-size: 13px;
+    color: #475569;
+}
+.mini-receipt-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1E293B;
+}
+.mini-receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.mini-receipt-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #F08A28;
+    border-top: 1px dotted #CBD5E1;
+    margin-top: 6px;
+    padding-top: 6px;
+    font-size: 14px;
 }
 
 </style>

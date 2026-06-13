@@ -23,6 +23,10 @@ class DiagnosisProdukController extends Controller
             $request->booking_id
         );
 
+        if ($booking->status !== 'diagnosis') {
+            return back()->with('error', 'Produk tidak dapat ditambahkan setelah estimasi dikirim.');
+        }
+
         $booking
             ->diagnosis
             ->produks()
@@ -44,6 +48,10 @@ class DiagnosisProdukController extends Controller
             Diagnosis::findOrFail(
                 $diagnosisId
             );
+
+        if ($diagnosis->booking->status !== 'diagnosis') {
+            return back()->with('error', 'Produk tidak dapat dihapus setelah estimasi dikirim.');
+        }
 
         $diagnosis
             ->produks()

@@ -1,91 +1,63 @@
 <div class="provider-review">
 
+    @php
+        $avgRating = $provider->providerReviews()->avg('rating') ?: 0;
+        $reviewCount = $provider->providerReviews()->count();
+    @endphp
+
     <div class="review-header">
 
         <div>
             <h3>Ulasan Pelanggan</h3>
 
             <span class="review-total">
-                120 Ulasan Terverifikasi
+                {{ $reviewCount }} Ulasan Terverifikasi
             </span>
         </div>
 
         <div class="review-score">
-            ⭐ 4.9/5
+            ⭐ {{ number_format($avgRating, 1) }}/5
         </div>
 
     </div>
 
-    <!-- REVIEW 1 -->
+    @forelse($provider->providerReviews()->with('customer')->latest()->get() as $review)
+        <div class="review-card">
 
-    <div class="review-card">
+            <div class="review-top">
 
-        <div class="review-top">
+                <div class="review-avatar" style="overflow: hidden; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%;">
+                    @if($review->customer->profile_photo)
+                        <img src="{{ asset('storage/' . $review->customer->profile_photo) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    @else
+                        {{ strtoupper(substr($review->customer->name, 0, 1)) }}
+                    @endif
+                </div>
 
-            <div class="review-avatar">
-                N
+                <div class="review-user">
+
+                    <h4>{{ $review->customer->name }}</h4>
+
+                    <span>{{ $review->created_at->diffForHumans() }}</span>
+
+                </div>
+
+                <div class="review-rating">
+                    {{ str_repeat('⭐', $review->rating) }}
+                </div>
+
             </div>
 
-            <div class="review-user">
-
-                <h4>Nabil</h4>
-
-                <span>2 hari yang lalu</span>
-
-            </div>
-
-            <div class="review-rating">
-                ⭐⭐⭐⭐⭐
-            </div>
+            <p class="review-text">
+                {{ $review->comment }}
+            </p>
 
         </div>
-
-        <p class="review-text">
-            Pelayanan sangat cepat dan ramah.
-            Teknisi datang sesuai jadwal dan berhasil
-            memperbaiki AC yang tidak dingin.
-        </p>
-
-        <div class="review-images">
-
-            <div class="review-image"></div>
-            <div class="review-image"></div>
-            <div class="review-image"></div>
-
+    @empty
+        <div class="review-card" style="text-align: center; color: #888; padding: 40px 20px;">
+            Belum ada ulasan untuk penyedia layanan ini.
         </div>
-
-    </div>
-
-    <!-- REVIEW 2 -->
-
-    <div class="review-card">
-
-        <div class="review-top">
-
-            <div class="review-avatar">
-                A
-            </div>
-
-            <div class="review-user">
-
-                <h4>Andi</h4>
-
-                <span>1 minggu yang lalu</span>
-
-            </div>
-
-            <div class="review-rating">
-                ⭐⭐⭐⭐⭐
-            </div>
-
-        </div>
-
-        <p class="review-text">
-            Harga sesuai estimasi dan diberikan garansi.
-            Sangat direkomendasikan.
-        </p>
-
-    </div>
+    @endforelse
 
 </div>
 

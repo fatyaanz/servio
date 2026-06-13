@@ -14,7 +14,8 @@ class CategoryController extends Controller
 {
     public function index()
 {
-    $categories = Category::withCount('providers')
+    $categories = Category::with(['providers.providerServices.subServices'])
+        ->withCount('providers')
         ->latest()
         ->get();
 

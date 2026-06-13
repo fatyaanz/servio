@@ -22,23 +22,23 @@
 
         </div>
 
-        <!-- PHOTO -->
-
-        <div class="profile-photo">
-
-            👤
-
-        </div>
-
-        <button class="change-photo-btn">
-
-            Ubah Foto Profil
-
-        </button>
-
         <!-- FORM -->
 
-        <form>
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <!-- PHOTO -->
+            <div class="profile-photo" style="overflow: hidden; display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 10px;">
+                <img id="customerPreviewPhoto" src="{{ Auth::user()->profile_photo
+                    ? asset('storage/' . Auth::user()->profile_photo)
+                    : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)
+                }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <label class="change-photo-btn" style="display: block; text-align: center; margin: 10px auto 25px; cursor: pointer; color: #F08A28; font-weight: 700;">
+                Ubah Foto Profil
+                <input type="file" name="profile_photo" accept="image/*" onchange="previewCustomerProfile(event)" hidden>
+            </label>
 
             <div class="form-group">
 
@@ -46,7 +46,8 @@
 
                 <input
                     type="text"
-                    value="Muhammad Nabil">
+                    name="name"
+                    value="{{ Auth::user()->name }}">
 
             </div>
 
@@ -56,7 +57,8 @@
 
                 <input
                     type="email"
-                    value="muhammad@email.com">
+                    value="{{ Auth::user()->email }}"
+                    readonly>
 
             </div>
 
@@ -66,7 +68,51 @@
 
                 <input
                     type="text"
-                    value="081234567890">
+                    name="phone"
+                    value="{{ Auth::user()->phone }}">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Alamat</label>
+
+                <textarea
+                    name="address"
+                    rows="3"
+                    style="width:100%; border:1px solid #E5E7EB; border-radius:16px; padding:12px; box-sizing:border-box; font-size:15px; resize:none;"
+                    placeholder="Masukkan alamat lengkap">{{ Auth::user()->address }}</textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Lokasi Koordinat (Latitude, Longitude)</label>
+
+                <div style="display: flex; gap: 10px;">
+                    <input
+                        type="text"
+                        name="latitude"
+                        id="customer_latitude"
+                        value="{{ Auth::user()->latitude }}"
+                        placeholder="Latitude"
+                        style="flex: 1;">
+                    <input
+                        type="text"
+                        name="longitude"
+                        id="customer_longitude"
+                        value="{{ Auth::user()->longitude }}"
+                        placeholder="Longitude"
+                        style="flex: 1;">
+                </div>
+
+                <button
+                    type="button"
+                    class="location-btn"
+                    onclick="getCustomerLocation()"
+                    style="margin-top: 8px; background: #EEF4FF; color: #2563EB; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: .25s ease;">
+                    📍 Dapatkan Lokasi Saat Ini
+                </button>
 
             </div>
 
@@ -177,6 +223,19 @@
         0 25px 60px rgba(0,0,0,.18);
 
     animation:slideUp .3s ease;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+}
+
+.modal-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-card::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 10px;
 }
 
 /* =========================
@@ -526,5 +585,43 @@ document
     }
 
 });
+
+function previewCustomerProfile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('customerPreviewPhoto').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+
+function getCustomerLocation() {
+    if (navigator.geolocation) {
+        const btn = document.querySelector('.location-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '🔄 Mengambil Lokasi...';
+        btn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById('customer_latitude').value = position.coords.latitude.toFixed(8);
+            document.getElementById('customer_longitude').value = position.coords.longitude.toFixed(8);
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Lokasi berhasil didapatkan: ' + position.coords.latitude + ', ' + position.coords.longitude);
+        }, function(error) {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            alert('Gagal mengambil lokasi: ' + error.message);
+        }, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    } else {
+        alert('Geolocation tidak didukung oleh browser ini.');
+    }
+}
 
 </script>

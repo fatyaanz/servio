@@ -1,3 +1,11 @@
+@php
+    $avgRating = $provider->providerReviews()->avg('rating') ?: 0;
+    $reviewCount = $provider->providerReviews()->count();
+    $satisfiedCount = $provider->providerReviews()->where('rating', '>=', 4)->count();
+    $satisfactionRate = $reviewCount > 0 ? round(($satisfiedCount / $reviewCount) * 100) : 100;
+    $completedCount = $provider->providerBookings()->where('status', 'completed')->count();
+@endphp
+
 <div class="provider-statistics">
 
     <div class="stat-card">
@@ -6,7 +14,7 @@
             💼
         </div>
 
-        <h4>250+</h4>
+        <h4>{{ $completedCount }}</h4>
 
         <p>Pekerjaan Selesai</p>
 
@@ -18,7 +26,7 @@
             ⭐
         </div>
 
-        <h4>4.9/5</h4>
+        <h4>{{ number_format($avgRating, 1) }}/5</h4>
 
         <p>Rating Rata-rata</p>
 
@@ -30,7 +38,7 @@
             😊
         </div>
 
-        <h4>98%</h4>
+        <h4>{{ $satisfactionRate }}%</h4>
 
         <p>Pelanggan Puas</p>
 
@@ -42,7 +50,7 @@
             🕒
         </div>
 
-        <h4>5+ Tahun</h4>
+        <h4>{{ $provider->experience ?? 0 }} Tahun</h4>
 
         <p>Pengalaman</p>
 

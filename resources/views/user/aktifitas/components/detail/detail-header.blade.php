@@ -26,7 +26,7 @@
         </span>
 
         <h1>
-            Detail Aktivitas
+            Detail Aktivitas <span style="color: #F08A28;">#{{ $booking->formatted_id }}</span>
         </h1>
 
         <p>

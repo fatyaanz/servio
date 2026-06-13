@@ -22,6 +22,10 @@ class DamageReportController extends Controller
             $request->booking_id
         );
 
+        if ($booking->status !== 'diagnosis') {
+            return back()->with('error', 'Kerusakan tidak dapat ditambahkan setelah estimasi dikirim.');
+        }
+
         $diagnosis =
             Diagnosis::firstOrCreate(
                 [
@@ -49,6 +53,10 @@ class DamageReportController extends Controller
     public function destroy($id)
     {
         $damage = DamageReport::findOrFail($id);
+
+        if ($damage->diagnosis->booking->status !== 'diagnosis') {
+            return back()->with('error', 'Kerusakan tidak dapat dihapus setelah estimasi dikirim.');
+        }
 
         $damage->delete();
 

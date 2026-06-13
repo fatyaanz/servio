@@ -1,17 +1,23 @@
-<div class="chat-input-wrapper">
-
+<form action="{{ route('chat.send', $user->id) }}" method="POST" class="chat-input-wrapper">
+    @csrf
+    @if($booking)
+        <input type="hidden" name="booking_id" value="{{ $booking->id }}">
+    @endif
     <input
         type="text"
+        name="message"
         placeholder="Ketik pesan..."
+        required
+        autocomplete="off"
     >
 
-    <button>
+    <button type="submit">
 
         ➤
 
     </button>
 
-</div>
+</form>
 
 <style>
 

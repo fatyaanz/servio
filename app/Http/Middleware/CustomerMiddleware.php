@@ -23,9 +23,12 @@ class CustomerMiddleware
         }
 
         if (auth()->user()->role !== 'customer') {
-
+            if (auth()->user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif (auth()->user()->role === 'provider') {
+                return redirect()->route('provider.Dashboard.dashboard');
+            }
             abort(403, 'Akses ditolak');
-
         }
 
         return $next($request);
