@@ -100,6 +100,8 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
+        $averageRating = \App\Models\Review::where('provider_id', $providerId)->avg('rating') ?? 0;
+
         return view(
             'provider.pages.Dashboard.dashboard',
             compact(
@@ -110,7 +112,8 @@ class DashboardController extends Controller
                 'todayIncome',
                 'pendingBookings',
                 'activeBookings',
-                'reviews'
+                'reviews',
+                'averageRating'
             )
         );
     }

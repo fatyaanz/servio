@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\ProviderService;
+use App\Models\Notification;
 
 class ServiceApprovalController extends Controller
 {
@@ -20,6 +21,15 @@ class ServiceApprovalController extends Controller
             'approved_at' => now(),
 
             'reject_reason' => null
+        ]);
+
+        // Notify provider
+        Notification::create([
+            'user_id' => $service->provider_id,
+            'title' => 'Layanan Disetujui',
+            'message' => 'Layanan kategori "' . ($service->category ? $service->category->name : 'Unknown') . '" Anda telah disetujui oleh admin.',
+            'type' => 'service_approved',
+            'is_read' => false
         ]);
 
         return back()->with(
@@ -42,6 +52,15 @@ class ServiceApprovalController extends Controller
 
             'reject_reason' =>
             $request->reject_reason
+        ]);
+
+        // Notify provider
+        Notification::create([
+            'user_id' => $service->provider_id,
+            'title' => 'Layanan Ditolak',
+            'message' => 'Layanan kategori "' . ($service->category ? $service->category->name : 'Unknown') . '" Anda ditolak. Alasan: ' . $request->reject_reason,
+            'type' => 'service_rejected',
+            'is_read' => false
         ]);
 
         return back()->with(

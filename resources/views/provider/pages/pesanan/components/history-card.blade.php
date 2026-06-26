@@ -118,6 +118,32 @@ $statusIcon =
 
             </div>
 
+            @php
+                $damagePhotos = [];
+                if ($booking->damage_photo) {
+                    if (is_array($booking->damage_photo)) {
+                        $damagePhotos = $booking->damage_photo;
+                    } else {
+                        $decoded = json_decode($booking->damage_photo, true);
+                        if (is_array($decoded)) {
+                            $damagePhotos = $decoded;
+                        } else {
+                            $damagePhotos = [$booking->damage_photo];
+                        }
+                    }
+                }
+            @endphp
+
+            @if(count($damagePhotos) > 0)
+                <div class="history-damage-photos" style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;" onclick="event.preventDefault(); event.stopPropagation();">
+                    @foreach($damagePhotos as $photo)
+                        <div style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; border: 1px solid #ECECEC; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                            <img src="{{ asset('storage/' . $photo) }}" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="window.open('{{ asset('storage/' . $photo) }}', '_blank')">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
             {{-- MINI RECEIPT IF COMPLETED --}}
             @if($booking->status == 'completed' && $booking->diagnosis)
                 @php
@@ -131,7 +157,7 @@ $statusIcon =
                     $totalPayable = $serviceFee + $sparepartTotal + 5000;
                 @endphp
                 <div class="mini-receipt">
-                    <div class="mini-receipt-title">=== STRUK PEMBAYARAN ===</div>
+                    <div class="mini-receipt-title"> STRUK PEMBAYARAN </div>
                     <div class="mini-receipt-row">
                         <span>Biaya Jasa:</span>
                         <span>Rp{{ number_format($serviceFee, 0, ',', '.') }}</span>

@@ -23,7 +23,9 @@ class Booking extends Model
         'damage_description',
         'damage_photo',
         'latitude',
-        'longitude'
+        'longitude',
+        'customer_location',
+        'payment_proof'
     ];
 
     protected $casts = [

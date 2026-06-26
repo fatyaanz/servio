@@ -1,627 +1,212 @@
-<!-- =========================
-    EDIT PROFILE MODAL
-========================= -->
-
 <div class="modal-overlay" id="editProfileModal">
-
     <div class="modal-card">
-
-        <!-- HEADER -->
-
         <div class="modal-header">
-
-            <h2>Edit Profil</h2>
-
-            <button
-                class="close-modal"
-                onclick="closeEditProfileModal()">
-
-                ✕
-
-            </button>
-
+            <h2>Edit Profil Saya</h2>
+            <button class="close-modal" onclick="closeEditProfileModal()">✕</button>
         </div>
 
-        <!-- FORM -->
-
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="edit-profile-form">
             @csrf
-
-            <!-- PHOTO -->
-            <div class="profile-photo" style="overflow: hidden; display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 10px;">
-                <img id="customerPreviewPhoto" src="{{ Auth::user()->profile_photo
-                    ? asset('storage/' . Auth::user()->profile_photo)
-                    : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name)
-                }}" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-
-            <label class="change-photo-btn" style="display: block; text-align: center; margin: 10px auto 25px; cursor: pointer; color: #F08A28; font-weight: 700;">
-                Ubah Foto Profil
-                <input type="file" name="profile_photo" accept="image/*" onchange="previewCustomerProfile(event)" hidden>
-            </label>
-
-            <div class="form-group">
-
-                <label>Nama Lengkap</label>
-
-                <input
-                    type="text"
-                    name="name"
-                    value="{{ Auth::user()->name }}">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Email</label>
-
-                <input
-                    type="email"
-                    value="{{ Auth::user()->email }}"
-                    readonly>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Nomor HP</label>
-
-                <input
-                    type="text"
-                    name="phone"
-                    value="{{ Auth::user()->phone }}">
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Alamat</label>
-
-                <textarea
-                    name="address"
-                    rows="3"
-                    style="width:100%; border:1px solid #E5E7EB; border-radius:16px; padding:12px; box-sizing:border-box; font-size:15px; resize:none;"
-                    placeholder="Masukkan alamat lengkap">{{ Auth::user()->address }}</textarea>
-
-            </div>
-
-            <div class="form-group">
-
-                <label>Lokasi Koordinat (Latitude, Longitude)</label>
-
-                <div style="display: flex; gap: 10px;">
-                    <input
-                        type="text"
-                        name="latitude"
-                        id="customer_latitude"
-                        value="{{ Auth::user()->latitude }}"
-                        placeholder="Latitude"
-                        style="flex: 1;">
-                    <input
-                        type="text"
-                        name="longitude"
-                        id="customer_longitude"
-                        value="{{ Auth::user()->longitude }}"
-                        placeholder="Longitude"
-                        style="flex: 1;">
+            
+            <!-- Profile Photo Upload with Live Preview -->
+            <div class="avatar-upload-container">
+                <div class="avatar-preview-wrapper">
+                    <img id="edit_avatar_preview" src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}" alt="Avatar Preview">
+                    <label for="profile_photo_input" class="upload-badge" title="Ganti Foto">
+                        📷
+                    </label>
                 </div>
-
-                <button
-                    type="button"
-                    class="location-btn"
-                    onclick="getCustomerLocation()"
-                    style="margin-top: 8px; background: #EEF4FF; color: #2563EB; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: .25s ease;">
-                    📍 Dapatkan Lokasi Saat Ini
-                </button>
-
+                <input type="file" id="profile_photo_input" name="profile_photo" accept="image/png, image/jpeg, image/jpg" style="display: none;" onchange="previewProfilePhoto(event)">
+                <small class="upload-hint">Format: JPG, PNG. Maksimal 2MB.</small>
             </div>
 
-            <!-- BUTTON ACTION -->
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="cancel-btn"
-                    onclick="closeEditProfileModal()">
-
-                    Batal
-
-                </button>
-
-                <button
-                    type="submit"
-                    class="save-btn">
-
-                    Simpan Perubahan
-
-                </button>
-
+            <!-- Name Input -->
+            <div class="form-group">
+                <label for="edit_name">Nama Lengkap <span style="color: #DC2626;">*</span></label>
+                <input type="text" id="edit_name" name="name" value="{{ Auth::user()->name }}" required placeholder="Masukkan nama lengkap Anda">
             </div>
 
+            <!-- Phone Input -->
+            <div class="form-group">
+                <label for="edit_phone">Nomor Telepon / WhatsApp <span style="color: #DC2626;">*</span></label>
+                <input type="text" id="edit_phone" name="phone" value="{{ Auth::user()->phone }}" required placeholder="Contoh: 08123456789">
+            </div>
+
+            <!-- Password Change (Optional) -->
+            <div class="form-group password-group" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #ECECEC;">
+                <label for="edit_password">Password Baru (Opsional)</label>
+                <input type="password" id="edit_password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password">
+                <small class="field-hint">Minimal 8 karakter jika ingin diubah.</small>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 25px;">
+                <button type="button" class="cancel-btn" onclick="closeEditProfileModal()">Batal</button>
+                <button type="submit" class="save-btn">Simpan Perubahan</button>
+            </div>
         </form>
-
     </div>
-
 </div>
 
 <style>
-
 /* =========================
-   OVERLAY
+   AVATAR UPLOAD
 ========================= */
-
-.modal-overlay{
-
-    position:fixed;
-    inset:0;
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:rgba(0,0,0,.55);
-
-    backdrop-filter:blur(8px);
-
-    z-index:9999;
+.avatar-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    gap: 8px;
 }
 
-.modal-overlay.active{
-
-    display:flex;
-
-    animation:fadeIn .25s ease;
+.avatar-preview-wrapper {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid #FFF;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* =========================
-   ANIMATION
-========================= */
-
-@keyframes fadeIn{
-
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
+.avatar-preview-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #F9FAFB;
 }
 
-@keyframes slideUp{
-
-    from{
-        opacity:0;
-        transform:translateY(30px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.upload-badge {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: #F08A28;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(240, 138, 40, 0.3);
+    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-/* =========================
-   CARD
-========================= */
-
-.modal-card{
-
-    width:100%;
-    max-width:560px;
-
-    background:#FFFFFF;
-
-    border-radius:28px;
-
-    padding:35px;
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.18);
-
-    animation:slideUp .3s ease;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
+.upload-badge:hover {
+    transform: scale(1.1);
+    background: #E67C14;
 }
 
-.modal-card::-webkit-scrollbar {
-    width: 6px;
+.upload-hint {
+    font-size: 11px;
+    color: #888;
 }
 
-.modal-card::-webkit-scrollbar-thumb {
-    background: #e5e7eb;
-    border-radius: 10px;
+.field-hint {
+    font-size: 11px;
+    color: #888;
+    margin-top: 4px;
+    display: block;
 }
 
 /* =========================
-   HEADER
+   FORM ELEMENTS
 ========================= */
-
-.modal-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:30px;
+.edit-profile-form .form-group {
+    margin-bottom: 18px;
+    text-align: left;
 }
 
-.modal-header h2{
-
-    font-size:26px;
-
-    font-weight:700;
-
-    color:#1F2937;
+.edit-profile-form .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
 }
 
-.close-modal{
-
-    width:42px;
-
-    height:42px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#F3F4F6;
-
-    cursor:pointer;
-
-    font-size:18px;
-
-    transition:.25s;
+.edit-profile-form .form-group input {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
 }
 
-.close-modal:hover{
-
-    background:#E5E7EB;
-
-    transform:rotate(90deg);
+.edit-profile-form .form-group input:focus {
+    border-color: #F08A28;
+    box-shadow: 0 0 0 4px rgba(240, 138, 40, 0.08);
 }
 
-/* =========================
-   PHOTO
-========================= */
-
-.profile-photo{
-
-    width:120px;
-
-    height:120px;
-
-    margin:auto;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #F08A28,
-        #FFB347
-    );
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:white;
-
-    font-size:52px;
-
-    box-shadow:
-        0 12px 25px rgba(240,138,40,.3);
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
-.change-photo-btn{
-
-    display:block;
-
-    margin:18px auto 35px;
-
-    border:none;
-
-    background:none;
-
-    color:#F08A28;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.25s;
+.cancel-btn {
+    height: 48px;
+    padding: 0 24px;
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    background: white;
+    color: #555;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.change-photo-btn:hover{
-
-    opacity:.8;
+.cancel-btn:hover {
+    background: #F9FAFB;
 }
 
-/* =========================
-   FORM
-========================= */
-
-.form-group{
-
-    margin-bottom:20px;
+.save-btn {
+    height: 48px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 14px;
+    background: #F08A28;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(240, 138, 40, 0.25);
 }
 
-.form-group label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#374151;
-
-    font-size:14px;
-
-    font-weight:600;
+.save-btn:hover {
+    background: #E67C14;
+    transform: translateY(-1px);
 }
-
-.form-group input{
-
-    width:100%;
-
-    height:56px;
-
-    padding:0 18px;
-
-    border:1px solid #E5E7EB;
-
-    border-radius:16px;
-
-    font-size:15px;
-
-    box-sizing:border-box;
-}
-
-.form-group input:focus{
-
-    outline:none;
-
-    border-color:#F08A28;
-
-    box-shadow:
-        0 0 0 4px rgba(240,138,40,.15);
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.modal-actions{
-
-    display:flex;
-
-    gap:12px;
-
-    margin-top:30px;
-}
-
-.cancel-btn{
-
-    flex:1;
-
-    height:58px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:#F3F4F6;
-
-    color:#374151;
-
-    font-size:15px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.25s;
-}
-
-.cancel-btn:hover{
-
-    background:#E5E7EB;
-}
-
-.save-btn{
-
-    flex:2;
-
-    height:58px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:linear-gradient(
-        135deg,
-        #F08A28,
-        #FF9F43
-    );
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.25s;
-}
-
-.save-btn:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 12px 25px rgba(240,138,40,.35);
-}
-
-.save-btn:active{
-
-    transform:scale(.98);
-}
-
-/* =========================
-   RESPONSIVE TABLET
-========================= */
-
-@media(max-width:768px){
-
-    .modal-card{
-
-        padding:28px 24px;
-    }
-
-    .profile-photo{
-
-        width:100px;
-        height:100px;
-
-        font-size:45px;
-    }
-
-    .modal-header h2{
-
-        font-size:22px;
-    }
-}
-
-/* =========================
-   RESPONSIVE MOBILE
-========================= */
-
-@media(max-width:480px){
-
-    .modal-overlay{
-
-        padding:15px;
-    }
-
-    .modal-card{
-
-        padding:22px 18px;
-
-        border-radius:22px;
-    }
-
-    .modal-header{
-
-        margin-bottom:22px;
-    }
-
-    .modal-header h2{
-
-        font-size:20px;
-    }
-
-    .profile-photo{
-
-        width:90px;
-        height:90px;
-
-        font-size:40px;
-    }
-
-    .form-group input{
-
-        height:52px;
-    }
-
-    .modal-actions{
-
-        flex-direction:column;
-    }
-
-    .cancel-btn,
-    .save-btn{
-
-        width:100%;
-        height:54px;
-    }
-}
-
 </style>
 
 <script>
-
-function openEditProfileModal(){
-
-    document
-        .getElementById('editProfileModal')
-        .classList.add('active');
+function openEditProfileModal() {
+    document.getElementById('editProfileModal').classList.add('active');
 }
 
-function closeEditProfileModal(){
-
-    document
-        .getElementById('editProfileModal')
-        .classList.remove('active');
+function closeEditProfileModal() {
+    document.getElementById('editProfileModal').classList.remove('active');
 }
 
-/* Klik area gelap untuk menutup */
-
-document
-.getElementById('editProfileModal')
-.addEventListener('click', function(e){
-
-    if(e.target === this){
-
-        closeEditProfileModal();
-    }
-
-});
-
-function previewCustomerProfile(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
+function previewProfilePhoto(event) {
     const reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('customerPreviewPhoto').src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-}
-
-function getCustomerLocation() {
-    if (navigator.geolocation) {
-        const btn = document.querySelector('.location-btn');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '🔄 Mengambil Lokasi...';
-        btn.disabled = true;
-
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('customer_latitude').value = position.coords.latitude.toFixed(8);
-            document.getElementById('customer_longitude').value = position.coords.longitude.toFixed(8);
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            alert('Lokasi berhasil didapatkan: ' + position.coords.latitude + ', ' + position.coords.longitude);
-        }, function(error) {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            alert('Gagal mengambil lokasi: ' + error.message);
-        }, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        });
-    } else {
-        alert('Geolocation tidak didukung oleh browser ini.');
+    reader.onload = function() {
+        const output = document.getElementById('edit_avatar_preview');
+        output.src = reader.result;
+    };
+    if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
     }
 }
-
 </script>

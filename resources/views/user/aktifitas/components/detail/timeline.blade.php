@@ -77,69 +77,104 @@
 
     ];
 
+    if ($booking->customer_location === 'inside') {
+        unset($steps['waiting_approval']);
+        unset($steps['rejected']);
+        unset($steps['approved']);
+    } else {
+        if ($booking->status === 'rejected') {
+            unset($steps['approved']);
+        } elseif (in_array($booking->status, ['approved', 'working', 'payment', 'completed'])) {
+            unset($steps['rejected']);
+        }
+    }
+
     $currentStatus = $booking->status;
 
     $statusOrder = array_keys($steps);
 
-    $currentIndex =
-        array_search(
-            $currentStatus,
-            $statusOrder
-        );
+    $currentIndex = array_search($currentStatus, $statusOrder);
+    if ($currentIndex === false) {
+        $currentIndex = 0;
+    }
 
     @endphp
 
-    <div class="timeline">
+    <div class="timeline-steps-wrapper collapsed">
+        <div class="timeline">
 
-        @foreach($steps as $key => $step)
+            @foreach($steps as $key => $step)
 
-            @php
+                @php
 
-                $index =
-                    array_search(
-                        $key,
-                        $statusOrder
-                    );
+                    $index =
+                        array_search(
+                            $key,
+                            $statusOrder
+                        );
 
-                $class = '';
+                    $class = '';
 
-                if($index < $currentIndex){
+                    if($index < $currentIndex){
 
-                    $class = 'completed';
+                        $class = 'completed';
 
-                }elseif($index == $currentIndex){
+                    }elseif($index == $currentIndex){
 
-                    $class = 'active';
+                        $class = 'active';
 
-                }
+                    }
 
-            @endphp
+                @endphp
 
-            <div class="timeline-item {{ $class }}">
+                <div class="timeline-item {{ $class }}">
 
-                <div class="timeline-icon">
+                    <div class="timeline-icon">
 
-                    {{ $step['icon'] }}
+                        {{ $step['icon'] }}
+
+                    </div>
+
+                    <div class="timeline-content">
+
+                        <h4>
+
+                            {{ $step['title'] }}
+
+                        </h4>
+
+                    </div>
 
                 </div>
 
-                <div class="timeline-content">
+            @endforeach
 
-                    <h4>
+        </div>
+    </div>
 
-                        {{ $step['title'] }}
-
-                    </h4>
-
-                </div>
-
-            </div>
-
-        @endforeach
-
+    <div class="timeline-toggle-btn" onclick="toggleTimeline()" style="cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; background: #FFF6EE; border-radius: 16px; color: #F08A28; font-weight: 700; margin-top: 20px; font-size: 14px; transition: 0.3s; box-shadow: 0 4px 10px rgba(240,138,40,0.05);">
+        <span id="toggle-text">Lihat Detail Progress</span>
+        <span id="toggle-icon">▼</span>
     </div>
 
 </div>
+
+<script>
+function toggleTimeline() {
+    const wrapper = document.querySelector('.timeline-steps-wrapper');
+    const text = document.getElementById('toggle-text');
+    const icon = document.getElementById('toggle-icon');
+    if (wrapper.classList.contains('collapsed')) {
+        wrapper.classList.remove('collapsed');
+        text.innerText = 'Sembunyikan';
+        icon.innerText = '▲';
+    } else {
+        wrapper.classList.add('collapsed');
+        text.innerText = 'Lihat Detail Progress';
+        icon.innerText = '▼';
+    }
+}
+</script>
 
 <style>
 
@@ -221,6 +256,14 @@
 /* =========================
    TIMELINE
 ========================= */
+
+.timeline-steps-wrapper.collapsed .timeline-item:not(.active) {
+    display: none !important;
+}
+
+.timeline-steps-wrapper.collapsed .timeline::before {
+    display: none !important;
+}
 
 .timeline{
 

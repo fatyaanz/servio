@@ -124,7 +124,7 @@
     position:absolute;
 
     inset:0;
-
+ 
     border-radius:999px;
 
     box-shadow:
@@ -141,6 +141,8 @@
 @media(max-width:768px){
 
     .top-nav{
+
+        display:flex;
 
         bottom:14px;
 

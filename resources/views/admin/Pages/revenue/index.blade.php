@@ -130,7 +130,7 @@
     <!-- HEADER -->
     <div class="revenue-header">
         <div class="revenue-title">
-            <h1>ServioPay Ledger</h1>
+            <h1>Laporan Keuangan</h1>
             <p>Laporan pendapatan dan biaya layanan transaksi aplikasi Servio.</p>
         </div>
     </div>
@@ -138,7 +138,7 @@
     <!-- STATS -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-label">Total Saldo Pendapatan Admin (ServioPay)</div>
+            <div class="stat-label">Total Saldo Pendapatan Admin</div>
             <div class="stat-number">Rp{{ number_format($totalRevenue, 0, ',', '.') }}</div>
         </div>
     </div>

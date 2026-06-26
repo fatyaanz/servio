@@ -190,30 +190,27 @@
 
     @elseif($booking->status == 'payment')
 
-    <div class="action-group">
+    <div class="action-group" style="flex: 1; display: flex; gap: 14px;">
 
-        <form
-            action="{{ route(
-                'booking.pay',
-                $booking->id
-            ) }}"
-            method="POST"
-            class="action-form"
-            style="flex: 2;"
-        >
-
-            @csrf
-
+        @if(!$booking->payment_proof)
             <button
-                type="submit"
+                type="button"
                 class="primary-btn"
+                onclick="openPaymentModal()"
+                style="flex: 2;"
             >
-
                 💳 Bayar Sekarang
-
             </button>
-
-        </form>
+        @else
+            <button
+                type="button"
+                class="secondary-btn"
+                disabled
+                style="flex: 2; display: flex; align-items: center; justify-content: center;"
+            >
+                ⏳ Menunggu Verifikasi
+            </button>
+        @endif
 
         <a
             href="{{ route('chat.detail', ['user' => $booking->provider_id, 'booking_id' => $booking->id]) }}"

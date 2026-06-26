@@ -71,6 +71,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
+
     public function categories()
     {
         return $this->belongsToMany(
@@ -109,6 +114,23 @@ class User extends Authenticatable
             Review::class,
             'provider_id'
         );
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class, 'user_id');
+    }
+
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'user_vouchers')
+            ->withPivot('is_used')
+            ->withTimestamps();
     }
 
     public function customerReviews()

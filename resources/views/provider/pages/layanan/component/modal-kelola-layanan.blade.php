@@ -22,6 +22,7 @@
         <form
             action="{{ route('provider.subservice.store') }}"
             method="POST"
+            enctype="multipart/form-data"
         >
 
             @csrf
@@ -88,14 +89,35 @@
 
                 <label>
 
-                    Deskripsi
+                    Deskripsi (Benefit Layanan)
 
                 </label>
 
                 <textarea
                     name="description"
                     rows="4"
+                    placeholder="Contoh: Layanan ini mencakup garansi 30 hari, gratis pembersihan filter, dan penggantian pipa standard..."
                 ></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Foto Sub Layanan
+
+                </label>
+
+                <input
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                >
+
+                <small style="color: #94A3B8; display: block; margin-top: 4px;">
+                    Rekomendasi ukuran: 600x400 px, Maks: 2MB.
+                </small>
 
             </div>
 

@@ -143,8 +143,8 @@
 
         </a>
 
-        <a href="{{ route('notifications.index') }}"
-           class="menu-item {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
+        <a href="{{ route('provider.notifikasi') }}"
+           class="menu-item {{ request()->routeIs('provider.notifikasi') ? 'active' : '' }}">
 
             <div class="menu-icon">
                 🔔

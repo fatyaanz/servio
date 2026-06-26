@@ -1,6 +1,6 @@
 <div class="provider-header">
 
-    <a href="{{ url()->previous() }}" class="back-btn">
+    <a href="{{ route('layanan') }}" class="back-btn">
 
         <svg width="20"
              height="20"

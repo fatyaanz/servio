@@ -34,7 +34,9 @@ class ProviderServiceController extends Controller
 
                 'price_min' => 'required|numeric',
 
-                'price_max' => 'required|numeric'
+                'price_max' => 'required|numeric',
+
+                'photo' => 'nullable|image|max:2048'
             ]);
 
             $providerService = ProviderService::findOrFail(
@@ -49,6 +51,11 @@ class ProviderServiceController extends Controller
                 );
             }
 
+            $photoPath = null;
+            if ($request->hasFile('photo')) {
+                $photoPath = $request->file('photo')->store('subservices', 'public');
+            }
+
             SubService::create([
 
                 'provider_service_id' =>
@@ -60,7 +67,9 @@ class ProviderServiceController extends Controller
 
                 'price_max' => $request->price_max,
 
-                'description' => $request->description
+                'description' => $request->description,
+
+                'photo' => $photoPath
             ]);
 
             return back()->with(
@@ -223,23 +232,29 @@ class ProviderServiceController extends Controller
 
         'price_min' => 'required|numeric',
 
-        'price_max' => 'required|numeric'
+        'price_max' => 'required|numeric',
+
+        'photo' => 'nullable|image|max:2048'
 
     ]);
 
     $subService = SubService::findOrFail($id);
 
-    $subService->update([
-
+    $data = [
         'name' => $request->name,
-
         'price_min' => $request->price_min,
-
         'price_max' => $request->price_max,
-
         'description' => $request->description
+    ];
 
-    ]);
+    if ($request->hasFile('photo')) {
+        if ($subService->photo) {
+            Storage::disk('public')->delete($subService->photo);
+        }
+        $data['photo'] = $request->file('photo')->store('subservices', 'public');
+    }
+
+    $subService->update($data);
 
     return back()->with(
         'success',

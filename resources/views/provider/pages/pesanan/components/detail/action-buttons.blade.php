@@ -147,13 +147,14 @@
 
     {{-- KONDISI 8: MENUNGGU PEMBAYARAN --}}
     @elseif($booking->status == 'payment')
-    
-        <button
-            class="action-btn btn-green"
-            disabled
-        >
-            💳 Menunggu Pembayaran
-        </button>
+        @if(!$booking->payment_proof)
+            <button
+                class="action-btn btn-green"
+                disabled
+            >
+                💳 Menunggu Pembayaran
+            </button>
+        @endif
 
     {{-- KONDISI 9: SELESAI --}}
     @elseif($booking->status == 'completed')

@@ -1,23 +1,26 @@
 <div class="activity-tabs">
 
-    <a href="{{ route('aktifitas') }}"
-       class="tab-btn active">
+    <button type="button"
+            id="tab-btn-aktif"
+            class="tab-btn {{ $activeTab === 'aktif' ? 'active' : '' }}"
+            onclick="switchTab('aktif')">
 
         <span>Aktif</span>
 
-       <span class="tab-count">
-    {{ $bookings->count() }}
-</span>
+        <span class="tab-count">
+            {{ $activeBookings->count() }}
+        </span>
 
-    </a>
+    </button>
 
-    <a href="{{ route('riwayat') }}"
-       class="tab-btn">
+    <button type="button"
+            id="tab-btn-riwayat"
+            class="tab-btn {{ $activeTab === 'riwayat' ? 'active' : '' }}"
+            onclick="switchTab('riwayat')">
 
         <span>Riwayat</span>
-        
 
-    </a>
+    </button>
 
 </div>
 
@@ -75,6 +78,12 @@
     color:#777;
 
     transition:.3s ease;
+
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 /* =========================
@@ -176,7 +185,7 @@
 
         min-width:20px;
         height:20px;
-
+ 
         font-size:10px;
     }
 

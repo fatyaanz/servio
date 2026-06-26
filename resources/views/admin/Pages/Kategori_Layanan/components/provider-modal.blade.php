@@ -83,7 +83,7 @@
 
                             <!-- SUB LAYANAN -->
                             <td>
-                                <div class="sub-service">
+                                <div class="sub-service-list" style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
                                     @php
                                         $provServ = $provider->providerServices
                                             ->where('category_id', $category->id)
@@ -92,9 +92,23 @@
 
                                     @if($provServ && $provServ->subServices->count())
                                         @foreach($provServ->subServices as $sub)
-                                            <span>
-                                                {{ $sub->name }}
-                                            </span>
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                @if($sub->photo)
+                                                    <img src="{{ asset('storage/' . $sub->photo) }}" alt="" style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0; flex-shrink: 0;">
+                                                @else
+                                                    <div style="width: 32px; height: 32px; border-radius: 6px; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; background: #f8fafc; font-size: 11px; color: #94a3b8; flex-shrink: 0;">
+                                                        📷
+                                                    </div>
+                                                @endif
+                                                <div style="text-align: left;">
+                                                    <div style="font-weight: 600; font-size: 13px; color: #1e293b;">{{ $sub->name }}</div>
+                                                    @if($sub->description)
+                                                        <div style="font-size: 11px; color: #64748b; line-height: 1.3; max-width: 250px; white-space: normal;">
+                                                            {{ $sub->description }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         @endforeach
                                     @else
                                         <span style="color: #9ca3af; font-style: italic; border: none; padding: 0; background: none;">

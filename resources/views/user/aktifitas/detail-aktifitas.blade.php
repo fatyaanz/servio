@@ -15,31 +15,74 @@
     )
 
     @include(
+        'user.aktifitas.components.detail.address-card',
+        ['booking' => $booking]
+    )
+
+    @include(
         'user.aktifitas.components.detail.timeline',
         ['booking' => $booking]
     )
 
-    @include(
-        'user.aktifitas.components.detail.booking-information',
-        ['booking' => $booking]
-    )
+    @if(in_array($booking->status, ['completed', 'cancelled', 'rejected']))
+        @if($booking->status == 'completed')
+            @include('user.aktifitas.components.detail.receipt-card', ['booking' => $booking])
+        @endif
 
-    @include(
-        'user.aktifitas.components.detail.diagnosis-result',
-        ['booking' => $booking]
-    )
+        @include(
+            'user.aktifitas.components.detail.action-buttons',
+            ['booking' => $booking]
+        )
+    @else
 
-    @if($booking->status == 'waiting_approval')
+        @include(
+            'user.aktifitas.components.detail.booking-information',
+            ['booking' => $booking]
+        )
 
-        <form
-            action="{{ route(
-                'booking.approve.estimation',
-                $booking->id
-            ) }}"
-            method="POST"
-        >
+        @if(!in_array($booking->status, ['pending', 'accepted', 'on_the_way', 'diagnosis']))
+            @include(
+                'user.aktifitas.components.detail.diagnosis-result',
+                ['booking' => $booking]
+            )
+        @endif
 
-            @csrf
+        @if($booking->status == 'waiting_approval')
+
+            <form
+                action="{{ route(
+                    'booking.approve.estimation',
+                    $booking->id
+                ) }}"
+                method="POST"
+            >
+
+                @csrf
+
+                @include(
+                    'user.aktifitas.components.detail.sparepart-recommendation',
+                    ['booking' => $booking]
+                )
+
+                @include(
+                    'user.aktifitas.components.detail.price-approval',
+                    ['booking' => $booking]
+                )
+                
+                @include(
+                    'user.aktifitas.components.detail.damage-details',
+                    ['booking' => $booking]
+                )
+                
+                @include(
+                    'user.aktifitas.components.detail.action-buttons',
+                    ['booking' => $booking]
+                )
+
+            </form>
+
+        @else
+
 
             @include(
                 'user.aktifitas.components.detail.sparepart-recommendation',
@@ -50,42 +93,27 @@
                 'user.aktifitas.components.detail.price-approval',
                 ['booking' => $booking]
             )
-            
-             @include(
-        'user.aktifitas.components.detail.action-buttons',
-        ['booking' => $booking]
-    )
 
-        </form>
+            @include(
+                'user.aktifitas.components.detail.damage-details',
+                ['booking' => $booking]
+            )
 
-    @else
+            @if($booking->status == 'payment')
+                @include('user.aktifitas.components.detail.payment-card', ['booking' => $booking])
+            @endif
 
-
-        @include(
-            'user.aktifitas.components.detail.sparepart-recommendation',
-            ['booking' => $booking]
-        )
-
-        @include(
-            'user.aktifitas.components.detail.price-approval',
-            ['booking' => $booking]
-        )
-
-        @if($booking->status == 'payment')
-            @include('user.aktifitas.components.detail.payment-card', ['booking' => $booking])
+            @include(
+                'user.aktifitas.components.detail.action-buttons',
+                ['booking' => $booking]
+            )
         @endif
-
-        @if($booking->status == 'completed')
-            @include('user.aktifitas.components.detail.receipt-card', ['booking' => $booking])
-        @endif
-
-        @include(
-            'user.aktifitas.components.detail.action-buttons',
-            ['booking' => $booking]
-        )
     @endif
 
     @include('user.aktifitas.components.detail.modal-review', ['booking' => $booking])
+    @if($booking->status == 'payment')
+        @include('user.aktifitas.components.detail.modal-payment', ['booking' => $booking])
+    @endif
           
 </body>
 </html>

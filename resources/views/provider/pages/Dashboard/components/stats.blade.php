@@ -104,6 +104,32 @@
 
     </div>
 
+    <!-- CARD 5 -->
+
+    <div class="stats-card">
+
+        <div class="stats-icon purple" style="background: #f5f3ff; color: #8b5cf6;">
+            ⭐
+        </div>
+
+        <div class="stats-info">
+
+            <p>
+                Rata-rata Rating
+            </p>
+
+            <h2>
+                {{ number_format($averageRating, 1) }}
+            </h2>
+
+            <a href="{{ route('provider.ulasan') }}">
+                Lihat Ulasan
+            </a>
+
+        </div>
+
+    </div>
+
 </div>
 
 <style>
@@ -111,7 +137,7 @@
     .stats-grid{
 
         display:grid;
-        grid-template-columns:repeat(4,1fr);
+        grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
 
         gap:18px;
 

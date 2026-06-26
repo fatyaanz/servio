@@ -1,19 +1,17 @@
 @forelse($bookings as $booking)
 
 @php
+$category = $booking->subServices->first()?->providerService?->category;
 
-$category =
-    $booking->subServices
-        ->first()
-        ?->providerService
-        ?->category;
-
+// Group for dynamic filtering
+if ($booking->status == 'completed') {
+    $group = 'completed';
+} else {
+    $group = 'rejected'; // cancelled and rejected statuses map to 'rejected' for filtering
+}
 @endphp
 
-<a
-    href="{{ route('detail.aktifitas', $booking->id) }}"
-    class="history-card"
->
+<a href="{{ route('detail.aktifitas', $booking->id) }}" class="history-card-item" data-status="{{ $group }}">
 
     <div class="history-status
         @if($booking->status == 'completed')
@@ -24,73 +22,77 @@ $category =
             rejected
         @endif
     ">
-
-        <span class="status-icon">
-
-            @if($booking->status == 'completed')
-                ✓
-            @elseif($booking->status == 'cancelled')
-                ✖
-            @elseif($booking->status == 'rejected')
-                ⚠️
-            @endif
-
-        </span>
-
         @if($booking->status == 'completed')
-
             Selesai
-
+            @if($booking->review)
+                • ⭐ {{ number_format($booking->review->rating, 1) }}
+            @endif
         @elseif($booking->status == 'cancelled')
-
             Dibatalkan
-
         @elseif($booking->status == 'rejected')
-
             Estimasi Ditolak
-
         @endif
-
     </div>
 
     <div class="history-content">
 
-        <div class="history-image">
-
-            @if($category && $category->icon)
-
-                <img
-                    src="{{ asset('storage/'.$category->icon) }}"
-                    alt=""
-                >
-
-            @endif
-
+        <div class="history-avatar">
+            {{ strtoupper(substr($booking->provider->name ?? ($category->name ?? 'S'), 0, 1)) }}
         </div>
 
         <div class="history-info">
 
             <h3>
-
-                {{ $category->name ?? 'Layanan' }}
-
+                {{ $booking->provider->name ?? 'Mencari Teknisi' }}
+                <span style="font-size: 13px; font-weight: 500; color: #94A3B8; margin-left: 8px;">
+                    #{{ $booking->formatted_id }}
+                </span>
             </h3>
 
-            <div class="history-date">
-
-                📅
-                {{ \Carbon\Carbon::parse(
-                    $booking->booking_date
-                )->format('d M Y') }}
-
+            <div class="history-service">
+                @foreach($booking->subServices as $service)
+                    {{ $service->name }}
+                    @if(!$loop->last)
+                        •
+                    @endif
+                @endforeach
             </div>
 
-            <div class="history-location">
-
-                📍
-                {{ $booking->address }}
-
+            <div class="history-meta">
+                📅 {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
+                •
+                🕒 {{ substr($booking->booking_time, 0, 5) }}
             </div>
+
+            <div class="history-address">
+                📍 {{ Str::limit($booking->address, 70) }}
+            </div>
+
+            @php
+                $damagePhotos = [];
+                if ($booking->damage_photo) {
+                    if (is_array($booking->damage_photo)) {
+                        $damagePhotos = $booking->damage_photo;
+                    } else {
+                        $decoded = json_decode($booking->damage_photo, true);
+                        if (is_array($decoded)) {
+                            $damagePhotos = $decoded;
+                        } else {
+                            $damagePhotos = [$booking->damage_photo];
+                        }
+                    }
+                }
+            @endphp
+
+            @if(count($damagePhotos) > 0)
+                <div class="history-damage-photos" style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;" onclick="event.preventDefault(); event.stopPropagation();">
+                    @foreach($damagePhotos as $photo)
+                        <div style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; border: 1px solid #ECECEC; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                            <img src="{{ asset('storage/' . $photo) }}" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="window.open('{{ asset('storage/' . $photo) }}', '_blank')">
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             {{-- MINI RECEIPT IF COMPLETED --}}
             @if($booking->status == 'completed' && $booking->diagnosis)
@@ -105,7 +107,7 @@ $category =
                     $totalPayable = $serviceFee + $sparepartTotal + 5000;
                 @endphp
                 <div class="mini-receipt">
-                    <div class="mini-receipt-title">=== STRUK PEMBAYARAN ===</div>
+                    <div class="mini-receipt-title">STRUK PEMBAYARAN</div>
                     <div class="mini-receipt-row">
                         <span>Biaya Jasa:</span>
                         <span>Rp{{ number_format($serviceFee, 0, ',', '.') }}</span>
@@ -130,9 +132,7 @@ $category =
         </div>
 
         <div class="history-arrow">
-
             →
-
         </div>
 
     </div>
@@ -141,284 +141,158 @@ $category =
 
 @empty
 
-<div class="history-card">
-
-    <div class="history-info">
-
-        <h3>
-            Belum Ada Riwayat
-        </h3>
-
-        <p>
-            Pesanan yang selesai atau dibatalkan akan muncul di sini.
-        </p>
-
+<div class="history-card-item empty-card">
+    <div class="history-info" style="text-align: center; padding: 20px 0;">
+        <h3 style="color: #94A3B8; font-size: 18px; font-weight: 600;">Belum Ada Riwayat</h3>
+        <p style="color: #94A3B8; font-size: 14px; margin-top: 6px;">Pesanan yang selesai atau dibatalkan akan muncul di sini.</p>
     </div>
-
 </div>
 
 @endforelse
 
 <style>
-
 /* =========================
-   CARD
+   HISTORY CARD ITEM
 ========================= */
-
-.history-card{
-
-    max-width:1200px;
-
-    margin:0 auto 20px;
-
-    padding:20px;
-
-    display:block;
-
-    text-decoration:none;
-
-    color:inherit;
-
-    border-radius:24px;
-
-    background:#FFFFFF;
-
-    border:1px solid #F4E6D8;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.04);
-
-    transition:all .3s ease;
+.history-card-item {
+    display: block;
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 22px;
+    text-decoration: none;
+    background: #FFFFFF;
+    border: 1px solid #F4E6D8;
+    border-radius: 24px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
-.history-card:hover{
+.history-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+}
 
-    transform:translateY(-4px);
+.history-card-item.empty-card {
+    border: 2px dashed #E2E8F0;
+    box-shadow: none;
+}
 
-    box-shadow:
-        0 18px 35px rgba(0,0,0,.08);
+.history-card-item.empty-card:hover {
+    transform: none;
 }
 
 /* =========================
-   STATUS
+   STATUS BADGE
 ========================= */
-
-.history-status{
-
-    width:fit-content;
-
-    display:flex;
-    align-items:center;
-
-    gap:8px;
-
-    padding:8px 14px;
-
-    border-radius:999px;
-
-    margin-bottom:18px;
-
-    font-size:12px;
-    font-weight:700;
+.history-status {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 18px;
 }
 
-.status-icon{
-
-    font-size:11px;
+.history-status.completed {
+    background: #ECFDF5;
+    color: #16A34A;
 }
 
-.history-status.cancelled{
-
-    background:#FDEAEA;
-
-    color:#B42318;
-}
-.history-status.rejected{
-
-    background:#FFF7E6;
-
-    color:#D97706;
-
+.history-status.cancelled {
+    background: #FEF2F2;
+    color: #DC2626;
 }
 
-.history-status.completed{
-
-    background:#EAF7EC;
-
-    color:#28A745;
+.history-status.rejected {
+    background: #FFF7E6;
+    color: #D97706;
 }
 
 /* =========================
-   CONTENT
+   CONTENT LAYOUT
 ========================= */
-
-.history-content{
-
-    display:flex;
-    align-items:center;
-
-    gap:18px;
+.history-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
 }
 
 /* =========================
-   IMAGE
+   AVATAR / INITIALS
 ========================= */
-
-.history-image{
-
-    width:90px;
-    height:90px;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    background:#FAFAFA;
-
-    border:1px solid #EEEEEE;
-
-    flex-shrink:0;
-
-    transition:.3s ease;
-}
-
-.history-image img{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-}
-
-.history-card:hover .history-image{
-
-    transform:scale(1.03);
+.history-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #F08A28, #FFB347);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 800;
+    flex-shrink: 0;
 }
 
 /* =========================
-   INFO
+   INFO WRAPPER
 ========================= */
-
-.history-info{
-
-    flex:1;
+.history-info {
+    flex: 1;
 }
 
-.history-info h3{
-
-    margin:0;
-
-    color:#222;
-
-    font-size:22px;
-    font-weight:800;
-
-    line-height:1.3;
+.history-info h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #0F172A;
+    font-weight: 800;
+    line-height: 1.3;
 }
 
-.history-date{
-
-    margin-top:10px;
-
-    color:#666;
-
-    font-size:14px;
-
-    font-weight:500;
+.history-service {
+    margin-top: 8px;
+    color: #F08A28;
+    font-weight: 600;
+    font-size: 14px;
 }
 
-.history-location{
+.history-meta {
+    margin-top: 10px;
+    color: #64748B;
+    font-size: 14px;
+}
 
-    margin-top:8px;
-
-    color:#999;
-
-    font-size:13px;
-
-    line-height:1.6;
+.history-address {
+    margin-top: 8px;
+    color: #94A3B8;
+    font-size: 13px;
 }
 
 /* =========================
    ARROW
 ========================= */
-
-.history-arrow{
-
-    width:48px;
-    height:48px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:#FFF6EE;
-
-    color:#F08A28;
-
-    font-size:22px;
-    font-weight:700;
-
-    transition:.3s ease;
+.history-arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFF6EE;
+    color: #F08A28;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    transition: 0.3s ease;
+    flex-shrink: 0;
 }
 
-.history-card:hover .history-arrow{
-
-    background:#F08A28;
-
-    color:white;
-
-    transform:translateX(5px);
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:768px){
-
-    .history-card{
-
-        margin:0 15px 15px;
-
-        padding:16px;
-    }
-
-    .history-content{
-
-        gap:12px;
-    }
-
-    .history-image{
-
-        width:72px;
-        height:72px;
-    }
-
-    .history-info h3{
-
-        font-size:17px;
-    }
-
-    .history-date{
-
-        font-size:12px;
-    }
-
-    .history-location{
-
-        font-size:12px;
-    }
-
-    .history-arrow{
-
-        width:40px;
-        height:40px;
-
-        font-size:18px;
-    }
-
+.history-card-item:hover .history-arrow {
+    background: #F08A28;
+    color: white;
+    transform: translateX(5px);
 }
 
 /* =========================
@@ -434,17 +308,20 @@ $category =
     font-size: 13px;
     color: #475569;
 }
+
 .mini-receipt-title {
     text-align: center;
     font-weight: 700;
     margin-bottom: 8px;
     color: #1E293B;
 }
+
 .mini-receipt-row {
     display: flex;
     justify-content: space-between;
     margin-bottom: 4px;
 }
+
 .mini-receipt-total {
     display: flex;
     justify-content: space-between;
@@ -456,4 +333,38 @@ $category =
     font-size: 14px;
 }
 
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media(max-width:768px){
+    .history-card-item {
+        margin: 0 15px 15px;
+        padding: 16px;
+    }
+    
+    .history-content {
+        gap: 14px;
+    }
+    
+    .history-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+    }
+    
+    .history-info h3 {
+        font-size: 18px;
+    }
+    
+    .history-meta,
+    .history-address {
+        font-size: 12px;
+    }
+    
+    .history-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
 </style>

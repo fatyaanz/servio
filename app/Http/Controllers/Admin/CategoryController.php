@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CategoryRequest;
@@ -195,6 +196,15 @@ class CategoryController extends Controller
             $requestData->provider_id
         ]);
 
+    // Notify provider
+    Notification::create([
+        'user_id' => $requestData->provider_id,
+        'title' => 'Pengajuan Kategori Disetujui',
+        'message' => 'Pengajuan kategori "' . $requestData->category->name . '" Anda telah disetujui oleh admin.',
+        'type' => 'category_approved',
+        'is_read' => false
+    ]);
+
     return back()->with(
         'success',
         'Pengajuan berhasil disetujui'
@@ -213,6 +223,15 @@ class CategoryController extends Controller
             'status' => 'rejected',
             'rejection_reason' =>
                 $request->reason
+        ]);
+
+        // Notify provider
+        Notification::create([
+            'user_id' => $requestData->provider_id,
+            'title' => 'Pengajuan Kategori Ditolak',
+            'message' => 'Pengajuan kategori "' . $requestData->category->name . '" Anda ditolak.' . ($request->reason ? ' Alasan: ' . $request->reason : ''),
+            'type' => 'category_rejected',
+            'is_read' => false
         ]);
 
         return back()->with(

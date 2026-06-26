@@ -18,41 +18,9 @@
 
         </div>
 
-        {{-- ServioPay --}}
-        <div class="payment-item" style="border-color: rgba(240,138,40,.3); background: #FFFBF5;">
-
-            <div class="payment-info">
-
-                <span class="payment-icon" style="background:#FFF3E0;">
-                    🟠
-                </span>
-
-                <div>
-
-                    <h4>
-                        ServioPay Wallet
-                    </h4>
-
-                    <p>
-                        {{ Auth::user()->phone ?? 'Nomor belum diatur' }}
-                    </p>
-
-                    <p style="margin-top:4px; color:#F08A28; font-weight:700; font-size:14px;">
-                        Saldo: Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}
-                    </p>
-
-                </div>
-
-            </div>
-
-            <span class="active-badge">
-                Aktif
-            </span>
-
-        </div>
-
-        <div style="background:#F9FAFB; border-radius:14px; padding:16px; margin-top:8px; font-size:13px; color:#888; line-height:1.7;">
-            💡 <strong>ServioPay</strong> adalah dompet digital bawaan Servio. Semua pembayaran booking dilakukan melalui ServioPay. Isi saldo melalui halaman Profil.
+        <div style="background:#F9FAFB; border-radius:14px; padding:20px; font-size:14px; color:#555; line-height:1.7; text-align: center; border: 1px solid #ECECEC;">
+            💡 <strong>Sistem Pembayaran Terverifikasi</strong><br>
+            Semua pembayaran pesanan di Servio dilakukan secara langsung via transfer bank atau tunai. Anda dapat mengunggah bukti pembayaran pada detail aktivitas pesanan Anda untuk diverifikasi oleh penyedia jasa.
         </div>
 
         <button class="add-payment-btn" onclick="closePaymentModal()">

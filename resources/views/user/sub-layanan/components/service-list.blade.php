@@ -17,22 +17,24 @@
             ✓
         </div>
 
+        @if($subService->photo)
+            <div class="service-image" style="width: 100%; height: 140px; border-radius: 16px; overflow: hidden; margin-bottom: 15px; border: 1px solid #F3F4F6;">
+                <img src="{{ asset('storage/' . $subService->photo) }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        @endif
+
         <span class="service-badge">
             Populer
         </span>
 
         <div class="service-content">
 
-            <h3>
-
+            <h3 style="font-size: 17px; font-weight: 800; color: #1E293B; margin-bottom: 8px;">
                 {{ $subService->name }}
-
             </h3>
 
-            <p>
-
+            <p style="font-size: 13px; color: #64748B; margin-top: 5px; line-height: 1.6; min-height: 60px;">
                 {{ $subService->description ?? 'Tidak ada deskripsi layanan.' }}
-
             </p>
 
             <div class="price-box">

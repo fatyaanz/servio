@@ -10,15 +10,38 @@ use Illuminate\Http\Request;
 
 class AktivitasController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $bookings = Booking::with([
-            'subServices.providerService.category'
+        $userId = Auth::id();
+        $totalBookings = Booking::where('customer_id', $userId)->count();
+        $activeBookingsCount = Booking::where('customer_id', $userId)
+            ->whereNotIn('status', ['completed', 'cancelled', 'rejected'])
+            ->count();
+        $completedBookingsCount = Booking::where('customer_id', $userId)
+            ->where('status', 'completed')
+            ->count();
+
+        $recentBookings = Booking::with(['subServices.providerService.category', 'provider'])
+            ->where('customer_id', $userId)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view(
+            'user.dashboard.index',
+            compact('totalBookings', 'activeBookingsCount', 'completedBookingsCount', 'recentBookings')
+        );
+    }
+
+    public function index(Request $request)
+    {
+        $userId = Auth::id();
+
+        $activeBookings = Booking::with([
+            'subServices.providerService.category',
+            'provider'
         ])
-        ->where(
-            'customer_id',
-            Auth::id()
-        )
+        ->where('customer_id', $userId)
         ->whereNotIn('status', [
             'completed',
             'cancelled',
@@ -27,9 +50,26 @@ class AktivitasController extends Controller
         ->latest()
         ->get();
 
+        $historyBookings = Booking::with([
+            'subServices.providerService.category',
+            'provider',
+            'review',
+            'diagnosis.produks'
+        ])
+        ->where('customer_id', $userId)
+        ->whereIn('status', [
+            'completed',
+            'cancelled',
+            'rejected'
+        ])
+        ->latest()
+        ->get();
+
+        $activeTab = $request->query('tab', 'aktif');
+
         return view(
             'user.aktifitas.aktifitas',
-            compact('bookings')
+            compact('activeBookings', 'historyBookings', 'activeTab')
         );
     }
 
@@ -142,94 +182,36 @@ class AktivitasController extends Controller
             );
     }
 
-    public function payBooking(Booking $booking)
+    public function payBooking(Request $request, Booking $booking)
     {
-        $serviceFee = $booking->diagnosis?->service_fee ?? 0;
-        $sparepartTotal = 0;
-
-        foreach ($booking->diagnosis?->produks ?? [] as $produk) {
-            if ($produk->pivot->is_selected) {
-                $sparepartTotal += $produk->harga * $produk->pivot->qty;
-            }
-        }
-
-        $appFee = 5000; // Flat Rp5.000 application fee
-        $total = $serviceFee + $sparepartTotal + $appFee;
-
-        $customer = Auth::user();
-        if ($customer->balance < $total) {
-            return back()->with(
-                'error',
-                'Saldo ServioPay Anda tidak mencukupi (Kurang Rp' . number_format($total - $customer->balance, 0, ',', '.') . '). Silakan isi saldo terlebih dahulu di menu profil.'
-            );
-        }
-
-        // Process deduction
-        $customer->decrement('balance', $total);
-
-        // Credit provider
-        $provider = $booking->provider;
-        if ($provider) {
-            $provider->increment('balance', $serviceFee + $sparepartTotal);
-        }
-
-        // Credit admin
-        $admin = \App\Models\User::where('role', 'admin')->first();
-        if ($admin) {
-            $admin->increment('balance', $appFee);
-        }
-
-        // Log transaction
-        \App\Models\Transaction::create([
-            'booking_id' => $booking->id,
-            'customer_id' => $customer->id,
-            'provider_id' => $booking->provider_id,
-            'amount' => $total,
-            'service_fee' => $serviceFee + $sparepartTotal,
-            'app_fee' => $appFee
+        $request->validate([
+            'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $booking->update([
-            'status' => 'completed'
-        ]);
+        if ($request->hasFile('payment_proof')) {
+            $path = $request->file('payment_proof')->store('payment_proofs', 'public');
+            $booking->update([
+                'payment_proof' => $path
+            ]);
 
-        Notification::create([
-            'user_id' => $booking->provider_id,
-            'title' => 'Pembayaran Diterima',
-            'message' => 'Pelanggan ' . Auth::user()->name . ' telah membayar sebesar Rp' . number_format($total, 0, ',', '.') . ' untuk pesanan ' . $booking->formatted_id . '.',
-            'type' => 'status_updated',
-            'booking_id' => $booking->id,
-            'is_read' => false
-        ]);
+            Notification::create([
+                'user_id' => $booking->provider_id,
+                'title' => 'Bukti Pembayaran Diunggah',
+                'message' => 'Pelanggan ' . Auth::user()->name . ' telah mengunggah bukti pembayaran untuk pesanan ' . $booking->formatted_id . '. Harap verifikasi.',
+                'type' => 'status_updated',
+                'booking_id' => $booking->id,
+                'is_read' => false
+            ]);
 
-        return back()->with(
-            'success',
-            'Pembayaran sebesar Rp' . number_format($total, 0, ',', '.') . ' menggunakan ServioPay berhasil!'
-        );
+            return back()->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu konfirmasi dari penyedia jasa.');
+        }
+
+        return back()->with('error', 'Gagal mengunggah bukti pembayaran.');
     }
 
-    public function riwayat()
+    public function riwayat(Request $request)
     {
-        $bookings = Booking::with([
-            'subServices.providerService.category'
-        ])
-        ->where(
-            'customer_id',
-            Auth::id()
-        )
-        ->whereIn('status', [
-            'completed',
-            'cancelled',
-            'rejected'
-        ])
-        ->latest()
-        ->get();
-       
-
-        return view(
-            'user.aktifitas.riwayat',
-            compact('bookings')
-        );
+        return redirect()->route('aktifitas', ['tab' => 'riwayat']);
     }
 
     public function storeReview(Request $request, Booking $booking)

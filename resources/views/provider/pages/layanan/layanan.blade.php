@@ -113,12 +113,14 @@ navButtons.forEach(button => {
 <script>
 
 function openEditModal(
-    id,
-    name,
-    min,
-    max,
-    description
+    button
 ){
+    const id = button.getAttribute('data-id');
+    const name = button.getAttribute('data-name');
+    const min = button.getAttribute('data-min');
+    const max = button.getAttribute('data-max');
+    const description = button.getAttribute('data-description');
+    const photo = button.getAttribute('data-photo');
 
     document
         .getElementById('editSubModal')
@@ -138,12 +140,22 @@ function openEditModal(
 
     document
         .getElementById('edit_description')
-        .value = description ?? '';
+        .value = description || '';
+
+    const photoContainer = document.getElementById('current_photo_container');
+    const photoPreview = document.getElementById('edit_photo_preview');
+    if (photo && photo !== '') {
+        photoPreview.src = '/storage/' + photo;
+        photoContainer.style.display = 'block';
+    } else {
+        photoContainer.style.display = 'none';
+        photoPreview.src = '';
+    }
 
     document
         .getElementById('editSubForm')
         .action =
-        '/provider/subservice/' + id;
+        '/provider/sub-service/' + id;
 }
 
 function closeEditModal(){

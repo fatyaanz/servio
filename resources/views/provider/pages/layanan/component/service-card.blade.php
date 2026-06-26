@@ -102,9 +102,23 @@
                 <tr>
 
                     <td>
-
-                        {{ $sub->name }}
-
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            @if($sub->photo)
+                                <img src="{{ asset('storage/' . $sub->photo) }}" alt="" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; flex-shrink: 0;">
+                            @else
+                                <div style="width: 50px; height: 50px; border-radius: 8px; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; background: #f8fafc; font-size: 18px; color: #94a3b8; flex-shrink: 0;">
+                                    📷
+                                </div>
+                            @endif
+                            <div style="text-align: left;">
+                                <div style="font-weight: 600; color: #1e293b; font-size: 14px;">{{ $sub->name }}</div>
+                                @if($sub->description)
+                                    <div style="font-size: 12px; color: #64748b; margin-top: 4px; max-width: 320px; white-space: normal; line-height: 1.4;">
+                                        {{ $sub->description }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </td>
 
                     <td class="price">
@@ -133,14 +147,13 @@
 
                             <button
                                 class="edit-btn"
-                                onclick="
-                                openEditModal(
-                                    {{ $sub->id }},
-                                    '{{ $sub->name }}',
-                                    '{{ $sub->price_min }}',
-                                    '{{ $sub->price_max }}',
-                                    '{{ $sub->description }}'
-                                )"
+                                data-id="{{ $sub->id }}"
+                                data-name="{{ $sub->name }}"
+                                data-min="{{ $sub->price_min }}"
+                                data-max="{{ $sub->price_max }}"
+                                data-description="{{ $sub->description }}"
+                                data-photo="{{ $sub->photo }}"
+                                onclick="openEditModal(this)"
                             >
 
                                 ✏️

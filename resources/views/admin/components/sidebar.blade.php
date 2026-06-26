@@ -127,7 +127,7 @@
             </div>
 
             <span>
-                ServioPay Ledger
+                Laporan Keuangan
             </span>
 
         </a>

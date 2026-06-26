@@ -12,7 +12,8 @@ class SubService extends Model
         'name',
         'price_min',
         'price_max',
-        'description'
+        'description',
+        'photo'
     ];
 
     public function providerService()

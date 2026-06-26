@@ -116,21 +116,37 @@
                                     as $sub
                                 )
 
-                                <tr>
+                                 <tr>
 
-                                    <td>
-                                        {{ $sub->name }}
-                                    </td>
+                                     <td>
+                                         <div style="display: flex; align-items: center; gap: 10px;">
+                                             @if($sub->photo)
+                                                 <img src="{{ asset('storage/' . $sub->photo) }}" alt="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0; flex-shrink: 0;">
+                                             @else
+                                                 <div style="width: 40px; height: 40px; border-radius: 6px; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; background: #f8fafc; font-size: 14px; color: #94a3b8; flex-shrink: 0;">
+                                                     📷
+                                                 </div>
+                                             @endif
+                                             <div style="text-align: left;">
+                                                 <div style="font-weight: 600; color: #1f2937; font-size: 13px;">{{ $sub->name }}</div>
+                                                 @if($sub->description)
+                                                     <div style="font-size: 11px; color: #6b7280; margin-top: 2px; line-height: 1.4; max-width: 250px; white-space: normal;">
+                                                         {{ $sub->description }}
+                                                     </div>
+                                                 @endif
+                                             </div>
+                                         </div>
+                                     </td>
 
-                                    <td>
-                                        Rp{{ number_format($sub->price_min,0,',','.') }}
-                                    </td>
+                                     <td>
+                                         Rp{{ number_format($sub->price_min,0,',','.') }}
+                                     </td>
 
-                                    <td>
-                                        Rp{{ number_format($sub->price_max,0,',','.') }}
-                                    </td>
+                                     <td>
+                                         Rp{{ number_format($sub->price_max,0,',','.') }}
+                                     </td>
 
-                                </tr>
+                                 </tr>
 
                                 @endforeach
 

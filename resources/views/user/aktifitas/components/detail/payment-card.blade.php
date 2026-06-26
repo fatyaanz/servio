@@ -96,34 +96,45 @@ $total = $serviceFee + $sparepartTotal + $appFee;
 
     <!-- STATUS -->
 
-    <div class="payment-status">
-
-        <div class="status-icon">
-            ⏳
+    @if(!$booking->payment_proof)
+        <div class="payment-status" style="background: #FFF8E8;">
+            <div class="status-icon" style="background: white; color: #D97706;">
+                ⏳
+            </div>
+            <div>
+                <strong style="color: #D97706;">
+                    Menunggu Pembayaran
+                </strong>
+                <p style="color: #A16207; margin: 0; font-size: 14px; line-height: 1.6;">
+                    Silakan lakukan transfer ke rekening Penyedia Jasa, kemudian klik tombol <strong>Bayar Sekarang</strong> di bawah untuk mengunggah bukti transfer Anda.
+                </p>
+            </div>
+        </div>
+    @else
+        <div class="payment-status" style="background: #ECFDF5; border-left: 4px solid #16A34A; margin-bottom: 20px;">
+            <div class="status-icon" style="background: white; color: #16A34A;">
+                ✓
+            </div>
+            <div>
+                <strong style="color: #16A34A;">
+                    Bukti Pembayaran Terkirim
+                </strong>
+                <p style="color: #15803D; margin: 0; font-size: 14px; line-height: 1.6;">
+                    Bukti pembayaran Anda telah dikirim. Menunggu verifikasi dari penyedia jasa.
+                </p>
+            </div>
         </div>
 
-        <div>
-
-            <strong>
-                Menunggu Pembayaran
-            </strong>
-
-            <p>
-                Pembayaran belum diterima. Saldo ServioPay Anda saat ini: <strong>Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}</strong>.
-            </p>
-
+        <!-- PREVIEW UPLOADED PROOF -->
+        <div style="margin-top: 20px; text-align: left;">
+            <span style="font-weight: 700; font-size: 14px; color: #374151; display: block; margin-bottom: 10px;">Bukti Pembayaran Anda:</span>
+            <div style="max-width: 300px; border-radius: 18px; overflow: hidden; border: 1px solid #ECECEC; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <a href="{{ asset('storage/' . $booking->payment_proof) }}" target="_blank">
+                    <img src="{{ asset('storage/' . $booking->payment_proof) }}" style="width: 100%; display: block;">
+                </a>
+            </div>
         </div>
-
-    </div>
-
-    <!-- BUTTON -->
-
-    <form action="{{ route('booking.pay', $booking->id) }}" method="POST">
-        @csrf
-        <button type="submit" class="pay-btn">
-            💳 Bayar Sekarang
-        </button>
-    </form>
+    @endif
 
 </div>
 

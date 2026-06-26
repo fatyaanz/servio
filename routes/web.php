@@ -160,6 +160,8 @@ Route::middleware(['auth', 'provider'])->group(function () {
         ->name('provider.booking.send-estimation');
     Route::post('/provider/booking/{id}/finish-work', [PesananController::class, 'finishWork'])
         ->name('provider.booking.finish-work');
+    Route::post('/provider/booking/{id}/confirm-payment', [PesananController::class, 'confirmPayment'])
+        ->name('provider.booking.confirm-payment');
 
     // ── Damage Reports ────────────────────────────────────────────────────
     Route::post('/provider/damage-report/store', [DamageReportController::class, 'store'])
@@ -211,6 +213,10 @@ Route::middleware(['auth', 'provider'])->group(function () {
     Route::post('/provider/profile/update', [ProfileController::class, 'updateProvider'])
         ->name('provider.profile.update');
 
+    // ── Notifikasi Provider ──────────────────────────────────────────────
+    Route::get('/provider/notifikasi', [\App\Http\Controllers\NotificationController::class, 'providerIndex'])
+        ->name('provider.notifikasi');
+
 });
 
 /*
@@ -227,6 +233,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
 
+    // Notification API (for AJAX polling)
+    Route::get('/notifications/unread', [\App\Http\Controllers\NotificationController::class, 'apiUnread'])->name('notifications.unread');
+    Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markRead'])->name('notifications.markRead');
+    Route::post('/notifications/mark-all-read-api', [\App\Http\Controllers\NotificationController::class, 'apiMarkAllRead'])->name('notifications.markAllReadApi');
+
     // Dynamic Role-Based Dashboard Redirect
     Route::get('/dashboard', function () {
         if (auth()->user()->role === 'admin') {
@@ -234,7 +245,7 @@ Route::middleware(['auth'])->group(function () {
         } elseif (auth()->user()->role === 'provider') {
             return redirect()->route('provider.Dashboard.dashboard');
         } else {
-            return redirect()->route('home');
+            return redirect()->route('user.dashboard');
         }
     })->name('dashboard');
 
@@ -242,12 +253,23 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'customer'])->group(function () {
 
+    // Dashboard
+    Route::get('/user/dashboard', [AktivitasController::class, 'dashboard'])->name('user.dashboard');
+
     // Profile
-    Route::get('/profile', function () {
-        return view('user.profile.profile');
-    })->name('profile');
+    Route::get('/profile', [ProfileController::class, 'showCustomerProfile'])->name('profile');
     Route::post('/profile/update', [ProfileController::class, 'updateCustomer'])->name('profile.update');
-    Route::post('/profile/topup', [ProfileController::class, 'topup'])->name('profile.topup');
+    // Route::post('/profile/topup', [ProfileController::class, 'topup'])->name('profile.topup');
+    Route::post('/profile/delete', [ProfileController::class, 'deleteAccount'])->name('profile.delete');
+    Route::post('/profile/preferences', [ProfileController::class, 'updatePreferences'])->name('profile.preferences');
+    Route::post('/profile/link-wallet', [ProfileController::class, 'linkWallet'])->name('profile.link-wallet');
+    Route::post('/profile/toggle-favorite', [ProfileController::class, 'toggleFavorite'])->name('profile.toggle-favorite');
+
+    // Addresses
+    Route::post('/profile/address/store', [ProfileController::class, 'storeAddress'])->name('profile.address.store');
+    Route::post('/profile/address/{address}/update', [ProfileController::class, 'updateAddress'])->name('profile.address.update');
+    Route::delete('/profile/address/{address}', [ProfileController::class, 'deleteAddress'])->name('profile.address.delete');
+    Route::post('/profile/address/{address}/set-primary', [ProfileController::class, 'setPrimaryAddress'])->name('profile.address.set-primary');
 
     // Location
     Route::post('/update-location', [HomeController::class, 'updateLocation'])->name('user.update-location');

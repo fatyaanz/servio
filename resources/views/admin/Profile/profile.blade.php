@@ -40,9 +40,9 @@
 
                     {{-- SALDO ADMIN --}}
                     <div class="balance-card">
-                        <span class="balance-label">💰 Total Revenue ServioPay</span>
+                        <span class="balance-label">💰 Total Pendapatan Admin</span>
                         <h2 class="balance-amount">Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}</h2>
-                        <a href="{{ route('admin.revenue') }}" class="view-ledger-btn">📊 Lihat Ledger</a>
+                        <a href="{{ route('admin.revenue') }}" class="view-ledger-btn">📊 Lihat Laporan Keuangan</a>
                     </div>
                 </div>
 

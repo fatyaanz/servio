@@ -179,7 +179,8 @@ class PesananController extends Controller
 
         if ($location === 'inside') {
             $booking->update([
-                'status' => 'working'
+                'status' => 'working',
+                'customer_location' => $location
             ]);
 
             // Auto-approve all recommended spare parts if customer is inside the house
@@ -208,7 +209,8 @@ class PesananController extends Controller
             );
         } else {
             $booking->update([
-                'status' => 'waiting_approval'
+                'status' => 'waiting_approval',
+                'customer_location' => $location
             ]);
 
             Notification::create([
@@ -273,6 +275,59 @@ class PesananController extends Controller
             'provider.pages.pesanan.riwayat',
             compact('bookings')
         );
+    }
+
+    public function confirmPayment($id)
+    {
+        $booking = Booking::with(['provider', 'diagnosis.produks'])->findOrFail($id);
+
+        $serviceFee = $booking->diagnosis?->service_fee ?? 0;
+        $sparepartTotal = 0;
+        foreach ($booking->diagnosis?->produks ?? [] as $produk) {
+            if ($produk->pivot->is_selected) {
+                $sparepartTotal += $produk->harga * $produk->pivot->qty;
+            }
+        }
+        $appFee = 5000;
+        $total = $serviceFee + $sparepartTotal + $appFee;
+
+        // Since the customer paid offline directly to provider, the provider has the money.
+        // The provider owes the admin the app fee (Rp 5.000).
+        // So we decrement provider's balance by 5000 and increment admin's balance by 5000.
+        $provider = $booking->provider;
+        if ($provider) {
+            $provider->decrement('balance', $appFee);
+        }
+
+        $admin = \App\Models\User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->increment('balance', $appFee);
+        }
+
+        // Log transaction
+        \App\Models\Transaction::create([
+            'booking_id' => $booking->id,
+            'customer_id' => $booking->customer_id,
+            'provider_id' => $booking->provider_id,
+            'amount' => $total,
+            'service_fee' => $serviceFee + $sparepartTotal,
+            'app_fee' => $appFee
+        ]);
+
+        $booking->update([
+            'status' => 'completed'
+        ]);
+
+        Notification::create([
+            'user_id' => $booking->customer_id,
+            'title' => 'Pesanan Selesai',
+            'message' => 'Pembayaran Anda telah dikonfirmasi oleh penyedia jasa. Pesanan ' . $booking->formatted_id . ' selesai.',
+            'type' => 'status_updated',
+            'booking_id' => $booking->id,
+            'is_read' => false
+        ]);
+
+        return back()->with('success', 'Pembayaran berhasil dikonfirmasi. Pesanan selesai.');
     }
 
 }

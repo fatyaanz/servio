@@ -29,9 +29,11 @@ class LayananController extends Controller
         })
         ->get();
 
+        $categories = Category::where('is_active', true)->get();
+
         return view(
             'user.layanan.layanan',
-            compact('providers')
+            compact('providers', 'categories')
         );
     }
     
