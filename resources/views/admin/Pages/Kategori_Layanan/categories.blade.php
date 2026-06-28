@@ -51,15 +51,15 @@
 
     @else
 
-        <div class="table-wrapper">
+        <div class="grid-wrapper" style="margin-top: 24px;">
 
             @include(
                 'admin.Pages.Kategori_Layanan.components.categories-table'
             )
 
-            @include(
-                'admin.Pages.Kategori_Layanan.components.pagination'
-            )
+            <div class="pagination-wrapper" style="margin-top: 32px; display: flex; justify-content: flex-end;">
+                {{ $categories->links() }}
+            </div>
 
         </div>
 
@@ -169,25 +169,6 @@
     opacity:.95;
 
     transform:translateY(-2px);
-}
-
-/* =========================
-    TABLE WRAPPER
-========================= */
-
-.table-wrapper{
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:20px;
-
-    border:1px solid var(--border);
-
-    box-shadow:var(--shadow-sm);
-
-    overflow:hidden;
 }
 
 /* =========================

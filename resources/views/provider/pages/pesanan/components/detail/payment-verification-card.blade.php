@@ -10,7 +10,7 @@
     </div>
 
     <div class="card-body">
-        <div style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">📷 Bukti Pembayaran</div>
+        <div style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;"><i class='bx bx-camera'></i> Bukti Pembayaran</div>
         <div style="max-width: 350px; border-radius: 16px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
             <a href="{{ asset('storage/' . $booking->payment_proof) }}" target="_blank">
                 <img src="{{ asset('storage/' . $booking->payment_proof) }}" style="width: 100%; display: block; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">

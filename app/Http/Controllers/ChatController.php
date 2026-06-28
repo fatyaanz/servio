@@ -244,37 +244,38 @@ class ChatController extends Controller
      */
     private function getConversations($userId)
     {
-        $chatUsers = Message::where(function($query) use ($userId) {
-                $query->where('sender_id', $userId)
-                      ->orWhere('receiver_id', $userId);
-            })
-            ->selectRaw('CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as other_user_id, MAX(created_at) as latest_message_time', [$userId])
-            ->groupBy('other_user_id')
-            ->orderByDesc('latest_message_time')
+        $allMessages = Message::where('sender_id', $userId)
+            ->orWhere('receiver_id', $userId)
             ->get();
 
+        $chatGroups = $allMessages->groupBy(function ($msg) use ($userId) {
+            return $msg->sender_id == $userId ? $msg->receiver_id : $msg->sender_id;
+        });
+
         $chats = [];
-        foreach ($chatUsers as $chatUser) {
-            $otherUser = User::find($chatUser->other_user_id);
+        foreach ($chatGroups as $otherUserId => $messages) {
+            $otherUser = User::find($otherUserId);
             if (!$otherUser) continue;
 
-            $latestMessage = Message::where(function($q) use ($userId, $otherUser) {
-                    $q->where('sender_id', $userId)->where('receiver_id', $otherUser->id);
-                })->orWhere(function($q) use ($userId, $otherUser) {
-                    $q->where('sender_id', $otherUser->id)->where('receiver_id', $userId);
-                })
-                ->orderByDesc('created_at')
-                ->first();
+            $latestMessage = $messages->sortByDesc('created_at')->first();
+
+            $unreadCount = $messages->where('sender_id', $otherUserId)
+                                    ->where('receiver_id', $userId)
+                                    ->where('is_read', false)
+                                    ->count();
 
             $chats[] = [
                 'user' => $otherUser,
                 'latest_message' => $latestMessage,
-                'unread_count' => Message::where('sender_id', $otherUser->id)
-                                         ->where('receiver_id', $userId)
-                                         ->where('is_read', false)
-                                         ->count()
+                'unread_count' => $unreadCount,
+                'latest_time' => $latestMessage ? $latestMessage->created_at : null
             ];
         }
+
+        usort($chats, function($a, $b) {
+            if (!$a['latest_time'] || !$b['latest_time']) return 0;
+            return $b['latest_time'] <=> $a['latest_time'];
+        });
 
         return $chats;
     }

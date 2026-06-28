@@ -16,7 +16,7 @@ class BookingController extends Controller
    public function index(Request $request)
     {
         $subServices = SubService::whereIn(
-            'id',
+            '_id',
             $request->sub_services ?? []
         )->get();
 

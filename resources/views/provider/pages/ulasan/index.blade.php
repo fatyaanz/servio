@@ -5,7 +5,7 @@
 <div class="ulasan-container">
     <div class="ulasan-wrapper">
         <div class="ulasan-header">
-            <span class="ulasan-badge">⭐ Ulasan Toko</span>
+            <span class="ulasan-badge"><i class='bx bxs-star'></i> Ulasan Toko</span>
             <h1>Semua Ulasan & Rating</h1>
             <p>Berikut adalah ulasan dan rating yang diberikan oleh pelanggan Anda untuk seluruh pesanan selesai.</p>
         </div>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="review-rating">
-                            ⭐ {{ number_format($review->rating, 1) }}
+                            <i class='bx bxs-star' style="color:#ff7a00;"></i> {{ number_format($review->rating, 1) }}
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                     </div>
                     
                     <div class="review-date" style="margin-top: 12px; font-size: 11px; color: #9ca3af; text-align: right;">
-                        📅 {{ $review->created_at->format('d M Y - H:i') }}
+                        <i class='bx bx-calendar' style="vertical-align:middle;"></i> {{ $review->created_at->format('d M Y - H:i') }}
                     </div>
                 </div>
             @empty

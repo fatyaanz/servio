@@ -129,7 +129,7 @@
                         class="edit-btn"
                         onclick="openEditModal({{ $produk->id }})"
                     >
-                        ✏️
+                        <i class='bx bx-edit-alt'></i>
                     </button>
 
                     <!-- DELETE -->

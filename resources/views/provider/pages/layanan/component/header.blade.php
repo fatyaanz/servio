@@ -4,7 +4,7 @@
 
         <div class="header-badge">
 
-            ⚙️ Layanan Provider
+            <i class='bx bx-cog'></i> Layanan Provider
 
         </div>
 

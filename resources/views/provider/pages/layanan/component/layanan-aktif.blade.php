@@ -12,7 +12,7 @@
         <div class="empty-service">
 
             <div class="empty-icon">
-                📦
+                <i class='bx bx-package'></i>
             </div>
 
             <h3>

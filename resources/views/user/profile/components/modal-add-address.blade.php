@@ -271,7 +271,7 @@ function closeAddAddressModal() {
     openAddressModal();
 }
 
-function prepareEditAddress(addr) {
+function prepareEditAddress(addr, addrId) {
     // Close lists modal
     closeAddressModal();
 
@@ -288,8 +288,8 @@ function prepareEditAddress(addr) {
 
     document.getElementById('address_is_primary').checked = addr.is_primary ? true : false;
 
-    // Set edit route dynamically
-    const editUrl = "{{ url('/profile/address') }}/" + addr.id + "/update";
+    // Set edit route dynamically (use explicit addrId passed from Blade)
+    const editUrl = "{{ url('/profile/address') }}/" + addrId + "/update";
     document.getElementById('addressForm').action = editUrl;
     document.getElementById('addressModalTitle').innerText = "Edit Alamat";
     document.getElementById('addressSubmitButton').innerText = "Perbarui Alamat";

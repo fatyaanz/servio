@@ -45,7 +45,7 @@
                         <div class="address-actions" style="margin-top: 15px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F4F6; padding-top: 12px;">
                             <div style="display: flex; gap: 8px;">
                                 <!-- Edit Button -->
-                                <button type="button" class="btn-action edit" onclick="prepareEditAddress({{ json_encode($addr) }})">
+                                <button type="button" class="btn-action edit" onclick="prepareEditAddress({{ json_encode($addr) }}, '{{ $addr->id }}')">
                                     ✏️ Edit
                                 </button>
                                 

@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="review-rating">
-                    ⭐ {{ number_format($review->rating, 1) }}
+                    <i class='bx bxs-star' style="color:#ff7a00;"></i> {{ number_format($review->rating, 1) }}
                 </div>
 
             </div>

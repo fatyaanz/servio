@@ -23,7 +23,7 @@
 
             <button
                 class="close-modal-btn"
-                onclick="closeProviderModal({{ $category->id }})"
+                onclick="closeProviderModal('{{ $category->id }}')"
             >
                 ✕
             </button>
@@ -50,10 +50,6 @@
 
                         <th>
                             Status
-                        </th>
-
-                        <th>
-                            Aksi
                         </th>
 
                     </tr>
@@ -107,6 +103,9 @@
                                                             {{ $sub->description }}
                                                         </div>
                                                     @endif
+                                                    <div style="font-size: 11px; color: #f97316; font-weight: 600; margin-top: 4px;">
+                                                        Rp{{ number_format($sub->price_min, 0, ',', '.') }} - Rp{{ number_format($sub->price_max, 0, ',', '.') }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -124,26 +123,10 @@
                                     {{ ucfirst($provider->status) }}
                                 </div>
                             </td>
-
-                            <!-- AKSI -->
-                            <td>
-                                <form
-                                    action="{{ route('categories.remove-provider', ['category' => $category->id, 'provider' => $provider->id]) }}"
-                                    method="POST"
-                                    style="margin: 0; padding: 0;"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus provider {{ $provider->name }} dari kategori {{ $category->name }}?')"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="remove-btn">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" style="text-align: center; color: #9ca3af; padding: 30px;">
+                            <td colspan="3" style="text-align: center; color: #9ca3af; padding: 30px;">
                                 Belum ada penyedia layanan untuk kategori ini.
                             </td>
                         </tr>

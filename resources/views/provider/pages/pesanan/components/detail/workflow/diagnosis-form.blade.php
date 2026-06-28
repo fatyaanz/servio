@@ -70,7 +70,7 @@
 
             <div class="empty-icon">
 
-                🔍
+                <i class='bx bx-search'></i>
 
             </div>
 

@@ -49,13 +49,25 @@ $totalSparepart = 0;
         )
 
             @php
+                $qty = 1;
+                $isSelected = false;
 
-                $subtotal =
-                    $produk->harga *
-                    $produk->pivot->qty;
+                if ($produk->pivot) {
+                    $qty = $produk->pivot->qty ?? 1;
+                    $isSelected = $produk->pivot->is_selected ?? false;
+                } else {
+                    $pivotRecord = \Illuminate\Support\Facades\DB::collection('diagnosis_produks')
+                        ->where('diagnosis_id', $booking->diagnosis->id)
+                        ->where('produk_id', $produk->id)
+                        ->first();
+                    if ($pivotRecord) {
+                        $qty = $pivotRecord['qty'] ?? 1;
+                        $isSelected = $pivotRecord['is_selected'] ?? false;
+                    }
+                }
 
+                $subtotal = $produk->harga * $qty;
                 $totalSparepart += $subtotal;
-
             @endphp
 
             <div class="sparepart-item">
@@ -68,8 +80,9 @@ $totalSparepart = 0;
                         name="produk_ids[]"
                         value="{{ $produk->id }}"
                         data-subtotal="{{ $subtotal }}"
-                        {{ $produk->pivot->is_selected ? 'checked' : '' }}
+                        {{ $isSelected ? 'checked' : '' }}
                         {{ $booking->status !== 'waiting_approval' ? 'disabled' : '' }}
+                        form="approve-form"
                     >
 
                     <img
@@ -91,7 +104,7 @@ $totalSparepart = 0;
                         <p>
 
                             Qty :
-                            {{ $produk->pivot->qty }}
+                            {{ $qty }}
 
                         </p>
 

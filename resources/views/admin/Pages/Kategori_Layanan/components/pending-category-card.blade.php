@@ -88,28 +88,13 @@
 
         </form>
 
-        <form
-            action="{{ route('categories.reject', $request->id) }}"
-            method="POST"
+        <button
+            type="button"
+            class="reject-btn"
+            onclick="openRejectModal('{{ $request->id }}')"
         >
-
-            @csrf
-            @method('PUT')
-
-            <input
-                type="hidden"
-                name="reason"
-                value="Dokumen tidak sesuai"
-            >
-
-            <button
-                type="submit"
-                class="reject-btn"
-            >
-                Tolak
-            </button>
-
-        </form>
+            Tolak
+        </button>
 
     </div>
 

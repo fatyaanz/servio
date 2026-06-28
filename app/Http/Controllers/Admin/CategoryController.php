@@ -15,10 +15,48 @@ class CategoryController extends Controller
 {
     public function index()
 {
-    $categories = Category::with(['providers.providerServices.subServices'])
-        ->withCount('providers')
+    $categories = Category::with(['providers.providerServices.subServices', 'providers'])
         ->latest()
-        ->get();
+        ->paginate(10);
+
+    // Calculate Orders per Category using Manual Mapping
+    $bookingSubServices = \App\Models\BookingSubService::all();
+    $subServiceIds = $bookingSubServices->pluck('sub_service_id')->unique();
+    $subServices = \App\Models\SubService::with('providerService')->whereIn('_id', $subServiceIds)->get();
+    
+    // Map sub_service_id -> category_id
+    $subServiceToCategory = [];
+    foreach ($subServices as $sub) {
+        if ($sub->providerService && $sub->providerService->category_id) {
+            $subServiceToCategory[$sub->id] = $sub->providerService->category_id;
+        }
+    }
+
+    $categoryOrderCounts = [];
+    $bookingCategories = [];
+    
+    // Group categories per booking
+    foreach ($bookingSubServices as $bss) {
+        $catId = $subServiceToCategory[$bss->sub_service_id] ?? null;
+        if ($catId) {
+            $bookingCategories[$bss->booking_id][$catId] = true;
+        }
+    }
+    
+    // Sum counts (unique categories per booking)
+    foreach ($bookingCategories as $bookingId => $cats) {
+        foreach (array_keys($cats) as $catId) {
+            if (!isset($categoryOrderCounts[$catId])) {
+                $categoryOrderCounts[$catId] = 0;
+            }
+            $categoryOrderCounts[$catId]++;
+        }
+    }
+
+    foreach ($categories as $category) {
+        $category->providers_count = count($category->providers ?? []);
+        $category->orders_count = $categoryOrderCounts[$category->id] ?? 0;
+    }
 
     $totalCategories = Category::count();
 
@@ -32,9 +70,7 @@ class CategoryController extends Controller
         'provider'
     )->count();
 
-    $popularCategory = Category::withCount('providers')
-        ->orderByDesc('providers_count')
-        ->first();
+    $popularCategory = $categories->sortByDesc('providers_count')->first();
 
     $pendingRequests = CategoryRequest::with([
         'provider',
@@ -62,18 +98,19 @@ class CategoryController extends Controller
 
    public function providers(Category $category)
     {
-        $providers = $category
-            ->providers()
-            ->with([
-                'providerServices.subServices'
+        $providerServices = \App\Models\ProviderService::with([
+                'provider',
+                'subServices'
             ])
+            ->where('category_id', $category->id)
+            ->where('status', 'approved')
             ->get();
 
         return view(
             'admin.Pages.Kategori_Layanan.providers',
             compact(
                 'category',
-                'providers'
+                'providerServices'
             )
         );
     }

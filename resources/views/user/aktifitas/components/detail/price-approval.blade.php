@@ -10,11 +10,8 @@ foreach(
     $booking->diagnosis?->produks ?? []
     as $produk
 ){
-
-    $sparepartTotal +=
-        $produk->harga *
-        $produk->pivot->qty;
-
+    $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($booking->diagnosis->id, $produk->id);
+    $sparepartTotal += $produk->harga * $_pivot['qty'];
 }
 
 $total =

@@ -1,7 +1,7 @@
 @if(!isset($activeUser) || !$activeUser)
 <div class="chat-room" style="align-items: center; justify-content: center; background: #fafafa; display: flex;">
     <div style="text-align: center; padding: 40px; color: #888;">
-        <span style="font-size: 60px; display: block; margin-bottom: 20px;">💬</span>
+        <i class='bx bx-chat' style="font-size: 60px; display: block; margin-bottom: 20px; color: #cbd5e1;"></i>
         <h3 style="margin: 0; color: #333; font-size: 18px; font-weight: 700;">Mulai Percakapan</h3>
         <p style="margin-top: 8px; font-size: 14px; color: #777;">Pilih salah satu pelanggan dari sidebar untuk mulai berkirim pesan.</p>
     </div>
@@ -39,7 +39,7 @@
     @if($booking)
     <div class="booking-context-card" style="padding: 12px 20px; background: #FFF8F2; border-bottom: 1px solid rgba(240, 138, 40, 0.15); display: flex; align-items: center; justify-content: space-between; gap: 15px; box-sizing: border-box;">
         <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
-            <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFF0E0; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">🛠️</div>
+            <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFF0E0; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;"><i class='bx bx-wrench'></i></div>
             <div style="min-width: 0;">
                 <h4 style="margin: 0; font-size: 13px; color: #222; font-weight: 700;">Order #{{ $booking->formatted_id }}</h4>
                 <p style="margin: 3px 0 0; font-size: 11px; color: #666; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">

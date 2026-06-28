@@ -22,8 +22,9 @@
             {{-- TABLE --}}
             @include('provider.pages.produk.components.table')
 
-            {{-- PAGINATION --}}
-            @include('provider.pages.produk.components.pagination')
+            <div class="pagination-wrapper" style="margin-top: 20px;">
+                {{ $produks->appends(request()->query())->links() }}
+            </div>
 
         </div>
 

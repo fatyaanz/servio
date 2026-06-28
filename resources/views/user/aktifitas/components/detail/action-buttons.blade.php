@@ -88,25 +88,13 @@
 
     <div class="action-group">
 
-        <form
-            action="{{ route(
-                'booking.approve.estimation',
-                $booking->id
-            ) }}"
-            method="POST"
-            class="action-form"
+        <button
+            type="submit"
+            class="success-btn"
+            form="approve-form"
         >
-
-            @csrf
-
-            <button
-                type="submit"
-                class="success-btn"
-            >
-                ✓ Setujui Harga
-            </button>
-
-        </form>
+            ✓ Setujui Harga
+        </button>
 
         <form
             action="{{ route(

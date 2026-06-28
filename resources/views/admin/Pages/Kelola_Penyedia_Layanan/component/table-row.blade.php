@@ -61,9 +61,15 @@
     <td>
 
         @if($provider->status == 'active')
-            <span class="badge badge-success" style="background:#dcfce7; color:#16a34a; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
-                Aktif
-            </span>
+            @if($provider->is_online === false)
+                <span class="badge" style="background:#f3f4f6; color:#4b5563; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                    Offline
+                </span>
+            @else
+                <span class="badge badge-success" style="background:#dcfce7; color:#16a34a; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
+                    Aktif
+                </span>
+            @endif
         @elseif($provider->status == 'pending')
             <span class="badge badge-warning" style="background:#fef3c7; color:#d97706; padding:6px 12px; border-radius:999px; font-size:11px; font-weight:700; border: none;">
                 Pending
@@ -86,12 +92,24 @@
 
     <td>
 
-        <a
-            href="{{ route('admin.providers.show', $provider->id) }}"
-            class="btn btn-secondary detail-btn"
-        >
-            Detail
-        </a>
+        <div style="display: flex; gap: 8px;">
+            <a
+                href="{{ route('admin.providers.show', $provider->id) }}"
+                class="btn btn-secondary detail-btn"
+            >
+                Detail
+            </a>
+            
+            <a
+                href="{{ route('admin.Pages.chat.chat', ['user_id' => $provider->id]) }}"
+                class="btn btn-primary chat-btn"
+                style="padding: 8px 14px; background: #FFF4E6; color: #ff7a00; border: 1px solid rgba(255,122,0,0.2); border-radius: 10px; text-decoration: none; font-size: 12px; font-weight: 700; transition: .2s; display: flex; align-items: center; gap: 4px;"
+                onmouseover="this.style.background='#ff7a00'; this.style.color='white';"
+                onmouseout="this.style.background='#FFF4E6'; this.style.color='#ff7a00';"
+            >
+                <i class='bx bx-message-rounded-dots' style="font-size: 16px;"></i> Chat
+            </a>
+        </div>
 
     </td>
 

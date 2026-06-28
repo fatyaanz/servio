@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\ProviderService;
@@ -39,6 +39,7 @@ class User extends Authenticatable
         'role',
         'status',
         'balance',
+        'is_online',
     ];
 
     /**
@@ -60,6 +61,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'balance' => 'decimal:2',
     ];
+
+    public function createToken(string $name, array $abilities = ['*'], \DateTimeInterface $expiresAt = null)
+    {
+        $plainTextToken = \Illuminate\Support\Str::random(40);
+
+        $token = $this->tokens()->create([
+            'name' => $name,
+            'token' => hash('sha256', $plainTextToken),
+            'abilities' => $abilities,
+            'expires_at' => $expiresAt,
+        ]);
+
+        return new class($token, $plainTextToken) {
+            public $accessToken;
+            public $plainTextToken;
+            public function __construct($token, $plainTextToken) {
+                $this->accessToken = $token;
+                $this->plainTextToken = $token->getKey().'|'.$plainTextToken;
+            }
+        };
+    }
 
     public function sentMessages()
     {
@@ -143,14 +165,30 @@ class User extends Authenticatable
 
     public function averageResponseTime()
     {
-        $avgMinutes = Booking::where('provider_id', $this->id)
+        $bookings = Booking::where('provider_id', $this->id)
             ->where('status', '!=', 'pending')
-            ->selectRaw('AVG(TIMESTAMPDIFF(MINUTE, created_at, updated_at)) as avg_time')
-            ->value('avg_time');
+            ->get();
 
-        if ($avgMinutes === null) {
+        if ($bookings->isEmpty()) {
             return '± 5 Menit';
         }
+
+        $totalMinutes = 0;
+        $validBookingsCount = 0;
+        foreach ($bookings as $booking) {
+            $created = $booking->created_at;
+            $updated = $booking->updated_at;
+            if ($created && $updated) {
+                $totalMinutes += $created->diffInMinutes($updated);
+                $validBookingsCount++;
+            }
+        }
+
+        if ($validBookingsCount === 0) {
+            return '± 5 Menit';
+        }
+
+        $avgMinutes = $totalMinutes / $validBookingsCount;
 
         $avgMinutes = (int) $avgMinutes;
         if ($avgMinutes < 1) {

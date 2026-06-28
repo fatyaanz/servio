@@ -10,7 +10,7 @@
     <div class="header-left">
 
         <h1>
-             Halo, {{ Auth::check() ? Auth::user()->name : 'Guest' }}👋
+             Halo, {{ Auth::check() ? Auth::user()->name : 'Guest' }} <i class='bx bx-wave' style="color:#fbbf24;"></i>
         </h1>
 
         <p>
@@ -39,17 +39,15 @@
 
             </div>
 
-            <select class="status-select">
-
-                <option>
-                    🟢 Online
-                </option>
-
-                <option>
-                    🔴 Offline
-                </option>
-
-            </select>
+            <div class="status-toggle-container">
+                <label class="switch">
+                    <input type="checkbox" id="providerStatusToggle" {{ (Auth::user()->is_online === null || Auth::user()->is_online) ? 'checked' : '' }} onchange="toggleOnlineStatus()">
+                    <span class="slider round"></span>
+                </label>
+                <span id="statusText" style="font-size:12px; font-weight:700; color:{{ (Auth::user()->is_online === null || Auth::user()->is_online) ? '#22c55e' : '#ef4444' }}">
+                    {{ (Auth::user()->is_online === null || Auth::user()->is_online) ? 'Online' : 'Offline' }}
+                </span>
+            </div>
 
         </div>
 
@@ -57,7 +55,7 @@
 
         <div class="notif-box" id="notifToggle" onclick="toggleNotifDropdown(event)">
 
-            🔔
+            <i class='bx bx-bell'></i>
 
             <span class="notif-badge" id="notifBadge" style="{{ $unreadCount > 0 ? '' : 'display:none;' }}">
                 {{ $unreadCount }}
@@ -74,7 +72,7 @@
                 <div class="notif-dropdown-list" id="notifList">
                     <!-- Filled by JS -->
                     <div class="notif-empty" id="notifEmpty">
-                        <span style="font-size:32px;">🔔</span>
+                        <span style="font-size:32px;"><i class='bx bx-bell' style="color:#cbd5e1;"></i></span>
                         <p>Belum ada notifikasi baru</p>
                     </div>
                 </div>
@@ -133,6 +131,9 @@
 
         box-shadow:
         0 8px 30px rgba(15,23,42,0.06);
+
+        position: relative;
+        z-index: 9999;
 
     }
 
@@ -241,26 +242,69 @@
 
     }
 
-    .status-select{
+    .status-toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-        border:none;
-        outline:none;
+    /* The switch - the box around the slider */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
 
-        background:rgba(255,255,255,0.4);
+    /* Hide default HTML checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
 
-        backdrop-filter:blur(12px);
+    /* The slider */
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ef4444; /* Offline red */
+      transition: .4s;
+    }
 
-        padding:9px 14px;
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+    }
 
-        border-radius:14px;
+    input:checked + .slider {
+      background-color: #22c55e; /* Online green */
+    }
 
-        color:#374151;
+    input:focus + .slider {
+      box-shadow: 0 0 1px #22c55e;
+    }
 
-        font-size:12px;
-        font-weight:600;
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
 
-        cursor:pointer;
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 24px;
+    }
 
+    .slider.round:before {
+      border-radius: 50%;
     }
 
     /* =========================
@@ -620,6 +664,50 @@
 
     let dropdownOpen = false;
 
+    // Toggle Online/Offline Status
+    window.toggleOnlineStatus = function() {
+        const toggle = document.getElementById('providerStatusToggle');
+        const statusText = document.getElementById('statusText');
+        const isOnline = toggle.checked;
+
+        // Optimistically update UI
+        if(isOnline) {
+            statusText.textContent = 'Online';
+            statusText.style.color = '#22c55e';
+        } else {
+            statusText.textContent = 'Offline';
+            statusText.style.color = '#ef4444';
+        }
+
+        fetch('{{ route("provider.toggle-status") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                // Reload to show/hide dashboard content appropriately
+                window.location.reload();
+            }
+        })
+        .catch(err => {
+            console.error('Error toggling status', err);
+            // Revert UI if error
+            toggle.checked = !isOnline;
+            if(!isOnline) {
+                statusText.textContent = 'Online';
+                statusText.style.color = '#22c55e';
+            } else {
+                statusText.textContent = 'Offline';
+                statusText.style.color = '#ef4444';
+            }
+        });
+    };
+
     // Toggle dropdown
     window.toggleNotifDropdown = function(e) {
         e.stopPropagation();
@@ -641,21 +729,21 @@
     function getIconInfo(type) {
         switch(type) {
             case 'chat_received':
-                return { icon: '💬', cls: 'chat' };
+                return { icon: '<i class="bx bx-chat"></i>', cls: 'chat' };
             case 'order_created':
-                return { icon: '📦', cls: 'order' };
+                return { icon: '<i class="bx bx-package"></i>', cls: 'order' };
             case 'category_approved':
-                return { icon: '✅', cls: 'category' };
+                return { icon: '<i class="bx bx-check-circle"></i>', cls: 'category' };
             case 'category_rejected':
-                return { icon: '❌', cls: 'category' };
+                return { icon: '<i class="bx bx-x-circle"></i>', cls: 'category' };
             case 'service_approved':
-                return { icon: '🛠️', cls: 'service' };
+                return { icon: '<i class="bx bx-wrench"></i>', cls: 'service' };
             case 'service_rejected':
-                return { icon: '🚫', cls: 'service' };
+                return { icon: '<i class="bx bx-block"></i>', cls: 'service' };
             case 'status_updated':
-                return { icon: '📋', cls: 'status' };
+                return { icon: '<i class="bx bx-clipboard"></i>', cls: 'status' };
             default:
-                return { icon: '🔔', cls: 'default' };
+                return { icon: '<i class="bx bx-bell"></i>', cls: 'default' };
         }
     }
 
@@ -695,7 +783,7 @@
         const div = document.createElement('div');
         div.className = 'notif-empty';
         div.id = 'notifEmpty';
-        div.innerHTML = '<span style="font-size:32px;">🔔</span><p>Belum ada notifikasi baru</p>';
+        div.innerHTML = '<span style="font-size:32px;"><i class="bx bx-bell" style="color:#cbd5e1;"></i></span><p>Belum ada notifikasi baru</p>';
         return div;
     }
 

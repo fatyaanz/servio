@@ -18,7 +18,7 @@
 <div class="initial-damage-card">
     <div class="card-header" style="display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #F1F5F9; padding-bottom: 18px; margin-bottom: 18px;">
         <div class="header-icon" style="background: #FEF2F2; color: #EF4444; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px;">
-            ⚠️
+            <i class='bx bx-error'></i>
         </div>
         <div>
             <h3 style="margin: 0; color: #0F172A; font-size: 20px; font-weight: 800;">Detail Kerusakan Awal</h3>
@@ -35,7 +35,7 @@
         @endif
 
         @if(count($photos) > 0)
-            <div style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">📷 Foto Lampiran</div>
+            <div style="font-size: 12px; font-weight: 700; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;"><i class='bx bx-camera'></i> Foto Lampiran</div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; width: 100%;">
                 @foreach($photos as $photo)
                     <div style="width: 120px; height: 120px; border-radius: 16px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer;">

@@ -1,251 +1,257 @@
-<div class="table-container">
-
-    <table class="category-table">
-
-        <thead>
-
-            <tr>
-
-                <th>
-                    Kategori
-                </th>
-
-                <th>
-                    Jumlah Penyedia
-                </th>
-
-                <th>
-                    Penyedia Layanan
-                </th>
-
-                <th>
-                    Dibuat Pada
-                </th>
-
-                <th>
-                    Status
-                </th>
-
-                <th>
-                    Aksi
-                </th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-            @forelse($categories as $category)
-
-                @include(
-                    'admin.Pages.Kategori_Layanan.components.category-row'
-                )
-
-            @empty
-
-                <tr>
-
-                    <td colspan="6" class="empty-table">
-
-                        <div class="empty-content">
-
-                            <i class='bx bx-category'></i>
-
-                            <h4>
-                                Belum Ada Kategori
-                            </h4>
-
-                            <p>
-                                Tambahkan kategori layanan pertama untuk mulai mengelola provider.
-                            </p>
-
+<div class="category-grid">
+    @forelse($categories as $category)
+        <div class="category-card">
+            <div class="card-header">
+                <div class="category-icon">
+                    @if($category->icon)
+                        <img src="{{ asset('storage/'.$category->icon) }}" alt="{{ $category->name }}">
+                    @else
+                        <i class='bx bx-category'></i>
+                    @endif
+                </div>
+                <div class="action-group">
+                    @if($category->is_active)
+                        <span class="badge badge-success">Aktif</span>
+                    @else
+                        <span class="badge badge-danger">Nonaktif</span>
+                    @endif
+                    <a href="{{ route('categories.edit', $category->id) }}" class="edit-btn" title="Edit Kategori">
+                        <i class='bx bx-edit-alt'></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <h4>{{ $category->name }}</h4>
+                <p class="created-date">Dibuat: {{ $category->created_at->format('d M Y') }}</p>
+                
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <i class='bx bx-group'></i>
+                        <div class="stat-info">
+                            <span class="stat-value">{{ $category->providers_count }}</span>
+                            <span class="stat-label">Penyedia</span>
                         </div>
-
-                    </td>
-
-                </tr>
-
-            @endforelse
-
-        </tbody>
-
-    </table>
-
+                    </div>
+                    <div class="stat-box">
+                        <i class='bx bx-shopping-bag'></i>
+                        <div class="stat-info">
+                            <span class="stat-value">{{ $category->orders_count ?? 0 }}</span>
+                            <span class="stat-label">Pesanan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer">
+                <button class="provider-btn" onclick="openProviderModal('{{ $category->id }}')">
+                    Lihat Detail Penyedia <i class='bx bx-right-arrow-alt'></i>
+                </button>
+            </div>
+        </div>
+    @empty
+        <div class="empty-state">
+            <i class='bx bx-category'></i>
+            <h4>Belum Ada Kategori</h4>
+            <p>Tambahkan kategori layanan pertama untuk mulai mengelola provider.</p>
+        </div>
+    @endforelse
 </div>
 
 <style>
-
-/* =========================
-    TABLE CONTAINER
-========================= */
-
-.table-container{
-
-    width:100%;
-
-    overflow-x:auto;
-
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
 }
 
-/* =========================
-    TABLE
-========================= */
-
-.category-table{
-
-    width:100%;
-
-    border-collapse:separate;
-
-    border-spacing:0 12px;
-
+.category-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #eef2f7;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
 }
 
-/* =========================
-    HEADER
-========================= */
-
-.category-table th{
-
-    text-align:left;
-
-    padding:0 14px 12px;
-
-    font-size:13px;
-
-    font-weight:600;
-
-    color:var(--text-secondary);
-
-    white-space:nowrap;
-
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(255, 122, 0, 0.15);
+    border-color: rgba(255, 122, 0, 0.2);
 }
 
-/* =========================
-    BODY
-========================= */
-
-.category-table td{
-
-    padding:16px 14px;
-
-    background:white;
-
-    vertical-align:middle;
-
-    font-size:14px;
-
-    color:var(--text-dark);
-
-    border-top:1px solid #f3f4f6;
-
-    border-bottom:1px solid #f3f4f6;
-
-    transition:.3s;
-
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-/* =========================
-    RADIUS
-========================= */
-
-.category-table tr td:first-child{
-
-    border-radius:20px 0 0 20px;
-
-    border-left:1px solid #f3f4f6;
-
+.category-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff7a00;
+    font-size: 28px;
+    overflow: hidden;
 }
 
-.category-table tr td:last-child{
-
-    border-radius:0 20px 20px 0;
-
-    border-right:1px solid #f3f4f6;
-
+.category-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-/* =========================
-    HOVER
-========================= */
-
-.category-table tbody tr:hover td{
-
-    background:#FFF4E6;
-
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* =========================
-    EMPTY STATE
-========================= */
-
-.empty-table{
-
-    background:white !important;
-
-    padding:60px 20px !important;
-
-    text-align:center;
-
+.badge {
+    padding: 6px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
 }
 
-.empty-content{
+.badge-success { background: #dcfce7; color: #16a34a; }
+.badge-danger { background: #fee2e2; color: #dc2626; }
 
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
+.edit-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.2s;
 }
 
-.empty-content i{
-
-    font-size:56px;
-
-    color:var(--primary);
-
-    margin-bottom:12px;
-
+.edit-btn:hover {
+    background: #ff7a00;
+    color: white;
 }
 
-.empty-content h4{
-
-    font-size:18px;
-
-    font-weight:600;
-
-    color:var(--text-dark);
-
-    margin-bottom:6px;
-
+.card-body h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
 }
 
-.empty-content p{
-
-    font-size:14px;
-
-    color:var(--text-secondary);
-
-    max-width:320px;
-
+.created-date {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 20px;
 }
 
-/* =========================
-    RESPONSIVE
-========================= */
-
-@media(max-width:992px){
-
-    .category-table{
-
-        min-width:950px;
-
-    }
-
+.stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px;
 }
 
+.stat-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stat-box i {
+    font-size: 20px;
+    color: #ff7a00;
+    background: #fff7ed;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.card-footer {
+    margin-top: auto;
+}
+
+.provider-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    border: none;
+    background: #fff7ed;
+    color: #ff7a00;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.provider-btn:hover {
+    background: #ff7a00;
+    color: white;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    background: white;
+    border-radius: 24px;
+    padding: 60px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-state i {
+    font-size: 56px;
+    color: #cbd5e1;
+    margin-bottom: 16px;
+}
+
+.empty-state h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: #94a3b8;
+}
 </style>

@@ -55,7 +55,7 @@
                     <div class="upload-box">
 
                         <div class="upload-icon">
-                            ☁️
+                            <i class='bx bx-cloud-upload' style="font-size:40px; color:#9ca3af; margin-bottom:10px;"></i>
                         </div>
 
                         <h4>

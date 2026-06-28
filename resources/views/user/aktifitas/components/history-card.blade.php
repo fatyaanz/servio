@@ -36,8 +36,10 @@ if ($booking->status == 'completed') {
 
     <div class="history-content">
 
-        <div class="history-avatar">
-            {{ strtoupper(substr($booking->provider->name ?? ($category->name ?? 'S'), 0, 1)) }}
+        <div class="history-avatar" @if($booking->provider && $booking->provider->business_photo) style="background: url('{{ asset('storage/' . $booking->provider->business_photo) }}') center/cover no-repeat; color: transparent;" @endif>
+            @if(!$booking->provider || !$booking->provider->business_photo)
+                {{ strtoupper(substr($booking->provider->name ?? ($category->name ?? 'S'), 0, 1)) }}
+            @endif
         </div>
 
         <div class="history-info">
@@ -100,8 +102,9 @@ if ($booking->status == 'completed') {
                     $serviceFee = $booking->diagnosis->service_fee;
                     $sparepartTotal = 0;
                     foreach ($booking->diagnosis->produks ?? [] as $produk) {
-                        if ($produk->pivot->is_selected) {
-                            $sparepartTotal += $produk->harga * $produk->pivot->qty;
+                        $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($booking->diagnosis->id, $produk->id);
+                        if ($_pivot['is_selected']) {
+                            $sparepartTotal += $produk->harga * $_pivot['qty'];
                         }
                     }
                     $totalPayable = $serviceFee + $sparepartTotal + 5000;

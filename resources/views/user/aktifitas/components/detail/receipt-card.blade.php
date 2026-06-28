@@ -4,8 +4,10 @@ $sparepartTotal = 0;
 $selectedProduks = [];
 
 foreach ($booking->diagnosis?->produks ?? [] as $produk) {
-    if ($produk->pivot->is_selected) {
-        $sparepartTotal += $produk->harga * $produk->pivot->qty;
+    $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($booking->diagnosis->id, $produk->id);
+    if ($_pivot['is_selected']) {
+        $sparepartTotal += $produk->harga * $_pivot['qty'];
+        $produk->_qty = $_pivot['qty'];
         $selectedProduks[] = $produk;
     }
 }
@@ -56,8 +58,8 @@ $total = $serviceFee + $sparepartTotal + $appFee;
             <div class="breakdown-subtitle">Sparepart/Produk Disetujui:</div>
             @foreach($selectedProduks as $p)
                 <div class="breakdown-row sub-item">
-                    <span>{{ $p->nama_produk }} (x{{ $p->pivot->qty }})</span>
-                    <span>Rp{{ number_format($p->harga * $p->pivot->qty, 0, ',', '.') }}</span>
+                    <span>{{ $p->nama_produk }} (x{{ $p->_qty ?? 1 }})</span>
+                    <span>Rp{{ number_format($p->harga * ($p->_qty ?? 1), 0, ',', '.') }}</span>
                 </div>
             @endforeach
         @endif

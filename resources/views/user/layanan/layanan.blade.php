@@ -607,23 +607,6 @@
             </div>
         </section>
 
-        <!-- CATEGORIES FILTER PILLS -->
-        <section class="category-filter-container">
-            <span class="category-filter-title">Kategori Layanan</span>
-            <div class="category-filter-bar">
-                <a href="{{ route('layanan') }}" class="filter-pill {{ !request('category') ? 'active' : '' }}">
-                    Semua
-                </a>
-                @foreach($categories as $cat)
-                    <a 
-                        href="{{ route('layanan', ['category' => $cat->id]) }}" 
-                        class="filter-pill {{ request('category') == $cat->id ? 'active' : '' }}"
-                    >
-                        {{ $cat->name }}
-                    </a>
-                @endforeach
-            </div>
-        </section>
 
         <!-- PROVIDER SERVICES GRID -->
         <section class="provider-grid" id="providerGrid">

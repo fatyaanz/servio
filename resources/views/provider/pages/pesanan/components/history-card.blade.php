@@ -33,7 +33,7 @@ $statusIcon =
 
             Selesai
             @if($booking->review)
-                • ⭐ {{ number_format($booking->review->rating, 1) }}
+                • <i class='bx bxs-star' style="color:#ff7a00;vertical-align:middle;"></i> {{ number_format($booking->review->rating, 1) }}
             @endif
 
         @elseif($booking->status == 'cancelled')
@@ -150,8 +150,9 @@ $statusIcon =
                     $serviceFee = $booking->diagnosis->service_fee;
                     $sparepartTotal = 0;
                     foreach ($booking->diagnosis->produks ?? [] as $produk) {
-                        if ($produk->pivot->is_selected) {
-                            $sparepartTotal += $produk->harga * $produk->pivot->qty;
+                        $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($booking->diagnosis->id, $produk->id);
+                        if ($_pivot['is_selected']) {
+                            $sparepartTotal += $produk->harga * $_pivot['qty'];
                         }
                     }
                     $totalPayable = $serviceFee + $sparepartTotal + 5000;

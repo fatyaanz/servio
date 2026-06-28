@@ -15,12 +15,13 @@ class PesananController extends Controller
     {
         $booking = Booking::with([
             'customer',
-            'subServices',
-            'diagnosis.damageReports',
-            'diagnosis.produks'
+            'diagnosis.damageReports'
         ])
         ->where('provider_id', auth()->id())
         ->findOrFail($id);
+
+        $subServiceIds = \App\Models\BookingSubService::where('booking_id', $booking->id)->pluck('sub_service_id');
+        $booking->setRelation('subServices', \App\Models\SubService::with('providerService.category')->whereIn('_id', $subServiceIds)->get());
 
         $produks = Produk::all();
 
@@ -36,8 +37,7 @@ class PesananController extends Controller
     public function index()
     {
         $bookings = Booking::with([
-            'customer',
-            'subServices'
+            'customer'
         ])
         ->where('provider_id', auth()->id())
         ->whereNotIn(
@@ -50,6 +50,11 @@ class PesananController extends Controller
         )
         ->latest()
         ->get();
+
+        foreach ($bookings as $b) {
+            $subServiceIds = \App\Models\BookingSubService::where('booking_id', $b->id)->pluck('sub_service_id');
+            $b->setRelation('subServices', \App\Models\SubService::with('providerService.category')->whereIn('_id', $subServiceIds)->get());
+        }
         $activeCount = $bookings->count();
 
         return view(
@@ -256,7 +261,6 @@ class PesananController extends Controller
     {
         $bookings = Booking::with([
             'customer',
-            'subServices',
             'review'
         ])
         ->where('provider_id', auth()->id())
@@ -271,6 +275,11 @@ class PesananController extends Controller
         ->latest()
         ->get();
 
+        foreach ($bookings as $b) {
+            $subServiceIds = \App\Models\BookingSubService::where('booking_id', $b->id)->pluck('sub_service_id');
+            $b->setRelation('subServices', \App\Models\SubService::with('providerService.category')->whereIn('_id', $subServiceIds)->get());
+        }
+
         return view(
             'provider.pages.pesanan.riwayat',
             compact('bookings')
@@ -284,8 +293,25 @@ class PesananController extends Controller
         $serviceFee = $booking->diagnosis?->service_fee ?? 0;
         $sparepartTotal = 0;
         foreach ($booking->diagnosis?->produks ?? [] as $produk) {
-            if ($produk->pivot->is_selected) {
-                $sparepartTotal += $produk->harga * $produk->pivot->qty;
+            $isSelected = false;
+            $qty = 1;
+
+            if ($produk->pivot) {
+                $isSelected = $produk->pivot->is_selected;
+                $qty = $produk->pivot->qty ?? 1;
+            } else {
+                $pivotRecord = \Illuminate\Support\Facades\DB::collection('diagnosis_produks')
+                    ->where('diagnosis_id', $booking->diagnosis->id)
+                    ->where('produk_id', $produk->id)
+                    ->first();
+                if ($pivotRecord) {
+                    $isSelected = $pivotRecord['is_selected'] ?? false;
+                    $qty = $pivotRecord['qty'] ?? 1;
+                }
+            }
+
+            if ($isSelected) {
+                $sparepartTotal += $produk->harga * $qty;
             }
         }
         $appFee = 5000;

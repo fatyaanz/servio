@@ -18,7 +18,7 @@ $steps = [
     ],
 
     'diagnosis' => [
-        'icon' => '🔍',
+        'icon' => '<i class="bx bx-search"></i>',
         'title' => 'Pengecekan Kerusakan'
     ],
 
@@ -28,7 +28,7 @@ $steps = [
     ],
 
     'rejected'=>[
-        'icon' => '⚠️',
+        'icon' => '<i class="bx bx-error"></i>',
         'title' => 'Estimasi Ditolak'
     ],
 
@@ -38,7 +38,7 @@ $steps = [
     ],
 
     'working' => [
-        'icon' => '🛠️',
+        'icon' => '<i class="bx bx-wrench"></i>',
         'title' => 'Sedang Dikerjakan'
     ],
 
@@ -107,7 +107,7 @@ if ($currentIndex === false) {
 
                     <div class="timeline-icon">
 
-                        {{ $step['icon'] }}
+                        {!! $step['icon'] !!}
 
                     </div>
 

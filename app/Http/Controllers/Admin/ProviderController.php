@@ -27,7 +27,7 @@ class ProviderController extends Controller
             $providers->where('status', 'suspended');
         }
 
-        $providers = $providers->get();
+        $providers = $providers->paginate(10);
 
         $pendingProviders = User::where('role', 'provider')
             ->where('status', 'pending')

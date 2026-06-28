@@ -1,44 +1,39 @@
-<div class="produk-filter-wrapper">
+<form method="GET" action="/provider/produk" class="produk-filter-wrapper">
 
     <!-- SEARCH -->
 
     <div class="search-box">
+        <input
+            type="text"
+            name="search"
+            placeholder="Cari nama produk..."
+            value="{{ request('search') }}"
+        >
 
-        <form method="GET" action="/provider/produk">
-
-            <input
-                type="text"
-                name="search"
-                placeholder="Cari nama produk..."
-            >
-
-            <button>
-                🔍
-            </button>
-
-        </form>
-
+        <button type="submit">
+            <i class='bx bx-search' style="color:#6b7280; font-size:18px;"></i>
+        </button>
     </div>
 
     <!-- STOCK FILTER -->
 
     <div class="stock-filter">
 
-        <select>
+        <select name="stok" onchange="this.form.submit()">
 
-            <option>
+            <option value="">
                 Filter Stok
             </option>
 
-            <option>
+            <option value="aman" {{ request('stok') == 'aman' ? 'selected' : '' }}>
                 Aman
             </option>
 
-            <option>
+            <option value="menipis" {{ request('stok') == 'menipis' ? 'selected' : '' }}>
                 Menipis
             </option>
 
-            <option>
+            <option value="habis" {{ request('stok') == 'habis' ? 'selected' : '' }}>
                 Habis
             </option>
 
@@ -46,7 +41,7 @@
 
     </div>
 
-</div>
+</form>
 
 <style>
 

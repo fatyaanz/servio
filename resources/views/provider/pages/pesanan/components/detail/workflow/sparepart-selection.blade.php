@@ -46,6 +46,19 @@
                     class="sparepart-image"
                 >
 
+                @php
+                    $qty = 1;
+                    if ($produk->pivot) {
+                        $qty = $produk->pivot->qty ?? 1;
+                    } else {
+                        $pivotRecord = \Illuminate\Support\Facades\DB::collection('diagnosis_produks')
+                            ->where('diagnosis_id', $booking->diagnosis->id)
+                            ->where('produk_id', $produk->id)
+                            ->first();
+                        $qty = $pivotRecord['qty'] ?? 1;
+                    }
+                @endphp
+
                 <div class="sparepart-info">
 
                     <h4>
@@ -57,7 +70,7 @@
                     <p>
 
                         Qty :
-                        {{ $produk->pivot->qty }}
+                        {{ $qty }}
                         {{ $produk->satuan }}
 
                     </p>
@@ -71,8 +84,7 @@
                 <span class="product-price">
 
                     Rp{{ number_format(
-                        $produk->harga *
-                        $produk->pivot->qty,
+                        $produk->harga * $qty,
                         0,
                         ',',
                         '.'
@@ -117,7 +129,7 @@
 
             <div class="empty-icon">
 
-                📦
+                <i class='bx bx-package'></i>
 
             </div>
 

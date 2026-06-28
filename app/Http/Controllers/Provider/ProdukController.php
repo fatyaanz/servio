@@ -30,6 +30,17 @@ class ProdukController extends Controller
 
         }
 
+        // STOCK FILTER
+        if($request->stok){
+            if($request->stok == 'aman'){
+                $query->where('stok', '>', 10);
+            } elseif($request->stok == 'menipis'){
+                $query->where('stok', '>', 0)->where('stok', '<=', 10);
+            } elseif($request->stok == 'habis'){
+                $query->where('stok', '<=', 0);
+            }
+        }
+
         $produks = $query->latest()->paginate(5);
 
         return view(

@@ -26,9 +26,12 @@
 
         </div>
 
-        <form id="rejectForm">
+        <form id="rejectForm" method="POST">
+            @csrf
+            @method('PUT')
 
             <textarea
+                name="reason"
                 placeholder="Masukkan alasan penolakan..."
                 required
             ></textarea>
@@ -343,8 +346,9 @@
 
 <script>
 
-function openRejectModal()
+function openRejectModal(id)
 {
+    document.getElementById('rejectForm').action = '/admin/category-request/' + id + '/reject';
     document
         .getElementById('rejectModal')
         .style.display = 'flex';

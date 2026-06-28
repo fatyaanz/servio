@@ -30,18 +30,20 @@ $totalMax =
 
         <div class="activity-category-icon">
 
-            @if($category && $category->icon)
-
+            @if($booking->provider && $booking->provider->business_photo)
+                <img
+                    src="{{ asset('storage/' . $booking->provider->business_photo) }}"
+                    alt="{{ $booking->provider->name }}"
+                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 22px;"
+                >
+            @elseif($category && $category->icon)
                 <img
                     src="{{ asset('storage/' . $category->icon) }}"
                     alt="{{ $category->name }}"
                     class="category-image"
                 >
-
             @else
-
                 🛠️
-
             @endif
 
         </div>
@@ -280,8 +282,6 @@ $totalMax =
     background:#FFF8F1;
 
     border:1px solid rgba(240,138,40,.12);
-
-    overflow:hidden;
 }
 
 .category-image{

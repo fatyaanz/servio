@@ -42,7 +42,7 @@ $totalMax =
 
             @else
 
-                🛠️
+                <i class='bx bx-wrench' style="color:#d97706;"></i>
 
             @endif
 
@@ -130,7 +130,7 @@ $totalMax =
         <div class="order-summary">
 
             <span>
-                👨‍🔧 {{ $booking->subServices->count() }} layanan dipilih
+                <i class='bx bx-user' style="vertical-align:middle; margin-right:4px;"></i> {{ $booking->subServices->count() }} layanan dipilih
             </span>
 
         </div>

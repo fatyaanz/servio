@@ -32,38 +32,40 @@
 
     <div class="provider-wrapper">
 
-        @forelse($providers as $provider)
+        @forelse($providerServices as $providerService)
+            @php $provider = $providerService->provider; @endphp
 
             <div class="provider-card">
+                <div class="provider-card-header">
+                    <div class="provider-info">
 
-                <div class="provider-info">
+                        <div class="avatar">
 
-                    <div class="avatar">
+                            {{ strtoupper(substr($provider->name,0,1)) }}
 
-                        {{ strtoupper(substr($provider->name,0,1)) }}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ $provider->name }}
+                            </h3>
+
+                            <p>
+                                {{ $provider->email }}
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <div>
+                    <div class="provider-status">
 
-                        <h3>
-                            {{ $provider->name }}
-                        </h3>
-
-                        <p>
-                            {{ $provider->email }}
-                        </p>
+                        <span class="badge">
+                            Provider Aktif
+                        </span>
 
                     </div>
-
-                </div>
-
-                <div class="provider-status">
-
-                    <span class="badge">
-                        Provider Aktif
-                    </span>
-
                 </div>
 
                     <div class="sub-service-section">
@@ -95,16 +97,6 @@
                             </thead>
 
                             <tbody>
-
-                            @php
-                                $providerService =
-                                    $provider->providerServices
-                                    ->where(
-                                        'category_id',
-                                        $category->id
-                                    )
-                                    ->first();
-                            @endphp
 
                             @if(
                                 $providerService &&
@@ -307,10 +299,23 @@
 
     display:flex;
 
-    justify-content:space-between;
-    align-items:center;
+    flex-direction:column;
+
+    gap:20px;
 
     border:1px solid #eef2f7;
+
+}
+
+.provider-card-header{
+
+    display:flex;
+    
+    justify-content:space-between;
+
+    align-items:center;
+
+    width: 100%;
 
 }
 

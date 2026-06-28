@@ -1,12 +1,19 @@
 @php
 
-$totalProduk =
-    $booking->diagnosis?->produks->sum(
-        fn($produk)
-            =>
-            $produk->harga *
-            $produk->pivot->qty
-    ) ?? 0;
+$totalProduk = 0;
+foreach ($booking->diagnosis?->produks ?? [] as $_p) {
+    $_qty = 1;
+    if ($_p->pivot) {
+        $_qty = $_p->pivot->qty ?? 1;
+    } else {
+        $_pivot = \Illuminate\Support\Facades\DB::collection('diagnosis_produks')
+            ->where('diagnosis_id', $booking->diagnosis->id)
+            ->where('produk_id', $_p->id)
+            ->first();
+        $_qty = $_pivot['qty'] ?? 1;
+    }
+    $totalProduk += $_p->harga * $_qty;
+}
 
 $serviceFee =
     $booking->diagnosis?->service_fee ?? 0;
@@ -16,115 +23,56 @@ $grandTotal =
 
 @endphp
 
-<div class="estimation-card">
-
+<!-- KARTU BIAYA JASA -->
+<div class="estimation-card" style="margin-bottom: 20px;">
     <div class="card-header">
-
         <h3>
-            💰 Estimasi Biaya
+            <i class='bx bx-wrench'></i> Input Biaya Jasa
         </h3>
-
     </div>
-    <form
-        action="{{ route('provider.diagnosis.service-fee') }}"
-        method="POST"
-    >
-
+    <form action="{{ route('provider.diagnosis.service-fee') }}" method="POST">
         @csrf
-
-        <input
-            type="hidden"
-            name="diagnosis_id"
-            value="{{ $booking->diagnosis?->id }}"
-        >
+        <input type="hidden" name="diagnosis_id" value="{{ $booking->diagnosis?->id }}">
 
         <div class="fee-row">
-
-            <span>
-                Biaya Jasa
-            </span>
-
-            <input
-                type="number"
-                name="service_fee"
-                value="{{ $serviceFee }}"
-                class="fee-input"
-                min="0"
-                {{ $booking->status !== 'diagnosis' ? 'disabled' : '' }}
-            >
-
+            <span>Biaya Jasa Teknisi</span>
+            <input type="number" name="service_fee" value="{{ $serviceFee }}" class="fee-input" min="0" {{ $booking->status !== 'diagnosis' ? 'disabled' : '' }}>
         </div>
 
         @if($booking->status == 'diagnosis')
-        <button
-            type="submit"
-            class="save-fee-btn"
-        >
+        <button type="submit" class="save-fee-btn">
             Simpan Biaya Jasa
         </button>
         @endif
-
     </form>
+</div>
 
-    <div class="divider"></div>
-
-    <div class="fee-row">
-
-        <span>
-            Total Produk
-        </span>
-
-        <strong>
-
-            Rp{{ number_format(
-                $totalProduk,
-                0,
-                ',',
-                '.'
-            ) }}
-
-        </strong>
-
-    </div>
-
-    <div class="fee-row total">
-
-        <span>
-            Grand Total
-        </span>
-
-        <strong>
-
-            Rp{{ number_format(
-                $grandTotal,
-                0,
-                ',',
-                '.'
-            ) }}
-
-        </strong>
-
+<!-- KARTU BIAYA AKHIR -->
+<div class="estimation-card">
+    <div class="card-header">
+        <h3>
+            💰 Biaya Akhir
+        </h3>
     </div>
 
     @if($serviceFee > 0)
-
-        <div class="price-preview">
-
-            Biaya jasa:
-            <strong>
-
-                Rp{{ number_format(
-                    $serviceFee,
-                    0,
-                    ',',
-                    '.'
-                ) }}
-
-            </strong>
-
-        </div>
-
+    <div class="fee-row">
+        <span>Biaya Jasa</span>
+        <strong>Rp{{ number_format($serviceFee, 0, ',', '.') }}</strong>
+    </div>
     @endif
+
+    <div class="fee-row">
+        <span>Total Produk</span>
+        <strong>Rp{{ number_format($totalProduk, 0, ',', '.') }}</strong>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fee-row total">
+        <span>Grand Total</span>
+        <strong>Rp{{ number_format($grandTotal, 0, ',', '.') }}</strong>
+    </div>
 </div>
 
 <style>

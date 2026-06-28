@@ -61,8 +61,9 @@ class DashboardController extends Controller
             if ($b->diagnosis) {
                 $todayIncome += $b->diagnosis->service_fee;
                 foreach ($b->diagnosis->produks as $p) {
-                    if ($p->pivot->is_selected) {
-                        $todayIncome += $p->harga * $p->pivot->qty;
+                    $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($b->diagnosis->id, $p->id);
+                    if ($_pivot['is_selected']) {
+                        $todayIncome += $p->harga * $_pivot['qty'];
                     }
                 }
             }
@@ -100,7 +101,54 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
-        $averageRating = \App\Models\Review::where('provider_id', $providerId)->avg('rating') ?? 0;
+        $allReviewsForAvg = \App\Models\Review::where('provider_id', $providerId)->get();
+        $averageRating = $allReviewsForAvg->avg('rating') ?? 0;
+
+        // 5. Total Produk
+        $totalProduk = \App\Models\Produk::where('provider_id', $providerId)->count();
+
+        // 6. Total Layanan
+        $totalLayanan = \App\Models\ProviderService::where('provider_id', $providerId)->count();
+
+        // 7. Chart Data (7 Hari Terakhir)
+        $chartLabels = [];
+        $chartIncome = [];
+        $chartOrders = [];
+
+        // Loop dari 6 hari yang lalu sampai hari ini
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $startOfDay = $date->copy()->startOfDay();
+            $endOfDay = $date->copy()->endOfDay();
+
+            // Label format: misal "Senin, 10 Jun" atau cukup nama hari "Senin"
+            $chartLabels[] = $date->locale('id')->isoFormat('ddd, D MMM');
+
+            // Pesanan selesai pada hari tersebut
+            $completedBookings = Booking::with(['diagnosis.produks'])
+                ->where('provider_id', $providerId)
+                ->where('status', 'completed')
+                ->whereBetween('updated_at', [$startOfDay, $endOfDay])
+                ->get();
+
+            $dailyOrders = $completedBookings->count();
+            $dailyIncome = 0;
+
+            foreach ($completedBookings as $b) {
+                if ($b->diagnosis) {
+                    $dailyIncome += $b->diagnosis->service_fee;
+                    foreach ($b->diagnosis->produks as $p) {
+                        $_pivot = \App\Helpers\PivotHelper::getDiagnosisProdukPivot($b->diagnosis->id, $p->id);
+                        if ($_pivot['is_selected']) {
+                            $dailyIncome += $p->harga * $_pivot['qty'];
+                        }
+                    }
+                }
+            }
+
+            $chartIncome[] = $dailyIncome;
+            $chartOrders[] = $dailyOrders;
+        }
 
         return view(
             'provider.pages.Dashboard.dashboard',
@@ -113,7 +161,12 @@ class DashboardController extends Controller
                 'pendingBookings',
                 'activeBookings',
                 'reviews',
-                'averageRating'
+                'averageRating',
+                'totalProduk',
+                'totalLayanan',
+                'chartLabels',
+                'chartIncome',
+                'chartOrders'
             )
         );
     }
@@ -131,5 +184,23 @@ class DashboardController extends Controller
             'provider.pages.ulasan.index',
             compact('reviews')
         );
+    }
+
+    public function toggleStatus()
+    {
+        $user = auth()->user();
+        
+        // Treat null as true (online by default) if it's the first time
+        if ($user->is_online === null) {
+            $user->is_online = true;
+        }
+        
+        $user->is_online = !$user->is_online;
+        $user->save();
+
+        return response()->json([
+            'success' => true, 
+            'is_online' => $user->is_online
+        ]);
     }
 }

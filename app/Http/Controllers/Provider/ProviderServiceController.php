@@ -84,7 +84,7 @@ class ProviderServiceController extends Controller
     
 
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,_id',
             'certificate_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png'
         ]);
 
@@ -210,8 +210,21 @@ class ProviderServiceController extends Controller
             ->get();
 
         $activeCount = $services->count();
-
         $requestCount = $requests->count();
+
+        // Calculate SubService Order Counts
+        $subServiceIds = [];
+        foreach($services as $service) {
+            foreach($service->subServices as $sub) {
+                $subServiceIds[] = $sub->id;
+            }
+        }
+        $bookingSubServices = \App\Models\BookingSubService::whereIn('sub_service_id', $subServiceIds)->get();
+        $subServiceOrderCounts = [];
+        foreach($bookingSubServices as $bss) {
+            $subServiceOrderCounts[$bss->sub_service_id] = ($subServiceOrderCounts[$bss->sub_service_id] ?? 0) + 1;
+        }
+
         return view(
             'provider.pages.layanan.layanan',
             compact(
@@ -219,7 +232,8 @@ class ProviderServiceController extends Controller
                 'categories',
                 'requests',
                 'activeCount',
-                'requestCount'
+                'requestCount',
+                'subServiceOrderCounts'
             )
         );
     }

@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <div class="booking-card">
 
@@ -95,6 +97,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const marker = L.marker([defaultLat, defaultLon], {
         draggable: true
     }).addTo(map);
+
+    // Add Search Box (Geocoder)
+    L.Control.geocoder({
+        defaultMarkGeocode: false,
+        placeholder: "Cari alamat di peta..."
+    })
+    .on('markgeocode', function(e) {
+        const latlng = e.geocode.center;
+        updateCoords(latlng.lat, latlng.lng, false);
+        addressInput.value = e.geocode.name;
+    })
+    .addTo(map);
 
     // Function to handle reverse geocoding
     async function reverseGeocode(lat, lon) {

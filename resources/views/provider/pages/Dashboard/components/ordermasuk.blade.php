@@ -188,7 +188,7 @@
 
 .order-section{
 
-    width:fit-content;
+    width:100%;
 
     background:rgba(255,255,255,0.72);
 

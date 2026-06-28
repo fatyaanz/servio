@@ -13,7 +13,7 @@
 
             <div class="empty-icon">
 
-                📄
+                <i class='bx bx-file'></i>
 
             </div>
 

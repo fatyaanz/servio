@@ -14,10 +14,16 @@ class TransaksiController extends Controller
         $providerId = Auth::id();
 
         // All transactions where this user is the provider
-        $transactions = Transaction::with(['booking.customer', 'booking.subServices'])
+        $transactions = Transaction::with(['booking.customer'])
             ->where('provider_id', $providerId)
             ->orderByDesc('created_at')
             ->get();
+
+        foreach ($transactions as $trx) {
+            if ($trx->booking) {
+                $trx->booking->load('subServices');
+            }
+        }
 
         // Summary stats
         $totalEarnings  = $transactions->sum('amount');

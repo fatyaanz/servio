@@ -18,6 +18,11 @@ class LayananController extends Controller
             'category',
             'subServices'
         ])
+        ->whereHas('provider', function ($q) {
+            $q->where(function ($query) {
+                $query->where('is_online', true)->orWhereNull('is_online');
+            });
+        })
         ->where('status', 'approved')
         ->when($categoryId, function ($query) use ($categoryId) {
 

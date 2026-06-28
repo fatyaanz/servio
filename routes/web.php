@@ -131,6 +131,8 @@ Route::middleware(['auth', 'provider'])->group(function () {
         ->name('provider.Dashboard.dashboard');
     Route::get('/provider/dashboard', [ProviderDashboardController::class, 'index'])
         ->name('provider.dashboard');
+    Route::post('/provider/toggle-status', [ProviderDashboardController::class, 'toggleStatus'])
+        ->name('provider.toggle-status');
 
     // ── Chat ─────────────────────────────────────────────────────────────
     Route::get('/provider/chat/chat', [ChatController::class, 'providerIndex'])
@@ -196,10 +198,10 @@ Route::middleware(['auth', 'provider'])->group(function () {
         ->name('provider.subservices');
 
     // ── Produk ────────────────────────────────────────────────────────────
-    Route::get('/provider/produk', [ProdukController::class, 'index']);
-    Route::post('/provider/produk/store', [ProdukController::class, 'store']);
-    Route::put('/provider/produk/update/{id}', [ProdukController::class, 'update']);
-    Route::delete('/provider/produk/delete/{id}', [ProdukController::class, 'destroy']);
+    Route::get('/provider/produk', [ProdukController::class, 'index'])->name('provider.produk');
+    Route::post('/provider/produk/store', [ProdukController::class, 'store'])->name('provider.produk.store');
+    Route::put('/provider/produk/update/{id}', [ProdukController::class, 'update'])->name('provider.produk.update');
+    Route::delete('/provider/produk/delete/{id}', [ProdukController::class, 'destroy'])->name('provider.produk.delete');
 
     // ── Ulasan Toko ───────────────────────────────────────────────────────
     Route::get('/provider/ulasan', [ProviderDashboardController::class, 'ulasan'])
@@ -228,6 +230,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Global Chat Send
+    Route::post('/chat/{user}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
     // Notifications
     Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
@@ -277,7 +282,6 @@ Route::middleware(['auth', 'customer'])->group(function () {
     // Chat
     Route::get('/chat', [ChatController::class, 'customerIndex'])->name('chat');
     Route::get('/chat/detail/{user}', [ChatController::class, 'customerDetail'])->name('chat.detail');
-    Route::post('/chat/{user}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
 
     // Aktivitas / Bookings
     Route::get('/aktifitas', [AktivitasController::class, 'index'])->name('aktifitas');

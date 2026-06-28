@@ -53,10 +53,9 @@
                 'admin.Pages.Kelola_Penyedia_Layanan.component.table'
             )
 
-            {{-- PAGINATION --}}
-            @include(
-                'admin.Pages.Kelola_Penyedia_Layanan.component.pagination'
-            )
+            <div class="pagination-wrapper">
+                {{ $providers->links() }}
+            </div>
 
         </div>
 

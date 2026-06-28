@@ -9,7 +9,7 @@
 
         <div class="tab-icon">
 
-            ⚙️
+            <i class='bx bx-cog'></i>
 
         </div>
 
@@ -40,7 +40,7 @@
 
         <div class="tab-icon">
 
-            📄
+            <i class='bx bx-file'></i>
 
         </div>
 

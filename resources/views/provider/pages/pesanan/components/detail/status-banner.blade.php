@@ -3,70 +3,70 @@
 $statusConfig = [
 
     'pending' => [
-        'icon' => '⏳',
+        'icon' => '<i class="bx bx-time-five"></i>',
         'title' => 'Menunggu Konfirmasi',
         'description' => 'Pesanan baru masuk dan menunggu keputusan Anda.',
         'class' => 'waiting'
     ],
 
     'accepted' => [
-        'icon' => '✅',
+        'icon' => '<i class="bx bx-check-circle"></i>',
         'title' => 'Pesanan Diterima',
         'description' => 'Pesanan telah diterima. Silakan berangkat ke lokasi pelanggan.',
         'class' => 'success'
     ],
 
     'on_the_way' => [
-        'icon' => '🚗',
+        'icon' => '<i class="bx bxs-car"></i>',
         'title' => 'Menuju Lokasi',
         'description' => 'Teknisi sedang dalam perjalanan menuju lokasi pelanggan.',
         'class' => 'primary'
     ],
 
     'diagnosis' => [
-        'icon' => '🔍',
+        'icon' => '<i class="bx bx-search"></i>',
         'title' => 'Pengecekan Kerusakan',
         'description' => 'Lakukan inspeksi dan catat kerusakan yang ditemukan.',
         'class' => 'warning'
     ],
 
     'waiting_approval' => [
-        'icon' => '💰',
+        'icon' => '<i class="bx bx-wallet"></i>',
         'title' => 'Menunggu Persetujuan',
         'description' => 'Estimasi biaya telah dikirim ke pelanggan.',
         'class' => 'warning'
     ],
 
     'approved' => [
-        'icon' => '👍',
+        'icon' => '<i class="bx bx-like"></i>',
         'title' => 'Harga Disetujui',
         'description' => 'Pelanggan telah menyetujui estimasi biaya. Anda dapat memulai perbaikan.',
         'class' => 'info'
     ],
 
     'working' => [
-        'icon' => '🛠️',
+        'icon' => '<i class="bx bx-wrench"></i>',
         'title' => 'Sedang Dikerjakan',
         'description' => 'Perbaikan sedang berlangsung.',
         'class' => 'primary'
     ],
 
     'payment' => [
-        'icon' => '💳',
+        'icon' => '<i class="bx bx-credit-card"></i>',
         'title' => 'Menunggu Pembayaran',
         'description' => 'Pekerjaan selesai dan menunggu pembayaran.',
         'class' => 'success'
     ],
 
     'completed' => [
-        'icon' => '🎉',
+        'icon' => '<i class="bx bx-party"></i>',
         'title' => 'Pesanan Selesai',
         'description' => 'Layanan telah selesai dikerjakan.',
         'class' => 'success'
     ],
 
     'cancelled' => [
-        'icon' => '❌',
+        'icon' => '<i class="bx bx-x-circle"></i>',
         'title' => 'Pesanan Dibatalkan',
         'description' => 'Pesanan telah dibatalkan.',
         'class' => 'danger'
@@ -74,7 +74,7 @@ $statusConfig = [
 
     'rejected' => [
 
-        'icon' => '⚠️',
+        'icon' => '<i class="bx bx-error"></i>',
 
         'title' => 'Estimasi Ditolak',
 
@@ -95,7 +95,7 @@ $current =
 
     <div class="status-icon">
 
-        {{ $current['icon'] }}
+        {!! $current['icon'] !!}
 
     </div>
 

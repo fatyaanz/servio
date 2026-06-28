@@ -18,7 +18,7 @@
         <div class="empty-state">
 
             <div class="empty-icon">
-                📦
+                <i class='bx bx-package' style="font-size:60px;color:#cbd5e1;"></i>
             </div>
 
             <h2>Belum Ada Pesanan Masuk</h2>

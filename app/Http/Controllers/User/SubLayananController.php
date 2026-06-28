@@ -11,7 +11,9 @@ class SubLayananController extends Controller
     {
         $provider = User::with(
             'providerServices.subServices'
-        )->findOrFail($id);
+        )->where(function ($query) {
+            $query->where('is_online', true)->orWhereNull('is_online');
+        })->findOrFail($id);
 
         $subServices =
             $provider

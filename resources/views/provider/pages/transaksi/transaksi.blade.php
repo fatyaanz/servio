@@ -7,7 +7,7 @@
     {{-- HEADER --}}
     <div class="page-header">
         <div>
-            <div class="header-badge">💰 Keuangan Provider</div>
+            <div class="header-badge"><i class='bx bx-wallet'></i> Keuangan Provider</div>
             <h1>Riwayat Transaksi</h1>
             <p>Lihat semua dana yang masuk dari pembayaran booking pelanggan.</p>
         </div>
@@ -17,7 +17,7 @@
     <div class="stats-grid">
 
         <div class="stat-card primary">
-            <div class="stat-icon">💵</div>
+            <div class="stat-icon"><i class='bx bx-money'></i></div>
             <div class="stat-info">
                 <span class="stat-label">Total Pendapatan</span>
                 <h2 class="stat-value">Rp{{ number_format($totalEarnings, 0, ',', '.') }}</h2>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="stat-card green">
-            <div class="stat-icon">📅</div>
+            <div class="stat-icon"><i class='bx bx-calendar'></i></div>
             <div class="stat-info">
                 <span class="stat-label">Bulan Ini</span>
                 <h2 class="stat-value">Rp{{ number_format($thisMonth, 0, ',', '.') }}</h2>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="stat-card blue">
-            <div class="stat-icon">📦</div>
+            <div class="stat-icon"><i class='bx bx-package'></i></div>
             <div class="stat-info">
                 <span class="stat-label">Total Order Selesai</span>
                 <h2 class="stat-value">{{ $totalOrders }} order</h2>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="stat-card orange">
-            <div class="stat-icon">🏦</div>
+            <div class="stat-icon"><i class='bx bx-building-house'></i></div>
             <div class="stat-info">
                 <span class="stat-label">Saldo Aktif</span>
                 <h2 class="stat-value">Rp{{ number_format(Auth::user()->balance ?? 0, 0, ',', '.') }}</h2>
@@ -54,13 +54,13 @@
     <div class="table-card">
 
         <div class="table-header">
-            <h3>📋 Detail Transaksi</h3>
+            <h3><i class='bx bx-list-ul'></i> Detail Transaksi</h3>
             <span class="total-badge">{{ $totalOrders }} transaksi</span>
         </div>
 
         @if($transactions->isEmpty())
             <div class="empty-state">
-                <span style="font-size:60px;">💳</span>
+                <i class='bx bx-credit-card' style="font-size:60px;color:#cbd5e1;"></i>
                 <h3>Belum ada transaksi</h3>
                 <p>Pendapatan dari pembayaran booking akan tampil di sini.</p>
             </div>

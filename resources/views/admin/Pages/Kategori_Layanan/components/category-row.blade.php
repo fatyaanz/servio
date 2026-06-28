@@ -56,10 +56,8 @@
     <td>
 
         <button
-            type="button"
             class="provider-btn"
-            onclick="openProviderModal({{ $category->id }})"
-            style="border: none; cursor: pointer; outline: none;"
+            onclick="openProviderModal('{{ $category->id }}')"
         >
             <i class='bx bx-group'></i>
             Lihat Penyedia
@@ -247,6 +245,12 @@
     font-weight:600;
 
     transition:.3s;
+
+    border:none;
+    
+    outline:none;
+    
+    cursor:pointer;
 
 }
 

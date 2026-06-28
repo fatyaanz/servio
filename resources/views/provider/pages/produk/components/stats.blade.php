@@ -5,7 +5,7 @@
     <div class="produk-stat-card total">
 
         <div class="stat-icon">
-            📦
+            <i class='bx bx-package'></i>
         </div>
 
         <div class="stat-info">
@@ -31,7 +31,7 @@
     <div class="produk-stat-card warning">
 
         <div class="stat-icon">
-            ⚠️
+            <i class='bx bx-error' style="color:#ef4444;"></i>
         </div>
 
         <div class="stat-info">
@@ -57,7 +57,7 @@
     <div class="produk-stat-card category">
 
         <div class="stat-icon">
-            🧩
+            <i class='bx bx-category' style="color:#8b5cf6;"></i>
         </div>
 
         <div class="stat-info">

@@ -19,6 +19,9 @@ class HomeController extends Controller
 
         $providers = User::where('role', 'provider')
             ->where('status', 'active')
+            ->where(function ($q) {
+                $q->where('is_online', true)->orWhereNull('is_online');
+            })
             ->with(['providerServices.category', 'providerServices.subServices'])
             ->take(6)
             ->get();

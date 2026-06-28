@@ -13,7 +13,7 @@ class DamageReportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'booking_id' => 'required|exists:bookings,id',
+            'booking_id' => 'required|exists:bookings,_id',
             'title' => 'required',
             'description' => 'required'
         ]);

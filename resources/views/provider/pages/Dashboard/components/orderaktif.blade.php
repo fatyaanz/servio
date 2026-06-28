@@ -33,7 +33,7 @@
             <div class="active-left">
 
                 <div class="service-icon">
-                    🛠️
+                    <i class='bx bx-wrench'></i>
                 </div>
 
                 <div class="service-info">

@@ -10,7 +10,7 @@
         <div class="notif-page-header">
 
             <div class="notif-page-title-section">
-                <h1>🔔 Notifikasi</h1>
+                <h1><i class='bx bx-bell'></i> Notifikasi</h1>
                 <p>Semua pemberitahuan aktivitas Anda</p>
             </div>
 
@@ -29,7 +29,7 @@
         <div class="notif-page-stats">
 
             <div class="notif-stat-card">
-                <div class="notif-stat-icon" style="background:#FEF3C7;">📬</div>
+                <div class="notif-stat-icon" style="background:#FEF3C7;"><i class='bx bx-envelope' style="color:#d97706;"></i></div>
                 <div class="notif-stat-info">
                     <span class="notif-stat-value">{{ $notifications->where('is_read', false)->count() }}</span>
                     <span class="notif-stat-label">Belum Dibaca</span>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="notif-stat-card">
-                <div class="notif-stat-icon" style="background:#D1FAE5;">📭</div>
+                <div class="notif-stat-icon" style="background:#D1FAE5;"><i class='bx bx-check-circle' style="color:#16a34a;"></i></div>
                 <div class="notif-stat-info">
                     <span class="notif-stat-value">{{ $notifications->where('is_read', true)->count() }}</span>
                     <span class="notif-stat-label">Sudah Dibaca</span>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="notif-stat-card">
-                <div class="notif-stat-icon" style="background:#DBEAFE;">📊</div>
+                <div class="notif-stat-icon" style="background:#DBEAFE;"><i class='bx bx-bar-chart-alt-2' style="color:#2563eb;"></i></div>
                 <div class="notif-stat-info">
                     <span class="notif-stat-value">{{ $notifications->count() }}</span>
                     <span class="notif-stat-label">Total</span>
@@ -70,29 +70,29 @@
                         $url = route('provider.layanan');
                     }
 
-                    $icon = '🔔';
+                    $icon = '<i class="bx bx-bell"></i>';
                     $iconClass = 'default';
                     if ($notif->type === 'chat_received') {
-                        $icon = '💬'; $iconClass = 'chat';
+                        $icon = '<i class="bx bx-chat"></i>'; $iconClass = 'chat';
                     } elseif ($notif->type === 'order_created') {
-                        $icon = '📦'; $iconClass = 'order';
+                        $icon = '<i class="bx bx-package"></i>'; $iconClass = 'order';
                     } elseif ($notif->type === 'category_approved') {
-                        $icon = '✅'; $iconClass = 'category';
+                        $icon = '<i class="bx bx-check-circle"></i>'; $iconClass = 'category';
                     } elseif ($notif->type === 'category_rejected') {
-                        $icon = '❌'; $iconClass = 'category';
+                        $icon = '<i class="bx bx-x-circle"></i>'; $iconClass = 'category';
                     } elseif ($notif->type === 'service_approved') {
-                        $icon = '🛠️'; $iconClass = 'service';
+                        $icon = '<i class="bx bx-wrench"></i>'; $iconClass = 'service';
                     } elseif ($notif->type === 'service_rejected') {
-                        $icon = '🚫'; $iconClass = 'service';
+                        $icon = '<i class="bx bx-block"></i>'; $iconClass = 'service';
                     } elseif ($notif->type === 'status_updated') {
-                        $icon = '📋'; $iconClass = 'status';
+                        $icon = '<i class="bx bx-clipboard"></i>'; $iconClass = 'status';
                     }
                 @endphp
 
                 <a href="{{ $url }}" class="notif-page-item {{ !$notif->is_read ? 'unread' : '' }}">
 
                     <div class="notif-page-item-icon {{ $iconClass }}">
-                        {{ $icon }}
+                        {!! $icon !!}
                     </div>
 
                     <div class="notif-page-item-content">
@@ -110,7 +110,7 @@
             @empty
 
                 <div class="notif-page-empty">
-                    <span style="font-size:56px;">🔔</span>
+                    <i class='bx bx-bell' style="font-size:56px;color:#cbd5e1;"></i>
                     <h3>Tidak ada notifikasi</h3>
                     <p>Semua pemberitahuan aktivitas Anda akan muncul di sini.</p>
                 </div>

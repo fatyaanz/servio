@@ -52,7 +52,7 @@
 
                 <form action="{{ route('logout') }}" method="POST" style="margin:0;padding:0;">
                     @csrf
-                    <button type="submit" style="background:none;border:none;width:100%;text-align:left;padding:12px 14px;color:#EF4444;font-weight:600;cursor:pointer;font-size:13px;">🚪 Logout</button>
+                    <button type="submit" style="background:none;border:none;width:100%;text-align:left;padding:12px 14px;color:#EF4444;font-weight:600;cursor:pointer;font-size:13px;"><i class='bx bx-log-out' style="vertical-align:middle;margin-right:4px;"></i> Logout</button>
                 </form>
 
             </div>
@@ -69,7 +69,7 @@
            class="menu-item {{ request()->is('provider/Dashboard/dashboard') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                🏠
+                <i class='bx bxs-dashboard'></i>
             </div>
 
             <span>
@@ -78,16 +78,25 @@
 
         </a>
 
-       <a href="{{ url('/provider/pesanan') }}"
+       @php
+            $activeOrderCount = \App\Models\Booking::where('provider_id', auth()->id())
+                ->whereIn('status', ['pending', 'accepted', 'in_progress', 'diagnosing', 'waiting_approval', 'working'])
+                ->count();
+        @endphp
+        <a href="{{ url('/provider/pesanan') }}"
             class="menu-item {{ request()->is('provider/pesanan') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                📦
+                <i class='bx bx-package'></i>
             </div>
 
             <span>
                 Pesanan
             </span>
+
+            @if($activeOrderCount > 0)
+                <span class="sidebar-badge">{{ $activeOrderCount }}</span>
+            @endif
 
         </a>
 
@@ -95,7 +104,7 @@
             class="menu-item {{ request()->is('provider/produk') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                🛒
+                <i class='bx bx-store'></i>
             </div>
 
             <span>
@@ -108,7 +117,7 @@
            class="menu-item {{ request()->is('provider/layanan/layanan') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                🛠️
+                <i class='bx bx-wrench'></i>
             </div>
 
             <span>
@@ -121,7 +130,7 @@
            class="menu-item {{ request()->routeIs('provider.ulasan') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                ⭐
+                <i class='bx bxs-star'></i>
             </div>
 
             <span>
@@ -134,7 +143,7 @@
            class="menu-item {{ request()->is('provider/chat/chat') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                💬
+                <i class='bx bx-chat'></i>
             </div>
 
             <span>
@@ -147,7 +156,7 @@
            class="menu-item {{ request()->routeIs('provider.notifikasi') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                🔔
+                <i class='bx bx-bell'></i>
             </div>
 
             <span>
@@ -169,7 +178,7 @@
            class="menu-item {{ request()->is('provider/transaksi*') ? 'active' : '' }}">
 
             <div class="menu-icon">
-                💰
+                <i class='bx bx-wallet'></i>
             </div>
 
             <span>
@@ -507,6 +516,28 @@
 
         font-size:18px;
 
+    }
+
+    .sidebar-badge{
+        background: linear-gradient(135deg, #FF6B35, #FF4500);
+        color: white;
+        border-radius: 50%;
+        font-size: 10px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        margin-left: auto;
+        line-height: 1;
+        box-shadow: 0 2px 8px rgba(255, 69, 0, 0.35);
+        animation: badgePulse 2s infinite;
+    }
+
+    @keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
     }
 
     /* =========================
