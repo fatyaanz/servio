@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servio Login</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 20px;
+            background:
+            radial-gradient(circle at top left, #ffb066, transparent 30%),
+            radial-gradient(circle at bottom right, #ff7a00, transparent 25%),
+            linear-gradient(135deg,#1d1915,#2a2119,#3a3126);
+        }
+
+        .login-card{
+            width:100%;
+            max-width:460px;
+            background:rgba(255, 122, 0, 0.18);
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+            border:1px solid rgba(255,255,255,0.15);
+            padding:40px;
+            border-radius:28px;
+            box-shadow:
+            0 8px 32px rgba(0,0,0,0.35),
+            inset 0 0 12px rgba(255,255,255,0.08);
+            position:relative;
+        }
+
+        .login-card::before{
+            content:'';
+            position:absolute;
+            top:-80px;
+            right:-80px;
+            width:180px;
+            height:180px;
+            background:rgba(255,255,255,0.08);
+            border-radius:50%;
+        }
+
+        /* =========================
+            BACK BUTTON
+            ========================= */
+
+            .back-link{
+
+                display:inline-flex;
+
+                align-items:center;
+
+                gap:8px;
+
+                color:white;
+
+                text-decoration:none;
+
+                font-size:14px;
+
+                font-weight:600;
+
+                margin-bottom:20px;
+
+                transition:.3s ease;
+            }
+
+            .back-link:hover{
+
+                transform:translateX(-4px);
+
+                color:#FFBC68;
+            }
+
+        .logo{
+            width:80px;
+            height:80px;
+            background:linear-gradient(135deg,#ffb066,#ff7a00);
+            border-radius:22px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-bottom:25px;
+            font-size:22px;
+            font-weight:bold;
+            color:white;
+            letter-spacing:2px;
+            box-shadow:0 6px 20px rgba(255,122,0,0.4);
+            position:relative;
+            z-index:2;
+        }
+
+        .title{
+            font-size:38px;
+            font-weight:bold;
+            color:white;
+            margin-bottom:10px;
+            position:relative;
+            z-index:2;
+        }
+
+        .subtitle{
+            color:#ffe1c2;
+            margin-bottom:32px;
+            line-height:1.5;
+            position:relative;
+            z-index:2;
+        }
+
+        .input-group{
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+
+        .input-label{
+            display:block;
+            margin-bottom:10px;
+            color:white;
+            font-size:14px;
+            font-weight:bold;
+        }
+
+        .input-field{
+            width:100%;
+            padding:16px;
+            border:none;
+            outline:none;
+            border-radius:16px;
+            background:rgba(255,255,255,0.12);
+            color:white;
+            border:1px solid rgba(255,255,255,0.1);
+            transition:0.3s;
+            font-size:15px;
+        }
+
+        .input-field::placeholder{
+            color:#cfcfcf;
+        }
+
+        .input-field option{
+            background:#2a2119;
+            color:white;
+        }
+
+        .input-field:focus{
+            border:1px solid #ffb066;
+            box-shadow:0 0 15px rgba(255,176,102,0.35);
+            background:rgba(255,255,255,0.16);
+        }
+
+        /* ===== FIX DROPDOWN ===== */
+
+        select.input-field{
+            appearance:none;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+
+            padding-right:55px;
+
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+            background-repeat:no-repeat;
+
+            background-position:right 18px center;
+
+            background-size:18px;
+        }
+
+        /* ======================= */
+
+        .login-btn{
+            width:100%;
+            padding:17px;
+            border:none;
+            border-radius:16px;
+            background:linear-gradient(to right,#ffb066,#ff7a00);
+            color:white;
+            font-size:16px;
+            font-weight:bold;
+            margin-top:10px;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 8px 20px rgba(255,122,0,0.35);
+            position:relative;
+            z-index:2;
+        }
+
+        .login-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 25px rgba(255,122,0,0.45);
+        }
+
+        .bottom-text{
+            text-align:center;
+            margin-top:24px;
+            color:#ffe1c2;
+            font-size:14px;
+            position:relative;
+            z-index:2;
+        }
+
+        .bottom-text a{
+            color:#fff;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .bottom-text a:hover{
+            text-decoration:underline;
+        }
+        .logo-circle{
+        width:60px;
+        height:60px;
+
+        border-radius:18px;
+
+        background:rgba(255,255,255,0.18);
+
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+
+        border:1px solid rgba(255,255,255,0.18);
+
+        display:flex;
+        justify-content:center;
+        align-items:center;
+
+        overflow:hidden;
+
+        box-shadow:
+        0 8px 20px rgba(0,0,0,0.18),
+        inset 0 0 8px rgba(255,255,255,0.12);
+    }
+
+    .logo-circle img{
+        width:80%;
+        height:80%;
+        object-fit:contain;
+    }
+
+        @media(max-width:500px){
+
+            .login-card{
+                padding:30px 24px;
+            }
+
+            .title{
+                font-size:30px;
+            }
+
+        }
+
+        .success-alert{
+
+            width:100%;
+
+            padding:14px 18px;
+
+            margin-bottom:22px;
+
+            border-radius:16px;
+
+            background:#14532d;
+
+            color:white;
+
+            font-size:14px;
+
+            font-weight:500;
+
+            line-height:1.5;
+
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="login-card">
+
+        <a
+            href="/landingpage"
+            class="back-link">
+
+            ← Kembali ke Landing Page
+
+        </a>
+
+        <div class="logo-circle">
+            <img src="http://127.0.0.1:8000/assets/images/logoservio.png" alt="Logo">
+        </div>
+
+        <div class="title">
+            Welcome Back
+        </div>
+
+        <div class="subtitle">
+            Masuk ke akun penyedia layanan Servio untuk mulai mengelola pesanan pelanggan.
+        </div>
+
+        
+        <form action="http://127.0.0.1:8000/login" method="POST">
+
+            <input type="hidden" name="_token" value="Hs9877pHb13G8o2kumct8zVJW2KwFopxjgR7AbQv">
+            
+            <div class="input-group">
+
+                <label class="input-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="input-field"
+                    placeholder="Masukkan email"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label class="input-label">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="input-field"
+                    placeholder="Masukkan password"
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Masuk Sekarang
+            </button>
+
+        </form>
+
+        <div class="bottom-text">
+            Belum punya akun?
+            <a href="/choose-role">
+                Daftar
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
