@@ -3,7 +3,8 @@
     <div class="header-content">
 
         <div class="header-badge">
-            📋 Aktivitas Servio
+            <i class='bx bx-clipboard' style="font-size:16px;"></i>
+            Aktivitas Servio
         </div>
 
         <h1>
@@ -20,7 +21,7 @@
     <div class="header-illustration">
 
         <div class="illustration-circle">
-            🛠️
+            <i class='bx bx-wrench' style="font-size:40px;"></i>
         </div>
 
     </div>
@@ -35,31 +36,30 @@
 
 .activity-header{
 
-    max-width:1400px;
+    max-width:1200px;
 
-    margin:20px auto 30px;
+    margin:16px auto 24px;
 
-    padding:40px;
+    padding:32px;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    gap:30px;
+    gap:24px;
 
-    border-radius:30px;
+    border-radius:20px;
 
     background:
         linear-gradient(
             135deg,
-            #FFF8F1,
+            var(--primary-light),
             #FFFFFF
         );
 
-    border:1px solid rgba(240,138,40,.10);
+    border:1px solid var(--border);
 
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.05);
+    box-shadow:var(--shadow-sm);
 
     overflow:hidden;
 
@@ -76,36 +76,16 @@
 
     position:absolute;
 
-    top:-80px;
-    right:-80px;
+    top:-60px;
+    right:-60px;
 
-    width:220px;
-    height:220px;
-
-    border-radius:50%;
-
-    background:
-        rgba(240,138,40,.08);
-
-    z-index:0;
-}
-
-.activity-header::after{
-
-    content:"";
-
-    position:absolute;
-
-    bottom:-60px;
-    left:-60px;
-
-    width:160px;
-    height:160px;
+    width:180px;
+    height:180px;
 
     border-radius:50%;
 
     background:
-        rgba(240,138,40,.04);
+        rgba(226,135,67,.06);
 
     z-index:0;
 }
@@ -131,22 +111,22 @@
     display:inline-flex;
     align-items:center;
 
-    gap:8px;
+    gap:6px;
 
-    padding:9px 16px;
+    padding:6px 14px;
 
     border-radius:999px;
 
-    background:#FFF2E4;
+    background:var(--primary-light);
 
-    color:#F08A28;
+    color:var(--primary);
 
-    border:1px solid #FFE0BE;
+    border:1px solid rgba(226,135,67,.15);
 
-    font-size:13px;
-    font-weight:700;
+    font-size:12px;
+    font-weight:600;
 
-    margin-bottom:18px;
+    margin-bottom:14px;
 }
 
 /* =========================
@@ -157,25 +137,25 @@
 
     margin:0;
 
-    color:#222;
+    color:#000;
 
-    font-size:48px;
-    font-weight:800;
+    font-size:24px;
+    font-weight:700;
 
-    line-height:1.1;
+    line-height:1.3;
 }
 
 .activity-header p{
 
-    margin-top:14px;
+    margin-top:8px;
 
-    color:#777;
+    color:#626B7A;
 
-    font-size:16px;
+    font-size:14px;
 
-    line-height:1.8;
+    line-height:1.6;
 
-    max-width:650px;
+    max-width:500px;
 }
 
 /* =========================
@@ -192,8 +172,8 @@
 
 .illustration-circle{
 
-    width:120px;
-    height:120px;
+    width:80px;
+    height:80px;
 
     border-radius:50%;
 
@@ -201,47 +181,17 @@
     align-items:center;
     justify-content:center;
 
-    font-size:52px;
-
     background:
         linear-gradient(
             135deg,
-            #F08A28,
-            #FFB04D
+            var(--primary),
+            #D47735
         );
 
     color:white;
 
     box-shadow:
-        0 15px 35px rgba(240,138,40,.25);
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media(max-width:1024px){
-
-    .activity-header{
-
-        margin:20px;
-
-        padding:30px;
-    }
-
-    .activity-header h1{
-
-        font-size:38px;
-    }
-
-    .illustration-circle{
-
-        width:100px;
-        height:100px;
-
-        font-size:44px;
-    }
-
+        0 8px 24px var(--primary-glow);
 }
 
 /* =========================
@@ -256,19 +206,14 @@
 
         align-items:flex-start;
 
-        margin:15px;
+        margin:12px;
 
         padding:24px;
     }
 
     .activity-header h1{
 
-        font-size:30px;
-    }
-
-    .activity-header p{
-
-        font-size:14px;
+        font-size:20px;
     }
 
     .header-illustration{
@@ -278,23 +223,12 @@
 
     .illustration-circle{
 
-        width:80px;
-        height:80px;
-
-        font-size:36px;
+        width:64px;
+        height:64px;
     }
 
-}
-
-/* =========================
-   MOBILE KECIL
-========================= */
-
-@media(max-width:480px){
-
-    .activity-header h1{
-
-        font-size:26px;
+    .illustration-circle i{
+        font-size:28px !important;
     }
 
 }

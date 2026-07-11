@@ -1,23 +1,27 @@
-<div class="top-nav">
+<div class="bottom-nav">
 
     <a href="{{ route('home') }}"
-       class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-        Beranda
+       class="bottom-nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+        <i class='bx {{ request()->routeIs("home") ? "bxs-home" : "bx-home" }}'></i>
+        <span>Beranda</span>
     </a>
 
     <a href="{{ route('aktifitas') }}"
-       class="nav-link {{ request()->routeIs('aktifitas') || request()->routeIs('riwayat') ? 'active' : '' }}">
-        Aktivitas
+       class="bottom-nav-item {{ request()->routeIs('aktifitas') || request()->routeIs('riwayat') ? 'active' : '' }}">
+        <i class='bx {{ request()->routeIs("aktifitas") || request()->routeIs("riwayat") ? "bxs-receipt" : "bx-receipt" }}'></i>
+        <span>Aktivitas</span>
     </a>
 
     <a href="{{ route('chat') }}"
-       class="nav-link {{ request()->routeIs('chat') ? 'active' : '' }}">
-        Chat
+       class="bottom-nav-item {{ request()->routeIs('chat') ? 'active' : '' }}">
+        <i class='bx {{ request()->routeIs("chat") ? "bxs-chat" : "bx-chat" }}'></i>
+        <span>Chat</span>
     </a>
 
     <a href="{{ route('profile') }}"
-       class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}">
-        Profile
+       class="bottom-nav-item {{ request()->routeIs('profile') ? 'active' : '' }}">
+        <i class='bx {{ request()->routeIs("profile") ? "bxs-user" : "bx-user" }}'></i>
+        <span>Profile</span>
     </a>
 
 </div>
@@ -25,10 +29,10 @@
 <style>
 
 /* =========================
-   BOTTOM NAVIGATION
+   FLOATING BOTTOM NAV
 ========================= */
 
-.top-nav{
+.bottom-nav{
 
     position:fixed;
 
@@ -38,100 +42,87 @@
     transform:translateX(-50%);
 
     width:auto;
-    max-width:90%;
+    max-width:420px;
 
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:4px;
 
-    padding:10px;
+    padding:8px 12px;
 
-    background:rgba(255,255,255,0.95);
+    background:rgba(255,255,255,0.92);
 
     backdrop-filter:blur(20px);
     -webkit-backdrop-filter:blur(20px);
 
-    border:1px solid rgba(255,255,255,.6);
+    border:1px solid rgba(0,0,0,.06);
 
     border-radius:999px;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,.12);
+        0 8px 32px rgba(0,0,0,.10),
+        0 2px 8px rgba(0,0,0,.04);
 
     z-index:9999;
 }
 
 /* =========================
-   NAV LINK
+   NAV ITEM
 ========================= */
 
-.nav-link{
+.bottom-nav-item{
 
     text-decoration:none;
 
-    color:#64748b;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
 
-    font-size:14px;
-    font-weight:600;
-
-    padding:14px 24px;
+    padding:10px 20px;
 
     border-radius:999px;
 
-    transition:.3s ease;
+    color:#9CA3AF;
+
+    font-size:11px;
+    font-weight:500;
+
+    transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);
 
     white-space:nowrap;
 
     position:relative;
+}
 
+.bottom-nav-item i{
+    font-size:20px;
+    line-height:1;
 }
 
 /* HOVER */
 
-.nav-link:hover{
+.bottom-nav-item:hover{
 
-    background:#fff4e6;
+    color:#E28743;
 
-    color:#ff8a00;
-
-    transform:translateY(-2px);
-
+    background:rgba(226,135,67,.06);
 }
 
 /* ACTIVE */
 
-.nav-link.active{
+.bottom-nav-item.active{
 
     background:linear-gradient(
         135deg,
-        #ff9f43,
-        #ff7a00
+        #E28743,
+        #D47735
     );
 
     color:white;
 
     box-shadow:
-        0 8px 20px rgba(255,122,0,.25);
-
-}
-
-/* ACTIVE GLOW */
-
-.nav-link.active::after{
-
-    content:'';
-
-    position:absolute;
-
-    inset:0;
- 
-    border-radius:999px;
-
-    box-shadow:
-        0 0 25px rgba(255,122,0,.25);
-
-    z-index:-1;
-
+        0 4px 16px rgba(226,135,67,.30);
 }
 
 /* =========================
@@ -140,32 +131,34 @@
 
 @media(max-width:768px){
 
-    .top-nav{
-
-        display:flex;
+    .bottom-nav{
 
         bottom:14px;
 
-        width:95%;
+        width:92%;
+        max-width:none;
 
-        justify-content:space-between;
+        justify-content:space-around;
 
-        padding:8px;
+        padding:6px 8px;
 
-        gap:4px;
+        gap:2px;
 
     }
 
-    .nav-link{
+    .bottom-nav-item{
 
         flex:1;
 
         text-align:center;
 
-        padding:12px 8px;
+        padding:8px 6px;
 
-        font-size:13px;
+        font-size:10px;
+    }
 
+    .bottom-nav-item i{
+        font-size:18px;
     }
 
 }
@@ -176,7 +169,7 @@
 
 body{
 
-    padding-bottom:110px;
+    padding-bottom:100px;
 
 }
 

@@ -82,10 +82,10 @@
 .section-header h2{
     margin:0;
 
-    font-size:28px;
-    font-weight:800;
+    font-size:18px;
+    font-weight:600;
 
-    color:#222;
+    color:#000;
 }
 
 .section-header button{
@@ -93,9 +93,9 @@
 
     background:rgba(240,138,40,0.1);
 
-    color:#F08A28;
+    color:var(--primary);
 
-    padding:10px 18px;
+    padding:8px 16px;
 
     border-radius:999px;
 
@@ -108,7 +108,7 @@
 }
 
 .section-header button:hover{
-    background:#F08A28;
+    background:var(--primary);
     color:white;
 
     transform:translateY(-2px);
@@ -146,11 +146,11 @@
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
 
-    border:1px solid rgba(255,255,255,0.4);
+    border:1px solid var(--border);
 
-    border-radius:24px;
+    border-radius:16px;
 
-    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    box-shadow:var(--shadow-sm);
 
     cursor:pointer;
 
@@ -181,10 +181,10 @@
 }
 
 .category-card span{
-    font-size:16px;
-    font-weight:700;
+    font-size:14px;
+    font-weight:600;
 
-    color:#333;
+    color:#000;
 }
 
 /* =========================

@@ -20,7 +20,7 @@ $totalMax =
     class="activity-card"
 >
 
-    <div class="status-badge
+    <div class="status-badge-new
         {{ $booking->status }}
     ">
         {{ ucfirst(str_replace('_',' ',$booking->status)) }}
@@ -34,7 +34,7 @@ $totalMax =
                 <img
                     src="{{ asset('storage/' . $booking->provider->business_photo) }}"
                     alt="{{ $booking->provider->name }}"
-                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 22px;"
+                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;"
                 >
             @elseif($category && $category->icon)
                 <img
@@ -43,7 +43,7 @@ $totalMax =
                     class="category-image"
                 >
             @else
-                🛠️
+                <i class='bx bx-wrench' style="font-size:32px; color:var(--primary);"></i>
             @endif
 
         </div>
@@ -54,7 +54,7 @@ $totalMax =
 
                 <h3>
                     {{ $category->name ?? 'Layanan' }}
-                    <span style="font-size: 14px; font-weight: 500; color: #9ca3af; margin-left: 8px;">
+                    <span style="font-size: 12px; font-weight: 500; color: #9CA3AF; margin-left: 6px;">
                         #{{ $booking->formatted_id }}
                     </span>
                 </h3>
@@ -104,7 +104,7 @@ $totalMax =
                 @if(count($damagePhotos) > 0)
                     <div class="activity-damage-photos" style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;" onclick="event.preventDefault(); event.stopPropagation();">
                         @foreach($damagePhotos as $photo)
-                            <div style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; border: 1px solid #ECECEC; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                            <div style="width: 44px; height: 44px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
                                 <img src="{{ asset('storage/' . $photo) }}" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onclick="window.open('{{ asset('storage/' . $photo) }}', '_blank')">
                             </div>
                         @endforeach
@@ -117,14 +117,14 @@ $totalMax =
 
                         <div class="activity-date">
 
-                            📅
+                            <i class='bx bx-calendar' style="font-size:14px;"></i>
                             {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
 
                         </div>
 
                         <div class="activity-time">
 
-                            🕒
+                            <i class='bx bx-time-five' style="font-size:14px;"></i>
                             {{ substr($booking->booking_time,0,5) }}
 
                         </div>
@@ -142,7 +142,7 @@ $totalMax =
         </div>
 
         <div class="activity-arrow">
-            →
+            <i class='bx bx-right-arrow-alt'></i>
         </div>
 
     </div>
@@ -178,75 +178,30 @@ $totalMax =
 
     max-width:1200px;
 
-    margin:0 auto 20px;
+    margin:0 auto 16px;
 
-    padding:22px;
+    padding:20px;
 
     display:block;
 
     text-decoration:none;
 
-    border-radius:24px;
+    border-radius:16px;
 
     background:#FFFFFF;
 
-    border:1px solid #F4E6D8;
+    border:1px solid var(--border);
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.04);
+    box-shadow:var(--shadow-sm);
 
-    transition:all .3s ease;
+    transition:var(--transition);
 }
 
 .activity-card:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-3px);
 
-    box-shadow:
-        0 18px 35px rgba(0,0,0,.08);
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status-badge{
-
-    width:fit-content;
-
-    display:flex;
-    align-items:center;
-
-    gap:8px;
-
-    padding:8px 14px;
-
-    border-radius:999px;
-
-    margin-bottom:18px;
-
-    font-size:12px;
-    font-weight:700;
-}
-
-.status-dot{
-
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-}
-
-.waiting{
-
-    background:#FFF7E1;
-
-    color:#D99200;
-}
-
-.waiting .status-dot{
-
-    background:#D99200;
+    box-shadow:var(--shadow-md);
 }
 
 /* =========================
@@ -259,7 +214,7 @@ $totalMax =
 
     align-items:center;
 
-    gap:20px;
+    gap:16px;
 }
 
 /* =========================
@@ -268,26 +223,26 @@ $totalMax =
 
 .activity-category-icon{
 
-    width:95px;
-    height:95px;
+    width:80px;
+    height:80px;
 
     flex-shrink:0;
 
-    border-radius:22px;
+    border-radius:16px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    background:#FFF8F1;
+    background:var(--primary-light);
 
-    border:1px solid rgba(240,138,40,.12);
+    border:1px solid rgba(226,135,67,.08);
 }
 
 .category-image{
 
-    width:65px;
-    height:65px;
+    width:50px;
+    height:50px;
 
     object-fit:contain;
 }
@@ -306,7 +261,7 @@ $totalMax =
 
     align-items:center;
 
-    gap:30px;
+    gap:24px;
 }
 
 .activity-main{
@@ -324,11 +279,11 @@ $totalMax =
 
     margin:0;
 
-    color:#222;
+    color:#000;
 
-    font-size:26px;
+    font-size:18px;
 
-    font-weight:800;
+    font-weight:700;
 
     line-height:1.3;
 }
@@ -339,31 +294,31 @@ $totalMax =
 
 .activity-subservice-count{
 
-    margin-top:8px;
+    margin-top:6px;
 
-    color:#555;
+    color:#626B7A;
 
-    font-size:14px;
+    font-size:13px;
 
-    font-weight:700;
+    font-weight:600;
 }
 
 .activity-subservices{
 
-    margin-top:10px;
+    margin-top:8px;
 
-    color:#777;
+    color:#9CA3AF;
 
-    font-size:14px;
+    font-size:13px;
 
     line-height:1.8;
 }
 
 .more-service{
 
-    color:#F08A28;
+    color:var(--primary);
 
-    font-weight:700;
+    font-weight:600;
 }
 
 /* =========================
@@ -372,7 +327,7 @@ $totalMax =
 
 .activity-side{
 
-    width:240px;
+    width:200px;
 
     flex-shrink:0;
 
@@ -382,38 +337,36 @@ $totalMax =
 
     align-items:flex-end;
 
-    gap:10px;
+    gap:6px;
 }
 
-.activity-date{
-
-    color:#666;
-
-    font-size:14px;
-
-    font-weight:600;
-}
-
+.activity-date,
 .activity-time{
 
-    color:#666;
+    color:#626B7A;
 
-    font-size:14px;
+    font-size:13px;
 
-    font-weight:600;
+    font-weight:500;
+
+    display:flex;
+    align-items:center;
+    gap:4px;
 }
 
 .activity-price{
 
-    color:#F08A28;
+    color:var(--primary);
 
-    font-size:24px;
+    font-size:18px;
 
-    font-weight:800;
+    font-weight:700;
 
     text-align:right;
 
     line-height:1.4;
+
+    margin-top:4px;
 }
 
 /* =========================
@@ -422,34 +375,33 @@ $totalMax =
 
 .activity-arrow{
 
-    width:48px;
-    height:48px;
+    width:40px;
+    height:40px;
 
     border-radius:50%;
 
-    background:#FFF6EE;
+    background:var(--primary-light);
 
-    color:#F08A28;
+    color:var(--primary);
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    font-size:22px;
-    font-weight:700;
+    font-size:20px;
 
     flex-shrink:0;
 
-    transition:.3s ease;
+    transition:var(--transition);
 }
 
 .activity-card:hover .activity-arrow{
 
-    background:#F08A28;
+    background:var(--primary);
 
     color:white;
 
-    transform:translateX(5px);
+    transform:translateX(3px);
 }
 
 /* =========================
@@ -463,62 +415,6 @@ $totalMax =
     padding:40px;
 }
 
-
-.status-badge.pending{
-    background:#FEF3C7;
-    color:#D97706;
-}
-
-.status-badge.accepted{
-    background:#DBEAFE;
-    color:#2563EB;
-}
-
-.status-badge.on_the_way{
-    background:#E0F2FE;
-    color:#0284C7;
-}
-
-.status-badge.diagnosis{
-    background:#F3E8FF;
-    color:#9333EA;
-}
-
-.status-badge.waiting_approval{
-    background:#FFF7ED;
-    color:#EA580C;
-}
-
-.status-badge.approved{
-    background:#DCFCE7;
-    color:#16A34A;
-}
-
-.status-badge.working{
-    background:#D1FAE5;
-    color:#059669;
-}
-
-.status-badge.payment{
-    background:#CFFAFE;
-    color:#0891B2;
-}
-
-.status-badge.completed{
-    background:#DCFCE7;
-    color:#15803D;
-}
-
-.status-badge.cancelled{
-    background:#FEE2E2;
-    color:#DC2626;
-}
-
-.status-badge.rejected{
-    background:#FFF7ED;
-    color:#D97706;
-}
-
 /* =========================
    MOBILE
 ========================= */
@@ -527,7 +423,7 @@ $totalMax =
 
     .activity-card{
 
-        margin:0 15px 15px;
+        margin:0 12px 12px;
 
         padding:16px;
     }
@@ -536,19 +432,19 @@ $totalMax =
 
         align-items:flex-start;
 
-        gap:14px;
+        gap:12px;
     }
 
     .activity-category-icon{
 
-        width:70px;
-        height:70px;
+        width:60px;
+        height:60px;
     }
 
     .category-image{
 
-        width:45px;
-        height:45px;
+        width:38px;
+        height:38px;
     }
 
     .activity-info{
@@ -557,7 +453,7 @@ $totalMax =
 
         align-items:flex-start;
 
-        gap:14px;
+        gap:12px;
     }
 
     .activity-side{
@@ -566,45 +462,25 @@ $totalMax =
 
         align-items:flex-start;
 
-        gap:8px;
+        gap:6px;
     }
 
     .activity-info h3{
 
-        font-size:20px;
-    }
-
-    .activity-subservice-count{
-
-        font-size:13px;
-    }
-
-    .activity-subservices{
-
-        font-size:13px;
-    }
-
-    .activity-date{
-
-        font-size:13px;
-    }
-
-    .activity-time{
-
-        font-size:13px;
+        font-size:16px;
     }
 
     .activity-price{
 
         text-align:left;
 
-        font-size:18px;
+        font-size:16px;
     }
 
     .activity-arrow{
 
-        width:40px;
-        height:40px;
+        width:36px;
+        height:36px;
 
         font-size:18px;
     }

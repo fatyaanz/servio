@@ -11,22 +11,19 @@
     >
 
     <title>
-        Servio
+        Servio - Beranda
     </title>
 
+    <meta name="description" content="Servio - Platform layanan perbaikan elektronik dan servis rumah tangga terpercaya.">
+
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet"
+        href="{{ asset('css/servio-design-system.css') }}"
     >
 
     <link
         href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
         rel='stylesheet'
-    >
-
-    <link
-        rel="stylesheet"
-        href="{{ asset('css/servio-design-system.css') }}"
     >
 
 </head>
@@ -59,7 +56,6 @@
         @include('user.home.components.provider-section')
         
 
-
     </div>
 
     {{-- BOTTOM NAVIGATION --}}
@@ -71,19 +67,12 @@
 
 <style>
 
-body{
-
-    margin:0;
-
-    background:#F8F9FB;
-
-    font-family:'Poppins',sans-serif;
-
-}
-
 .home-page{
 
-    padding:20px;
+    max-width:1200px;
+    margin:0 auto;
+
+    padding:24px;
 
     padding-bottom:100px;
 

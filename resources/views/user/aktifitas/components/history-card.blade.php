@@ -25,7 +25,7 @@ if ($booking->status == 'completed') {
         @if($booking->status == 'completed')
             Selesai
             @if($booking->review)
-                • ⭐ {{ number_format($booking->review->rating, 1) }}
+                • <i class='bx bxs-star' style='font-size:12px;'></i> {{ number_format($booking->review->rating, 1) }}
             @endif
         @elseif($booking->status == 'cancelled')
             Dibatalkan
@@ -61,13 +61,13 @@ if ($booking->status == 'completed') {
             </div>
 
             <div class="history-meta">
-                📅 {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
+                <i class='bx bx-calendar' style="font-size:13px;"></i> {{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}
                 •
-                🕒 {{ substr($booking->booking_time, 0, 5) }}
+                <i class='bx bx-time-five' style="font-size:13px;"></i> {{ substr($booking->booking_time, 0, 5) }}
             </div>
 
             <div class="history-address">
-                📍 {{ Str::limit($booking->address, 70) }}
+                <i class='bx bx-map' style="font-size:13px;"></i> {{ Str::limit($booking->address, 70) }}
             </div>
 
             @php
@@ -135,7 +135,7 @@ if ($booking->status == 'completed') {
         </div>
 
         <div class="history-arrow">
-            →
+            <i class='bx bx-right-arrow-alt'></i>
         </div>
 
     </div>
@@ -164,15 +164,15 @@ if ($booking->status == 'completed') {
     padding: 22px;
     text-decoration: none;
     background: #FFFFFF;
-    border: 1px solid #F4E6D8;
-    border-radius: 24px;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .history-card-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .history-card-item.empty-card {
@@ -230,7 +230,7 @@ if ($booking->status == 'completed') {
     width: 72px;
     height: 72px;
     border-radius: 20px;
-    background: linear-gradient(135deg, #F08A28, #FFB347);
+    background: linear-gradient(135deg, var(--primary), #D47735);
     color: white;
     display: flex;
     align-items: center;
@@ -249,15 +249,15 @@ if ($booking->status == 'completed') {
 
 .history-info h3 {
     margin: 0;
-    font-size: 22px;
-    color: #0F172A;
-    font-weight: 800;
+    font-size: 18px;
+    color: #000;
+    font-weight: 700;
     line-height: 1.3;
 }
 
 .history-service {
     margin-top: 8px;
-    color: #F08A28;
+    color: var(--primary);
     font-weight: 600;
     font-size: 14px;
 }
@@ -281,8 +281,8 @@ if ($booking->status == 'completed') {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #FFF6EE;
-    color: #F08A28;
+    background: var(--primary-light);
+    color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -293,9 +293,9 @@ if ($booking->status == 'completed') {
 }
 
 .history-card-item:hover .history-arrow {
-    background: #F08A28;
+    background: var(--primary);
     color: white;
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 /* =========================
@@ -305,7 +305,7 @@ if ($booking->status == 'completed') {
     margin-top: 15px;
     padding: 15px;
     background: #FAF8F6;
-    border: 1px dashed #F08A28;
+    border: 1px dashed var(--primary);
     border-radius: 16px;
     font-family: monospace;
     font-size: 13px;
@@ -329,7 +329,7 @@ if ($booking->status == 'completed') {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    color: #F08A28;
+    color: var(--primary);
     border-top: 1px dotted #CBD5E1;
     margin-top: 6px;
     padding-top: 6px;

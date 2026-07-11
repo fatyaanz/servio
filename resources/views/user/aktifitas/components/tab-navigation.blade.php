@@ -46,10 +46,9 @@
 
     border-radius:22px;
 
-    border:1px solid #F3E8DB;
+    border:1px solid var(--border);
 
-    box-shadow:
-        0 8px 24px rgba(0,0,0,.04);
+    box-shadow:var(--shadow-sm);
 }
 
 /* =========================
@@ -72,10 +71,10 @@
 
     text-decoration:none;
 
-    font-size:15px;
-    font-weight:700;
+    font-size:14px;
+    font-weight:600;
 
-    color:#777;
+    color:#9CA3AF;
 
     transition:.3s ease;
 
@@ -94,14 +93,14 @@
 
     background:linear-gradient(
         135deg,
-        #F08A28,
-        #FFB347
+        #E28743,
+        #D47735
     );
 
     color:white;
 
     box-shadow:
-        0 8px 20px rgba(240,138,40,.18);
+        0 4px 16px var(--primary-glow);
 }
 
 /* =========================
@@ -131,9 +130,9 @@
 
 .tab-btn:not(.active):hover{
 
-    background:#FFF7EF;
+    background:var(--primary-light);
 
-    color:#F08A28;
+    color:var(--primary);
 }
 /* =========================
    TABLET

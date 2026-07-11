@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cari Layanan - Servio</title>
     
-    <!-- Poppins Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Boxicons for clean modern vector icons (NO EMOJIS) -->
+    <!-- Design System -->
+    <link rel="stylesheet" href="{{ asset('css/servio-design-system.css') }}">
+    <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
     <style>
         /* CSS variables for Design System Tokens */
         :root {
-            --font-family: 'Poppins', sans-serif;
+            --font-family: 'Inter', sans-serif;
             --border-radius-btn: 8px;
             --border-radius-input: 8px;
             --border-radius-card: 16px;
             --border-radius-sidebar: 24px;
             
             /* Color Palette */
-            --color-primary: #F08A28;
-            --color-primary-hover: #D9771E;
+            --color-primary: #E28743;
+            --color-primary-hover: #C97539;
             --color-primary-light: #FFF8F1;
             --color-bg-main: #FAFAFC;
             --color-bg-card: #FFFFFF;

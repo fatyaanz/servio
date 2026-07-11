@@ -14,36 +14,23 @@
 
         <div class="location">
 
-            <span class="location-icon">📍</span>
+            <i class='bx bx-map' style="font-size:16px; color:var(--primary);"></i>
 
             <span class="location-text">
                 {{ auth()->check() && auth()->user()->city ? auth()->user()->city : 'Bandung' }}
             </span>
 
-            <svg class="dropdown-icon"
-                 width="12"
-                 height="12"
-                 viewBox="0 0 24 24"
-                 fill="none">
-
-                <path
-                    d="M6 9L12 15L18 9"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"/>
-
-            </svg>
+            <i class='bx bx-chevron-down' style="font-size:14px; color:#9CA3AF;"></i>
 
         </div>
 
-        <a href="{{ route('notifications.index') }}" class="notification" style="text-decoration: none; position: relative;">
-            🔔
+        <a href="{{ route('notifications.index') }}" class="notification-btn" style="text-decoration: none; position: relative;">
+            <i class='bx bx-bell' style="font-size:20px; color:#626B7A;"></i>
             @php
                 $unreadNotifCount = auth()->check() ? \App\Models\Notification::where('user_id', auth()->id())->where('is_read', false)->count() : 0;
             @endphp
             @if($unreadNotifCount > 0)
-                <span class="notif-badge" style="position: absolute; top: -5px; right: -5px; background: #EF4444; color: white; border-radius: 50%; font-size: 10px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: bold; line-height: 1;">
+                <span class="notif-badge">
                     {{ $unreadNotifCount }}
                 </span>
             @endif
@@ -80,14 +67,14 @@
 
     align-items:center;
 
-    gap:8px;
+    gap:6px;
 
 }
 
 .logo-section img{
 
-    width:42px;
-    height:42px;
+    width:38px;
+    height:38px;
 
     object-fit:contain;
 
@@ -95,13 +82,15 @@
 
 .brand-text{
 
-    font-size:28px;
+    font-family:var(--font-heading);
 
-    font-weight:700;
+    font-size:24px;
+
+    font-weight:800;
 
     color:var(--primary);
 
-    margin-left:-4px;
+    margin-left:-2px;
 
 }
 
@@ -115,7 +104,7 @@
 
     align-items:center;
 
-    gap:12px;
+    gap:10px;
 
 }
 
@@ -129,26 +118,25 @@
 
     align-items:center;
 
-    gap:8px;
+    gap:6px;
 
-    padding:10px 14px;
+    padding:8px 14px;
 
-    background:white;
+    background:var(--white);
 
     border:1px solid var(--border);
 
-    border-radius:12px;
+    border-radius:var(--radius-md);
 
     box-shadow:var(--shadow-sm);
 
     cursor:pointer;
 
+    transition:var(--transition);
 }
 
-.location-icon{
-
-    font-size:14px;
-
+.location:hover{
+    border-color:var(--primary);
 }
 
 .location-text{
@@ -157,13 +145,7 @@
 
     font-weight:600;
 
-    color:var(--text-dark);
-
-}
-
-.dropdown-icon{
-
-    color:var(--text-secondary);
+    color:#000;
 
 }
 
@@ -171,28 +153,49 @@
    NOTIFICATION
 ========================= */
 
-.notification{
+.notification-btn{
 
-    width:42px;
-    height:42px;
+    width:40px;
+    height:40px;
 
     display:flex;
 
     justify-content:center;
     align-items:center;
 
-    background:white;
+    background:var(--white);
 
     border:1px solid var(--border);
 
-    border-radius:12px;
+    border-radius:var(--radius-md);
 
     box-shadow:var(--shadow-sm);
 
     cursor:pointer;
 
-    font-size:18px;
+    transition:var(--transition);
+}
 
+.notification-btn:hover{
+    border-color:var(--primary);
+}
+
+.notif-badge{
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #D9534F;
+    color: white;
+    border-radius: 50%;
+    font-size: 10px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1;
+    border: 2px solid white;
 }
 
 /* =========================
@@ -203,14 +206,18 @@
 
     .brand-text{
 
-        font-size:24px;
+        font-size:20px;
 
     }
 
     .location{
 
-        padding:8px 12px;
+        padding:6px 10px;
 
+    }
+
+    .location-text{
+        font-size:12px;
     }
 
 }
@@ -238,7 +245,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 locationEl.textContent = city;
                             }
                             
-                            // Send coordinates to backend to make it connect (nyambung)
                             await fetch("{{ route('user.update-location') }}", {
                                 method: 'POST',
                                 headers: {
@@ -264,10 +270,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Automatically trigger on load
     getMyLocation();
 
-    // Trigger on clicking location badge too
     const locationBtn = document.querySelector('.location');
     if (locationBtn) {
         locationBtn.addEventListener('click', function() {

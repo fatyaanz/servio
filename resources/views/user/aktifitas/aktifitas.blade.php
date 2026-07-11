@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktivitas</title>
+    <title>Aktivitas - Servio</title>
+    <meta name="description" content="Pantau pesanan dan aktivitas perbaikan perangkat Anda di Servio.">
+
+    <link rel="stylesheet" href="{{ asset('css/servio-design-system.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
@@ -17,7 +21,7 @@
     <div id="aktif-section" class="tab-content-section" style="display: {{ $activeTab === 'aktif' ? 'block' : 'none' }};">
         @if($activeBookings->isEmpty())
             <div class="empty-state">
-                <div class="empty-icon">📦</div>
+                <div class="empty-icon"><i class='bx bx-package' style="font-size:56px; color:#9CA3AF;"></i></div>
                 <h2>Belum Ada Aktivitas</h2>
                 <p>Kamu belum memiliki pesanan atau aktivitas aktif saat ini.</p>
             </div>
@@ -37,7 +41,7 @@
 
         @if($historyBookings->isEmpty())
             <div class="empty-state">
-                <div class="empty-icon">📂</div>
+                <div class="empty-icon"><i class='bx bx-folder-open' style="font-size:56px; color:#9CA3AF;"></i></div>
                 <h2>Belum Ada Riwayat</h2>
                 <p>Pesanan yang selesai atau dibatalkan akan muncul di sini.</p>
             </div>
@@ -47,7 +51,7 @@
             </div>
             
             <div class="empty-state" id="no-history-match" style="display: none;">
-                <div class="empty-icon">🔍</div>
+                <div class="empty-icon"><i class='bx bx-search-alt' style="font-size:56px; color:#9CA3AF;"></i></div>
                 <h2>Tidak Ada Riwayat</h2>
                 <p>Tidak ada riwayat pemesanan yang sesuai dengan filter ini.</p>
             </div>
@@ -59,23 +63,19 @@
 
 <script>
     function switchTab(tab) {
-        // Update active state on tab buttons
         document.querySelectorAll('.activity-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = document.getElementById('tab-btn-' + tab);
         if (activeBtn) activeBtn.classList.add('active');
 
-        // Show corresponding section
         document.getElementById('aktif-section').style.display = tab === 'aktif' ? 'block' : 'none';
         document.getElementById('riwayat-section').style.display = tab === 'riwayat' ? 'block' : 'none';
 
-        // Update URL without page reload
         const url = new URL(window.location);
         url.searchParams.set('tab', tab);
         window.history.replaceState({}, '', url);
     }
 
     function filterHistory(filter, btn) {
-        // Manage Active Sub-Filter Button highlight
         const buttons = document.querySelectorAll('.sub-filters .filter-btn');
         buttons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -95,7 +95,6 @@
             }
         });
 
-        // Handle empty matched state
         const noMatchState = document.getElementById('no-history-match');
         if (noMatchState) {
             if (matchCount === 0) {
@@ -106,7 +105,6 @@
         }
     }
 
-    // Initialize state on load based on controller variable
     window.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const tabParam = urlParams.get('tab');
@@ -120,55 +118,38 @@
 
 .empty-state{
 
-    background:#fff;
+    background:var(--white);
 
-    margin:20px;
+    margin:16px;
 
-    padding:80px 30px;
+    padding:60px 24px;
 
-    border-radius:24px;
+    border-radius:16px;
 
     text-align:center;
 
-    border:1px solid #F1F5F9;
+    border:1px solid var(--border);
 
-    box-shadow:
-        0 4px 20px rgba(15,23,42,.05);
-
+    box-shadow:var(--shadow-sm);
 }
 
 .empty-icon{
-
-    font-size:72px;
-
-    margin-bottom:20px;
-
+    margin-bottom:16px;
 }
 
 .empty-state h2{
-
-    color:#0F172A;
-
-    font-size:28px;
-
+    color:#000;
+    font-size:18px;
     font-weight:700;
-
-    margin-bottom:12px;
-
+    margin-bottom:8px;
 }
 
 .empty-state p{
-
-    color:#64748B;
-
-    font-size:15px;
-
-    line-height:1.8;
-
-    max-width:450px;
-
+    color:#626B7A;
+    font-size:14px;
+    line-height:1.6;
+    max-width:400px;
     margin:auto;
-
 }
 
 /* =========================
@@ -177,67 +158,56 @@
 .sub-filters {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin: 0 auto 25px;
+    gap: 10px;
+    margin: 0 auto 20px;
     max-width: 500px;
-    padding: 0 15px;
+    padding: 0 16px;
 }
 .filter-btn {
     flex: 1;
-    padding: 12px 20px;
-    border: 1px solid #F3E8DB;
-    background: #FFFFFF;
-    color: #64748B;
-    font-size: 14px;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: #626B7A;
+    font-size: 13px;
     font-weight: 600;
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     text-align: center;
     font-family: inherit;
     outline: none;
 }
 .filter-btn:hover {
-    background: #FFF7EF;
-    color: #F08A28;
-    border-color: #F08A28;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
 }
 .filter-btn.active {
-    background: #F08A28;
+    background: var(--primary);
     color: #FFFFFF;
-    border-color: #F08A28;
-    box-shadow: 0 4px 12px rgba(240, 138, 40, 0.2);
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 @media(max-width:768px){
 
     .empty-state{
-
-        margin:15px;
-
-        padding:60px 20px;
-
-    }
-
-    .empty-icon{
-
-        font-size:56px;
-
+        margin:12px;
+        padding:48px 16px;
     }
 
     .empty-state h2{
-
-        font-size:22px;
-
+        font-size:16px;
     }
 
     .sub-filters {
-        margin: 0 15px 20px;
-        gap: 8px;
+        margin: 0 12px 16px;
+        gap: 6px;
     }
     .filter-btn {
-        padding: 10px 14px;
-        font-size: 13px;
+        padding: 8px 12px;
+        font-size: 12px;
     }
 
 }
